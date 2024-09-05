@@ -16,7 +16,7 @@ public class ConexionDB {
 
     private final String host = "127.0.0.1";
     private final String port = "3306";
-    private final String db = "usermanager";
+    private final String db = "gestock";
     private final String user = "root";
     private final String pass = "";
 
