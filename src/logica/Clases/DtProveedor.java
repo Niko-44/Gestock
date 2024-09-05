@@ -4,9 +4,6 @@
  */
 package logica.Clases;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  *
  * @author Cristian
