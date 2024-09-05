@@ -9,7 +9,7 @@ package logica.Clases;
  * @author Cristian
  */
 public class DtDireccion {
-    
+
     private int id;
     private String calle;
     private int numeroPuerta;
@@ -48,4 +48,3 @@ public class DtDireccion {
         return departamento;
     }
 }
-

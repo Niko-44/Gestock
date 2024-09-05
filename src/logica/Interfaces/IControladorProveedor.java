@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
@@ -17,47 +17,47 @@ import logica.Clases.DtDireccion;
  * @author Cristian
  */
 public interface IControladorProveedor {
-    
-public abstract void ingresarDatosProveedor(DtProveedor datos);
 
-public abstract void confirmarAgregadoProveedor();
+    public abstract void ingresarDatosProveedor(DtProveedor datos);
 
-public abstract void cancelarAgregadoProveedor();
+    public abstract void confirmarAgregadoProveedor();
 
-public abstract void ingresarDatosDireccion(DtDireccion datos);
+    public abstract void cancelarAgregadoProveedor();
 
-public abstract void cancelarAgregadoDireccion();
+    public abstract void ingresarDatosDireccion(DtDireccion datos);
 
-public abstract void confirmarAgregadoDireccion();
+    public abstract void cancelarAgregadoDireccion();
 
-public abstract ArrayList<DtProveedor> obtenerProveedores();
+    public abstract void confirmarAgregadoDireccion();
 
-public abstract void seleccionarProveedor(DtProveedor proveedor);
+    public abstract ArrayList<DtProveedor> obtenerProveedores();
 
-public abstract void eliminarProveedor(int idProveedor);
+    public abstract void seleccionarProveedor(DtProveedor proveedor);
 
-public abstract void cancelarProceso();
+    public abstract void eliminarProveedor(int idProveedor);
 
-public abstract ArrayList<DtDireccion> obtenerDirecciones();
+    public abstract void cancelarProceso();
 
-public abstract void seleccionarDireccion(DtDireccion direccion);
+    public abstract ArrayList<DtDireccion> obtenerDirecciones();
 
-public abstract void eliminarDireccion(int idDireccion);
+    public abstract void seleccionarDireccion(DtDireccion direccion);
 
-public abstract ArrayList<DtProveedor> obtenerProveedor();
+    public abstract void eliminarDireccion(int idDireccion);
 
-public abstract void modificarDatosProveedor(DtProveedor idProveedor);
+    public abstract ArrayList<DtProveedor> obtenerProveedor();
 
-public abstract void confirmarModificacion();
+    public abstract void modificarDatosProveedor(DtProveedor idProveedor);
 
-public abstract void cancelarModificacion();
+    public abstract void confirmarModificacion();
 
-public abstract ArrayList<DtDireccion> obtenerDireccion();
+    public abstract void cancelarModificacion();
 
-public abstract void administradorModificaDireccion(DtDireccion idDireccion);
+    public abstract ArrayList<DtDireccion> obtenerDireccion();
 
-public abstract void buscarPorNombre(String nombre);
+    public abstract void administradorModificaDireccion(DtDireccion idDireccion);
 
-public abstract ArrayList<DtProveedor> listarProveedores();
+    public abstract void buscarPorNombre(String nombre);
+
+    public abstract ArrayList<DtProveedor> listarProveedores();
 
 }

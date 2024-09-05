@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DtProveedor {
-    
+
     private int id;
     private String nombre;
     private ArrayList<String> telefonos;
@@ -56,4 +56,3 @@ public class DtProveedor {
         return createDate;
     }
 }
-

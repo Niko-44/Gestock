@@ -9,7 +9,7 @@ package logica.Clases;
  * @author n1c0l
  */
 public class Direccion {
-    
+
     private int id;
     private String calle;
     private int numeroPuerta;
@@ -67,4 +67,3 @@ public class Direccion {
         this.departamento = departamento;
     }
 }
-
