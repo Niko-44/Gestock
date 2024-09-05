@@ -6,8 +6,8 @@ package logica.Controladores;
 
 /**
  *
- * @author Luciano
+ * @author n1c0l
  */
-public class dsfsdfs {
+public class ControladorVenta {
     
 }

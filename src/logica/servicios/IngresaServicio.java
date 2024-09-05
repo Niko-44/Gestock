@@ -2,22 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Presentancion;
+package logica.servicios;
 
 /**
  *
- * @author Luciano
+ * @author n1c0l
  */
-public class ssdf {
+public class IngresaServicio {
     
-    public static void hola()
-    {
-        
-        
-    }
-    
-    public static void quepaso()
-    {
-        
-    }
 }

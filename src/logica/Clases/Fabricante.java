@@ -8,6 +8,6 @@ package logica.Clases;
  *
  * @author n1c0l
  */
-public class Articulo {
+public class Fabricante {
     
 }
