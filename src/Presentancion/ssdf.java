@@ -10,4 +10,14 @@ package Presentancion;
  */
 public class ssdf {
     
+    public static void hola()
+    {
+        
+        
+    }
+    
+    public static void quepaso()
+    {
+        
+    }
 }
