@@ -19,7 +19,7 @@ public interface IControladorVenta {
 
     public abstract void agregarArticuloCarrito();
 
-    public abstract void buscarPorNumero(int numeroVenta);
+    public abstract void buscar(String atributo, String datoBuscar);
 
     public abstract void eliminarArticulo(int sku);
 

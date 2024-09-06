@@ -43,7 +43,7 @@ public class ControladorVenta {
 
     }
 
-    public void buscarPorNumero(int numeroVenta) {
+    public void buscar(String atributo, String datoBuscar) {
 
     }
 
