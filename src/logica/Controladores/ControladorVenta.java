@@ -7,13 +7,14 @@ package logica.Controladores;
 import java.util.ArrayList;
 import logica.Clases.Articulo;
 import logica.Clases.Venta;
+import logica.Interfaces.IControladorVenta;
 import logica.servicios.VentasServicios;
 
 /**
  *
  * @author n1c0l
  */
-public class ControladorVenta {
+public class ControladorVenta implements IControladorVenta{
 
     private VentasServicios ventasServicio;
     private static ControladorVenta instancia;
