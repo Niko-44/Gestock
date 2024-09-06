@@ -4,10 +4,8 @@
  */
 package logica.servicios;
 
-/**
- *
- * @author n1c0l
- */
+
 public class ArticulosServicios {
-    
+
+ 
 }
