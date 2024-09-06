@@ -4,10 +4,24 @@
  */
 package logica.Interfaces;
 
-/**
- *
- * @author n1c0l
- */
-public class IControladorEmpleado {
-    
+import logica.Clases.Empleado;
+import java.util.ArrayList;
+
+public interface IControladorEmpleado {
+
+    public abstract ArrayList<Empleado> Empleados();
+    public abstract Empleado iniciarSesion(String nombreUsuario, String contraseña);
+    public abstract void ingresarDatosEmpleado(Empleado datos);
+    public abstract void modificaDatosEmpleado(Empleado idEmpleado);
+    public abstract ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda);
+    public abstract ArrayList<Empleado> listarEmpleado();
+    public abstract void confirmarAlta();
+    public abstract void cancelarAlta();
+    public abstract ArrayList<Empleado> obtenerEmpleado();
+    public abstract void seleccionarEmpleado(Empleado empleado);
+    public abstract void eliminarEmpleado(int idEmpleado);
+    public abstract void cancelarProceso();
+    public abstract void confirmarModificacion();
+    public abstract void cancelarModificacion();
+    public abstract void buscar(String atributo, String datoBuscar);
 }
