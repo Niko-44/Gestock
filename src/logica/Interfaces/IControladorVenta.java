@@ -4,10 +4,38 @@
  */
 package logica.Interfaces;
 
+import java.util.ArrayList;
+import logica.Clases.Articulo;
+import logica.Clases.Venta;
+
 /**
  *
  * @author n1c0l
  */
-public class IControladorVenta {
+public interface IControladorVenta {
+    public abstract ArrayList<Articulo> obtenerArticulos();
+
+    public abstract void confirmarCompra();
+
+    public abstract void agregarArticuloCarrito();
+
+    public abstract void buscarPorNumero(int numeroVenta);
+
+    public abstract void eliminarArticulo(int sku);
+
+    public abstract ArrayList<Venta> obtenerVenta();
+
+    public abstract void listarVentas(int numeroVenta);
     
+    public abstract void seleccionarVenta(Venta venta);
+    
+    public abstract void confirmarModificacion();
+    
+    public abstract void cancelarModificacion();
+    
+    public abstract void eliminarVenta(int idVenta);
+    
+    public abstract void cancelarProceso();
+    
+    public abstract void modificarDatosVentas(Venta dataVenta);
 }

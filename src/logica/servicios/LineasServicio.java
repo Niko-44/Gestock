@@ -4,10 +4,17 @@
  */
 package logica.servicios;
 
+import Persistencia.ConexionDB;
+import java.sql.Connection;
+
 /**
  *
  * @author n1c0l
  */
 public class LineasServicio {
+
+    public LineasServicio() {
+    }
     
+    private Connection conexion = new ConexionDB().getConexion();
 }

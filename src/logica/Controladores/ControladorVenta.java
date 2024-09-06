@@ -4,10 +4,91 @@
  */
 package logica.Controladores;
 
+import java.util.ArrayList;
+import logica.Clases.Articulo;
+import logica.Clases.Venta;
+import logica.servicios.VentasServicios;
+
 /**
  *
  * @author n1c0l
  */
 public class ControladorVenta {
+
+    private VentasServicios ventasServicio;
+    private static ControladorVenta instancia;
+
+    public ControladorVenta() {
+        this.ventasServicio = new VentasServicios();
+    }
+
+    public static ControladorVenta getInstVenta() {
+        if (instancia == null) {
+            instancia = new ControladorVenta();
+        }
+
+        return instancia;
+    }
+
+    public ArrayList<Articulo> obtenerArticulos() {
+        ArrayList<Articulo> articulos = new ArrayList<>(); //LLAMAR AL SERVICIO DE ARTICULO PARA OBTENER
+        return articulos;
+    }
+
+    public void confirmarCompra() {
+
+    }
+
+    public void agregarArticuloCarrito() {
+
+    }
+
+    public void buscarPorNumero(int numeroVenta) {
+
+    }
+
+    public void eliminarArticulo(int sku) {
+
+    }
+
+    public ArrayList<Venta> obtenerVenta() {
+        return ventasServicio.getVentas();  //HACER ESTO EN OBTENER ARTICULO
+    }
+
+    public void listarVentas(int numeroVenta)
+    {
+        
+    }
     
+    public void seleccionarVenta(Venta venta)
+    {
+        
+    }
+    
+    public void confirmarModificacion()
+    {
+        
+    }
+    
+    public void cancelarModificacion()
+    {
+        
+    }
+    
+    public void eliminarVenta(int idVenta)
+    {
+        
+    }
+    
+    public void cancelarProceso()
+    {
+        
+    }
+    
+    public void modificarDatosVentas(Venta dataVenta)
+    {
+        
+    }
+    
+
 }
