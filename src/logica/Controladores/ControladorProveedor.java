@@ -4,10 +4,126 @@
  */
 package logica.Controladores;
 
+//import java.util.Map;
+import java.util.ArrayList;
+import logica.Clases.Direccion;
+import logica.Clases.Proveedor;
+import logica.Interfaces.IControladorProveedor;
+import logica.servicios.ProveedoresServicio;
+
 /**
  *
  * @author n1c0l
  */
-public class ControladorProveedor {
-    
+public class ControladorProveedor implements IControladorProveedor {
+
+    //private Map<String, Usuario> Usuarios;
+    private ProveedoresServicio servicioProveedores;
+    private static ControladorProveedor instancia;
+
+    public ControladorProveedor() {
+        this.servicioProveedores = new ProveedoresServicio();
+    }
+
+    public static ControladorProveedor getInstance() {
+        if (instancia == null) {
+            instancia = new ControladorProveedor();
+        }
+        return instancia;
+    }
+
+    public void ingresarDatosProveedor(Proveedor datos) {
+
+    }
+
+    public void confirmarAgregadoProveedor() {
+
+    }
+
+    public void cancelarAgregadoProveedor() {
+
+    }
+
+    public void ingresarDatosDireccion(Direccion datos) {
+
+    }
+
+    public void cancelarAgregadoDireccion() {
+    }
+
+    public void confirmarAgregadoDireccion() {
+
+    }
+
+    public ArrayList<Proveedor> obtenerProveedores() {
+
+        ArrayList<Proveedor> DtProveedor = null;
+        return DtProveedor;
+
+    }
+
+    public void seleccionarProveedor(Proveedor proveedor) {
+
+    }
+
+    public void eliminarProveedor(int idProveedor) {
+
+    }
+
+    public void cancelarProceso() {
+
+    }
+
+    public ArrayList<Direccion> obtenerDirecciones() {
+
+        ArrayList<Direccion> DtDireccion = null;
+        return DtDireccion;
+
+    }
+
+    public void seleccionarDireccion(Direccion direccion) {
+
+    }
+
+    public void eliminarDireccion(int idDireccion) {
+
+    }
+
+    public ArrayList<Proveedor> obtenerProveedor() {
+        ArrayList<Proveedor> DtProveedor = null;
+        return DtProveedor;
+    }
+
+    public void modificarDatosProveedor(Proveedor idProveedor) {
+
+    }
+
+    public void confirmarModificacion() {
+
+    }
+
+    public void cancelarModificacion() {
+
+    }
+
+    public ArrayList<Direccion> obtenerDireccion() {
+
+        ArrayList<Direccion> DtDireccion = null;
+        return DtDireccion;
+    }
+
+    public void administradorModificaDireccion(Direccion idDireccion) {
+
+    }
+
+    public void buscarPorNombre(String nombre) {
+
+    }
+
+    public ArrayList<Proveedor> listarProveedores() {
+
+        ArrayList<Proveedor> DtProveedor = null;
+        return DtProveedor;
+
+    }
 }
