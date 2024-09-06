@@ -6,8 +6,8 @@ package logica.Controladores;
 
 //import java.util.Map;
 import java.util.ArrayList;
-import logica.Clases.DtDireccion;
-import logica.Clases.DtProveedor;
+import logica.Clases.Direccion;
+import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 import logica.servicios.ProveedoresServicio;
 
@@ -32,7 +32,7 @@ public class ControladorProveedor implements IControladorProveedor {
         return instancia;
     }
 
-    public void ingresarDatosProveedor(DtProveedor datos) {
+    public void ingresarDatosProveedor(Proveedor datos) {
 
     }
 
@@ -44,7 +44,7 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public void ingresarDatosDireccion(DtDireccion datos) {
+    public void ingresarDatosDireccion(Direccion datos) {
 
     }
 
@@ -55,14 +55,14 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<DtProveedor> obtenerProveedores() {
+    public ArrayList<Proveedor> obtenerProveedores() {
 
-        ArrayList<DtProveedor> DtProveedor = null;
+        ArrayList<Proveedor> DtProveedor = null;
         return DtProveedor;
 
     }
 
-    public void seleccionarProveedor(DtProveedor proveedor) {
+    public void seleccionarProveedor(Proveedor proveedor) {
 
     }
 
@@ -74,14 +74,14 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<DtDireccion> obtenerDirecciones() {
+    public ArrayList<Direccion> obtenerDirecciones() {
 
-        ArrayList<DtDireccion> DtDireccion = null;
+        ArrayList<Direccion> DtDireccion = null;
         return DtDireccion;
 
     }
 
-    public void seleccionarDireccion(DtDireccion direccion) {
+    public void seleccionarDireccion(Direccion direccion) {
 
     }
 
@@ -89,12 +89,12 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<DtProveedor> obtenerProveedor() {
-        ArrayList<DtProveedor> DtProveedor = null;
+    public ArrayList<Proveedor> obtenerProveedor() {
+        ArrayList<Proveedor> DtProveedor = null;
         return DtProveedor;
     }
 
-    public void modificarDatosProveedor(DtProveedor idProveedor) {
+    public void modificarDatosProveedor(Proveedor idProveedor) {
 
     }
 
@@ -106,13 +106,13 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<DtDireccion> obtenerDireccion() {
+    public ArrayList<Direccion> obtenerDireccion() {
 
-        ArrayList<DtDireccion> DtDireccion = null;
+        ArrayList<Direccion> DtDireccion = null;
         return DtDireccion;
     }
 
-    public void administradorModificaDireccion(DtDireccion idDireccion) {
+    public void administradorModificaDireccion(Direccion idDireccion) {
 
     }
 
@@ -120,9 +120,9 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<DtProveedor> listarProveedores() {
+    public ArrayList<Proveedor> listarProveedores() {
 
-        ArrayList<DtProveedor> DtProveedor = null;
+        ArrayList<Proveedor> DtProveedor = null;
         return DtProveedor;
 
     }

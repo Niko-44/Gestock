@@ -9,8 +9,8 @@
 package logica.Interfaces;
 
 import java.util.ArrayList;
-import logica.Clases.DtProveedor;
-import logica.Clases.DtDireccion;
+import logica.Clases.Proveedor;
+import logica.Clases.Direccion;
 
 /**
  *
@@ -18,46 +18,46 @@ import logica.Clases.DtDireccion;
  */
 public interface IControladorProveedor {
 
-    public abstract void ingresarDatosProveedor(DtProveedor datos);
+    public abstract void ingresarDatosProveedor(Proveedor datos);
 
     public abstract void confirmarAgregadoProveedor();
 
     public abstract void cancelarAgregadoProveedor();
 
-    public abstract void ingresarDatosDireccion(DtDireccion datos);
+    public abstract void ingresarDatosDireccion(Direccion datos);
 
     public abstract void cancelarAgregadoDireccion();
 
     public abstract void confirmarAgregadoDireccion();
 
-    public abstract ArrayList<DtProveedor> obtenerProveedores();
+    public abstract ArrayList<Proveedor> obtenerProveedores();
 
-    public abstract void seleccionarProveedor(DtProveedor proveedor);
+    public abstract void seleccionarProveedor(Proveedor proveedor);
 
     public abstract void eliminarProveedor(int idProveedor);
 
     public abstract void cancelarProceso();
 
-    public abstract ArrayList<DtDireccion> obtenerDirecciones();
+    public abstract ArrayList<Direccion> obtenerDirecciones();
 
-    public abstract void seleccionarDireccion(DtDireccion direccion);
+    public abstract void seleccionarDireccion(Direccion direccion);
 
     public abstract void eliminarDireccion(int idDireccion);
 
-    public abstract ArrayList<DtProveedor> obtenerProveedor();
+    public abstract ArrayList<Proveedor> obtenerProveedor();
 
-    public abstract void modificarDatosProveedor(DtProveedor idProveedor);
+    public abstract void modificarDatosProveedor(Proveedor idProveedor);
 
     public abstract void confirmarModificacion();
 
     public abstract void cancelarModificacion();
 
-    public abstract ArrayList<DtDireccion> obtenerDireccion();
+    public abstract ArrayList<Direccion> obtenerDireccion();
 
-    public abstract void administradorModificaDireccion(DtDireccion idDireccion);
+    public abstract void administradorModificaDireccion(Direccion idDireccion);
 
     public abstract void buscarPorNombre(String nombre);
 
-    public abstract ArrayList<DtProveedor> listarProveedores();
+    public abstract ArrayList<Proveedor> listarProveedores();
 
 }
