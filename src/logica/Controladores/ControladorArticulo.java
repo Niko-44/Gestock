@@ -9,16 +9,18 @@ import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
 import logica.Interfaces.IControladorArticulo;
+import logica.servicios.ArticulosServicios;
 
 
 public class ControladorArticulo implements IControladorArticulo{
     
 
     private static ControladorArticulo instancia;
+    private ArticulosServicios servicioArticulo;
 
 
     private ControladorArticulo() {
-       
+       this.servicioArticulo= new ArticulosServicios();
     }
 
     
