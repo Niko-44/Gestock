@@ -59,10 +59,6 @@ public class ControladorProveedor implements IControladorProveedor {
         return this.servicioProveedores.eliminarProveedor(idProveedor);
     }
 
-    public void cancelarProceso() {
-
-    }
-
     public ArrayList<Direccion> obtenerDirecciones() {
 
         ArrayList<Direccion> DtDireccion = null;
