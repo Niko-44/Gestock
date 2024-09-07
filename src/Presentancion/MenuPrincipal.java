@@ -4,11 +4,12 @@
  */
 package Presentancion;
 
-import Presentancion.Articulo.Listar_Articulo;
+import Presentancion.Articulo.MenuArticulo;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  *
@@ -20,8 +21,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * Creates new form MenuPrincipal
      */
     // Obtener el tamaño de la pantalla
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Listar_Articulo listarArticulo = new Listar_Articulo();
+    MenuArticulo listarArticulo = new MenuArticulo();
 
     public MenuPrincipal() {
     initComponents();
@@ -31,6 +31,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
     jPanelContenido.add(listarArticulo, BorderLayout.CENTER);
     jPanelContenido.revalidate();
     jPanelContenido.repaint();
+    
+    
 }
     /**
      * This method is called from within the constructor to initialize the form.
