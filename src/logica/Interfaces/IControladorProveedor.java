@@ -30,11 +30,7 @@ public interface IControladorProveedor {
 
     public abstract void confirmarAgregadoDireccion();
 
-    public abstract ArrayList<Proveedor> obtenerProveedores();
-
-    public abstract void seleccionarProveedor(Proveedor proveedor);
-
-    public abstract void eliminarProveedor(int idProveedor);
+    public abstract boolean eliminarProveedor(int idProveedor);
 
     public abstract void cancelarProceso();
 

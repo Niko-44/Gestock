@@ -55,19 +55,8 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<Proveedor> obtenerProveedores() {
-
-        ArrayList<Proveedor> DtProveedor = null;
-        return DtProveedor;
-
-    }
-
-    public void seleccionarProveedor(Proveedor proveedor) {
-
-    }
-
-    public void eliminarProveedor(int idProveedor) {
-
+    public boolean eliminarProveedor(int idProveedor) {
+        return this.servicioProveedores.eliminarProveedor(idProveedor);
     }
 
     public void cancelarProceso() {

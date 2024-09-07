@@ -4,17 +4,30 @@
  */
 package Presentancion.Proveedor;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Interfaces.IControladorProveedor;
+
 /**
  *
  * @author Cristian
  */
 public class MenuProveedor extends javax.swing.JPanel {
 
+    private IControladorProveedor ICP;
+    private int selectedRow;
+
     /**
      * Creates new form MenuProveedor
      */
     public MenuProveedor() {
         initComponents();
+    }
+
+    private void eliminarProveedor(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_proveedor.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -156,6 +169,11 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_eliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_eliminar);
 
         btn_modificar.setText("Modificar");
@@ -208,6 +226,36 @@ public class MenuProveedor extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
+
+        try {
+            this.selectedRow = tbl_proveedor.getSelectedRow();
+            if (this.selectedRow != -1) {
+                int idProveedor = (Integer) tbl_proveedor.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este proveedor?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if(ICP.eliminarProveedor(idProveedor) == true)
+                    {
+                        eliminarProveedor(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "El proveedor se eliminó correctamente.");
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el proveedor.");
+                    }
+  
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona un proveedor para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }
+
+    }//GEN-LAST:event_btn_eliminarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
