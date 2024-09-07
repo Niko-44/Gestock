@@ -4,17 +4,30 @@
  */
 package Presentancion.Proveedor;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Interfaces.IControladorProveedor;
+
 /**
  *
  * @author Cristian
  */
 public class MenuDireccion extends javax.swing.JFrame {
 
+    private IControladorProveedor ICP;
+    private int selectedRow;
+
     /**
      * Creates new form MenuDirecciones
      */
     public MenuDireccion() {
         initComponents();
+    }
+
+    private void eliminarDireccion(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_direccion.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -196,6 +209,11 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_eliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_eliminar);
 
         btn_modificar.setText("Modificar");
@@ -249,6 +267,30 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
+        try {
+            this.selectedRow = tbl_direccion.getSelectedRow();
+            if (this.selectedRow != -1) {
+                int idDireccion = (Integer) tbl_direccion.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar esta dirección?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICP.eliminarDireccion(idDireccion) == true) {
+                        eliminarDireccion(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "La dirección se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la dirección.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una dirección para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminarMouseClicked
 
     /**
      * @param args the command line arguments

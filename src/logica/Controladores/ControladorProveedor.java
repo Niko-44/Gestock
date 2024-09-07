@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import logica.Clases.Direccion;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
+import logica.servicios.DireccionesServicios;
 import logica.servicios.ProveedoresServicio;
 
 /**
@@ -19,6 +20,7 @@ public class ControladorProveedor implements IControladorProveedor {
 
     //private Map<String, Usuario> Usuarios;
     private ProveedoresServicio servicioProveedores;
+    private DireccionesServicios servicioDirecciones;
     private static ControladorProveedor instancia;
 
     public ControladorProveedor() {
@@ -70,8 +72,8 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public void eliminarDireccion(int idDireccion) {
-
+    public boolean eliminarDireccion(int idDireccion) {
+         return this.servicioDirecciones.eliminarDireccion(idDireccion);
     }
 
     public ArrayList<Proveedor> obtenerProveedor() {
