@@ -2,19 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentancion.Articulo;
+package Presentancion.Venta;
+
+import Presentancion.Articulo.*;
 
 /**
  *
  * @author Cristian
  */
-public class MenuCategoria extends javax.swing.JFrame {
+public class MenuLineaVenta extends javax.swing.JFrame {
 
-
-    
-    public MenuCategoria() {
+    /**
+     * Creates new form MenuCategoria
+     */
+    public MenuLineaVenta() {
         initComponents();
-        this.setExtendedState(this.MAXIMIZED_BOTH);
     }
 
     /**
@@ -28,148 +30,125 @@ public class MenuCategoria extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_Categoria = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        lbl_id = new javax.swing.JLabel();
-        txt_id = new javax.swing.JTextField();
-        lbl_nombre = new javax.swing.JLabel();
-        lbl_descripcion = new javax.swing.JLabel();
-        txt_nombre = new javax.swing.JTextField();
-        txt_descripcion = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        btn_Agregar = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
-        btn_Modificar = new javax.swing.JButton();
-        btn_Buscar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        lbl_Categoria = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        btn_Volver = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        tbl_Categoria.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Sku"
+                "Articulo", "Cantidad", "Precio"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_Categoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_Categoria);
+        ));
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(jTable1);
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        lbl_id.setText("ID");
-        lbl_id.setToolTipText("");
+        jLabel2.setText("Articulo");
+        jLabel2.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_id, gridBagConstraints);
+        jPanel4.add(jLabel2, gridBagConstraints);
 
-        txt_id.setActionCommand("txtArticuloID");
+        jTextField1.setActionCommand("txtArticuloID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_id, gridBagConstraints);
+        jPanel4.add(jTextField1, gridBagConstraints);
 
-        lbl_nombre.setText("Nombre");
+        jLabel3.setText("Cantidad");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_nombre, gridBagConstraints);
+        jPanel4.add(jLabel3, gridBagConstraints);
 
-        lbl_descripcion.setText("Descripción");
+        jLabel4.setText("Precio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_descripcion, gridBagConstraints);
+        jPanel4.add(jLabel4, gridBagConstraints);
 
-        txt_nombre.setActionCommand("txtArticuloNombre");
+        jTextField2.setActionCommand("txtArticuloNombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_nombre, gridBagConstraints);
+        jPanel4.add(jTextField2, gridBagConstraints);
 
-        txt_descripcion.setActionCommand("txtArticuloDesc");
+        jTextField3.setActionCommand("txtArticuloDesc");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_descripcion, gridBagConstraints);
+        jPanel4.add(jTextField3, gridBagConstraints);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
 
-        btn_Agregar.setActionCommand("jButtonAgregar");
-        btn_Agregar.setLabel("Agregar");
-        jPanel1.add(btn_Agregar);
+        jButton1.setActionCommand("jButtonAgregar");
+        jButton1.setLabel("Agregar");
+        jPanel1.add(jButton1);
 
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.setActionCommand("jButtonEliminar");
-        jPanel1.add(btn_Eliminar);
+        jButton2.setText("Eliminar");
+        jButton2.setActionCommand("jButtonEliminar");
+        jPanel1.add(jButton2);
 
-        btn_Modificar.setText("Modificar");
-        btn_Modificar.setActionCommand("jButtonModificar");
-        jPanel1.add(btn_Modificar);
+        jButton3.setText("Modificar");
+        jButton3.setActionCommand("jButtonModificar");
+        jPanel1.add(jButton3);
 
-        btn_Buscar.setText("Buscar");
-        btn_Buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_Buscar);
+        jButton4.setText("Buscar");
+        jButton4.setActionCommand("jButtonBuscar");
+        jPanel1.add(jButton4);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lbl_Categoria.setText("Categoria");
+        jLabel1.setText("Lineas venta");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipady = 5;
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
-        jPanel2.add(lbl_Categoria, gridBagConstraints);
-
-        jPanel3.setLayout(new java.awt.GridLayout());
-
-        btn_Volver.setText("Volver");
-        btn_Volver.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_VolverMouseClicked(evt);
-            }
-        });
-        jPanel3.add(btn_Volver);
+        jPanel2.add(jLabel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 723, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -182,10 +161,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(511, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+            .addGap(0, 532, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -196,18 +172,11 @@ public class MenuCategoria extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(58, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_VolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_VolverMouseClicked
-        
-        MenuArticulo articulo=new MenuArticulo();
-        articulo.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btn_VolverMouseClicked
 
     /**
      * @param args the command line arguments
@@ -226,42 +195,41 @@ public class MenuCategoria extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuLineaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuLineaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuLineaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuCategoria.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuLineaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuCategoria().setVisible(true);
+                new MenuLineaVenta().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Agregar;
-    private javax.swing.JButton btn_Buscar;
-    private javax.swing.JButton btn_Eliminar;
-    private javax.swing.JButton btn_Modificar;
-    private javax.swing.JButton btn_Volver;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbl_Categoria;
-    private javax.swing.JLabel lbl_descripcion;
-    private javax.swing.JLabel lbl_id;
-    private javax.swing.JLabel lbl_nombre;
-    private javax.swing.JTable tbl_Categoria;
-    private javax.swing.JTextField txt_descripcion;
-    private javax.swing.JTextField txt_id;
-    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

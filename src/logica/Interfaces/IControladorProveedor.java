@@ -30,19 +30,13 @@ public interface IControladorProveedor {
 
     public abstract void confirmarAgregadoDireccion();
 
-    public abstract ArrayList<Proveedor> obtenerProveedores();
-
-    public abstract void seleccionarProveedor(Proveedor proveedor);
-
-    public abstract void eliminarProveedor(int idProveedor);
-
-    public abstract void cancelarProceso();
+    public abstract boolean eliminarProveedor(int idProveedor);
 
     public abstract ArrayList<Direccion> obtenerDirecciones();
 
     public abstract void seleccionarDireccion(Direccion direccion);
 
-    public abstract void eliminarDireccion(int idDireccion);
+    public abstract boolean eliminarDireccion(int idDireccion);
 
     public abstract ArrayList<Proveedor> obtenerProveedor();
 
@@ -59,5 +53,7 @@ public interface IControladorProveedor {
     public abstract void buscarPorNombre(String nombre);
 
     public abstract ArrayList<Proveedor> listarProveedores();
+    
+    public abstract boolean eliminarIngresa(int idIngresa);
 
 }

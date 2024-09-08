@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import logica.Clases.Direccion;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
+import logica.servicios.DireccionesServicios;
+import logica.servicios.IngresaServicio;
 import logica.servicios.ProveedoresServicio;
 
 /**
@@ -19,6 +21,8 @@ public class ControladorProveedor implements IControladorProveedor {
 
     //private Map<String, Usuario> Usuarios;
     private ProveedoresServicio servicioProveedores;
+    private DireccionesServicios servicioDirecciones;
+    private IngresaServicio servicioIngresa;
     private static ControladorProveedor instancia;
 
     public ControladorProveedor() {
@@ -55,23 +59,8 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public ArrayList<Proveedor> obtenerProveedores() {
-
-        ArrayList<Proveedor> DtProveedor = null;
-        return DtProveedor;
-
-    }
-
-    public void seleccionarProveedor(Proveedor proveedor) {
-
-    }
-
-    public void eliminarProveedor(int idProveedor) {
-
-    }
-
-    public void cancelarProceso() {
-
+    public boolean eliminarProveedor(int idProveedor) {
+        return this.servicioProveedores.eliminarProveedor(idProveedor);
     }
 
     public ArrayList<Direccion> obtenerDirecciones() {
@@ -85,8 +74,8 @@ public class ControladorProveedor implements IControladorProveedor {
 
     }
 
-    public void eliminarDireccion(int idDireccion) {
-
+    public boolean eliminarDireccion(int idDireccion) {
+         return this.servicioDirecciones.eliminarDireccion(idDireccion);
     }
 
     public ArrayList<Proveedor> obtenerProveedor() {
@@ -125,5 +114,10 @@ public class ControladorProveedor implements IControladorProveedor {
         ArrayList<Proveedor> DtProveedor = null;
         return DtProveedor;
 
+    }
+    
+    public boolean eliminarIngresa(int idIngresa)
+    {
+        return this.servicioIngresa.eliminarIngresa(idIngresa);
     }
 }
