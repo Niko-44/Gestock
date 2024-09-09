@@ -15,32 +15,38 @@ public class ArticulosServicios {
     
    private Connection conexion = new ConexionDB().getConexion();
     
-    public void ingresarDatosArticulo(Articulo articulo) throws Exception {
-      try{
-              
-            PreparedStatement status =conexion.prepareStatement("INSERT INTO articulo (id_articulo, sku, nombre, descripcion, stock, precio, peso, update_Date, create_Date, id_categoria_fk) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            status.setString(1, String.valueOf(articulo.getId()));
-            status.setString(2, String.valueOf(articulo.getSku()));
-            status.setString(3, articulo.getNombre());
-            status.setString(4, articulo.getDescripcion());
-            status.setString(5, String.valueOf(articulo.getStock()));
-            status.setString(6, String.valueOf(articulo.getPrecio()));
-            status.setString(7, String.valueOf(articulo.getPeso()));
-            status.setString(8, null);
-            status.setString(9, null);
-            status.setString(10, String.valueOf(articulo.getId_categoria()));
+   public  void modificaDatosArticulo(Articulo articulo)
+   {
+    try{
+            PreparedStatement status = conexion.prepareStatement("UPDATE `articulo` SET `sku` = ?, `nombre` = ?, `descripcion` = ?, `stock` = ?, `precio` = ?, `peso` = ?, `update_date` = ?, `create_date` = ?, `id_categoria_fk` = ? WHERE `articulo`.`id_articulo` = ?;");
+
+            // Nuevos valores para actualizar
            
+            status.setObject(1, articulo.getSku());
+            status.setObject(2, articulo.getNombre());
+            status.setObject(3, articulo.getDescripcion());
+            status.setObject(4, articulo.getStock());
+            status.setObject(5, articulo.getPrecio());
+            status.setObject(6, articulo.getPeso());
+            status.setObject(7, articulo.getUpdateDate());
+            status.setObject(8, articulo.getCreateDate());
+            status.setObject(9, articulo.getId_categoria());
+            status.setObject(10, articulo.getId());
             
-            int filasInsertadas = status.executeUpdate();
-                    
-            if(filasInsertadas > 0)
-            {
-                System.out.print("Nuevo usuario creado.");
+
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Usuario actualizado exitosamente.");
+            } else {
+                System.out.println("No se encontró el usuario con los datos proporcionados.");
             }
-            
-        } catch(SQLException ex){
-        ex.printStackTrace();
-        throw new Exception ("No se pudo insertar el usuario, algo saió mal");
-        }
-    }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el usuario: " + e.getMessage());
+        } 
+   }
+    
+    
+    
 }

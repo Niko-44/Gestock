@@ -4,17 +4,91 @@
  */
 package Presentancion.Articulo;
 
+import Persistencia.ConexionDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Clases.Articulo;
+import logica.Clases.Categoria;
+import logica.Controladores.ControladorArticulo;
+import logica.Fabrica;
+import logica.Interfaces.IControladorArticulo;
+
 /**
  *
  * @author Cristian
  */
 public class MenuCategoria extends javax.swing.JFrame {
 
+ IControladorArticulo ICA;
+    Articulo articulo = new Articulo();
+    private Connection conexion = new ConexionDB().getConexion();
 
+    //variables
+    int id;
+    String nombre;
+    String descripcion;
     
     public MenuCategoria() {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
+        this.ICA = Fabrica.getInstance().getIControladorUsuario();
+        
+        
+        try {
+            PreparedStatement status = conexion.prepareStatement("SELECT * FROM categoria");
+            ResultSet rs = status.executeQuery();
+
+            DefaultTableModel modelo = (DefaultTableModel) this.tbl_Articulo.getModel();
+            modelo.setRowCount(0);
+
+            while (rs.next()) {
+                id = rs.getInt("id_categoria");
+                nombre = rs.getString("nombre_categoria");
+                descripcion = rs.getString("descripcion");
+            
+                
+                String[] datos
+                        = {
+                            String.valueOf(id),
+                            nombre,
+                            descripcion,
+                        };
+
+                modelo.addRow(datos);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Articulo.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
+                    String nombre = tbl_Articulo.getValueAt(selectedRow, 1).toString();
+                    String descripcion = tbl_Articulo.getValueAt(selectedRow, 2).toString();
+                  
+
+                    // Asignar los valores a los JTextField
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_nombre.setText(nombre);
+                    txt_descripcion.setText(descripcion);
+                    
+
+                }
+            }
+        });
     }
 
     /**
@@ -28,7 +102,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_Categoria = new javax.swing.JTable();
+        tbl_Articulo = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
@@ -46,27 +120,27 @@ public class MenuCategoria extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btn_Volver = new javax.swing.JButton();
 
-        tbl_Categoria.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Sku"
+                "ID", "Nombre", "Descripcion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_Categoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_Categoria);
+        tbl_Articulo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Articulo);
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -136,6 +210,11 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Modificar);
 
         btn_Buscar.setText("Buscar");
@@ -152,7 +231,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_Categoria, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         btn_Volver.setText("Volver");
         btn_Volver.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,10 +253,14 @@ public class MenuCategoria extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
@@ -194,20 +277,54 @@ public class MenuCategoria extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(444, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(210, 210, 210)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(210, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_VolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_VolverMouseClicked
-        
+
         MenuArticulo articulo=new MenuArticulo();
         articulo.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_VolverMouseClicked
+
+    private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+         try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            String nombre = txt_nombre.getText();
+            String descripcion = txt_descripcion.getText();
+            
+
+            if (nombre.isBlank() || descripcion.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Categoria categoria = new Categoria(id, nombre, descripcion);
+                ICA.modificaDatosCategoria(categoria);
+
+                JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
+                txt_id.setText("");
+                txt_nombre.setText("");
+                txt_descripcion.setText("");
+               
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+      
+      
+    }//GEN-LAST:event_btn_ModificarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -259,7 +376,7 @@ public class MenuCategoria extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_descripcion;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
-    private javax.swing.JTable tbl_Categoria;
+    private javax.swing.JTable tbl_Articulo;
     private javax.swing.JTextField txt_descripcion;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;

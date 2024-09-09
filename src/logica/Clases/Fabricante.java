@@ -12,15 +12,15 @@ public class Fabricante {
     private int id;
     private String nombre;
     private String correo;
-    private int telefono;
+    private String telefono;
     private Date updateDate;
     private Date createDate;
 
-    public Fabricante(int id, String nombre, String correo, int telefono, Date updateDate, Date createDate) {
+    public Fabricante(int id, String nombre, String telefono, String correo, Date updateDate, Date createDate) {
         this.id = id;
         this.nombre = nombre;
-        this.correo = correo;
         this.telefono = telefono;
+        this.correo = correo;
         this.updateDate = updateDate;
         this.createDate = createDate;
     }
@@ -37,7 +37,7 @@ public class Fabricante {
         return correo;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
@@ -61,7 +61,7 @@ public class Fabricante {
         this.correo = correo;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

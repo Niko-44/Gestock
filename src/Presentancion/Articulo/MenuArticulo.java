@@ -4,8 +4,15 @@
  */
 package Presentancion.Articulo;
 
+import Persistencia.ConexionDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Controladores.ControladorArticulo;
@@ -20,11 +27,100 @@ public class MenuArticulo extends javax.swing.JPanel {
     /**
      * Creates new form Listar_Articulo
      */
-    IControladorArticulo ICA;
+  IControladorArticulo ICA;
+    Articulo articulo = new Articulo();
+    private Connection conexion = new ConexionDB().getConexion();
+
+    //variables para setear datos tabla
+    int id;
+    float sku;
+    String nombre;
+    String descripcion;
+    int stock;
+    float precio;
+    float peso;
+    Date update_date;
+    Date create_date;
+    int id_categoria;
+    
 
     public MenuArticulo() {
         initComponents();
         this.ICA = Fabrica.getInstance().getIControladorUsuario();
+        
+        
+        try {
+            PreparedStatement status = conexion.prepareStatement("SELECT * FROM articulo");
+            ResultSet rs = status.executeQuery();
+
+            DefaultTableModel modelo = (DefaultTableModel) this.tbl_Articulo.getModel();
+            modelo.setRowCount(0);
+
+            while (rs.next()) {
+                id = rs.getInt("id_articulo");
+                sku = rs.getFloat("sku");
+                nombre = rs.getString("nombre");
+                descripcion = rs.getString("descripcion");
+                stock = rs.getInt("stock");
+                precio = rs.getInt("precio");
+                peso = rs.getFloat("peso");
+                update_date=rs.getDate("update_date");
+                create_date=rs.getDate("create_date");
+                id_categoria=rs.getInt("id_categoria_fk");
+                
+                String[] datos
+                        = {
+                            String.valueOf(id),
+                            String.valueOf(sku),
+                            nombre,
+                            descripcion,
+                            String.valueOf(stock),
+                            String.valueOf(precio),
+                            String.valueOf(peso),
+                            String.valueOf(update_date),
+                            String.valueOf(create_date),
+                            String.valueOf(id_categoria),
+                        };
+
+                modelo.addRow(datos);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Articulo.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
+                    String sku = tbl_Articulo.getValueAt(selectedRow, 1).toString();
+                    String nombre = tbl_Articulo.getValueAt(selectedRow, 2).toString();
+                    String descripcion = tbl_Articulo.getValueAt(selectedRow, 3).toString();
+                    String stock = tbl_Articulo.getValueAt(selectedRow, 4).toString();
+                    String precio = tbl_Articulo.getValueAt(selectedRow, 5).toString();
+                    String peso = tbl_Articulo.getValueAt(selectedRow, 6).toString();
+                    String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 7).toString();
+                    String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 8).toString();
+                    String id_categoria = tbl_Articulo.getValueAt(selectedRow, 9).toString();
+
+                    // Asignar los valores a los JTextField
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_sku.setText(sku);
+                    txt_nombre.setText(nombre);
+                    txt_descripcion.setText(descripcion);
+                    txt_stock.setText(stock);
+                    txt_precio.setText(precio);
+                    txt_peso.setText(peso);
+                    txt_fecha_actualizada.setText(fecha_actualizada);
+                    txt_fecha_creada.setText(fecha_creada);
+                    txt_id_categoria.setText(id_categoria);
+
+                }
+            }
+        });
     }
 
     /**
@@ -49,18 +145,22 @@ public class MenuArticulo extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
+        lbl_sku = new javax.swing.JLabel();
         lbl_nombre = new javax.swing.JLabel();
         lbl_descripcion = new javax.swing.JLabel();
         lbl_stock = new javax.swing.JLabel();
         lbl_precio = new javax.swing.JLabel();
         lbl_peso = new javax.swing.JLabel();
-        lbl_sku = new javax.swing.JLabel();
+        txt_sku = new javax.swing.JTextField();
         txt_nombre = new javax.swing.JTextField();
         txt_descripcion = new javax.swing.JTextField();
         txt_stock = new javax.swing.JTextField();
         txt_precio = new javax.swing.JTextField();
         txt_peso = new javax.swing.JTextField();
-        txt_sku = new javax.swing.JTextField();
+        lbl_fecha_actualizada = new javax.swing.JLabel();
+        txt_fecha_actualizada = new javax.swing.JTextField();
+        lbl_fecha_creada = new javax.swing.JLabel();
+        txt_fecha_creada = new javax.swing.JTextField();
         lbl_id_categoria = new javax.swing.JLabel();
         txt_id_categoria = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -71,17 +171,17 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Sku"
+                "ID", "Sku", "Nombre", "Descripcion", "Stock", "Precio", "Peso", "Fecha actualizada", "Fecha creada", "ID Categoria"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                false, true, true, true, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -112,6 +212,11 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Modificar);
 
         btn_Buscar.setText("Buscar");
@@ -129,8 +234,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         jPanel2.add(lbl_Articulo, gridBagConstraints);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -151,18 +256,26 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(txt_id, gridBagConstraints);
 
-        lbl_nombre.setText("Nombre");
+        lbl_sku.setText("Sku");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_nombre, gridBagConstraints);
+        jPanel4.add(lbl_sku, gridBagConstraints);
 
-        lbl_descripcion.setText("Descripción");
+        lbl_nombre.setText("Nombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_nombre, gridBagConstraints);
+
+        lbl_descripcion.setText("Descripcion");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_descripcion, gridBagConstraints);
@@ -170,7 +283,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_stock.setText("Stock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_stock, gridBagConstraints);
@@ -178,7 +291,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_precio.setText("Precio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_precio, gridBagConstraints);
@@ -186,88 +299,104 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_peso.setText("Peso");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_peso, gridBagConstraints);
 
-        lbl_sku.setText("Sku");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_sku, gridBagConstraints);
-
-        txt_nombre.setActionCommand("txtArticuloNombre");
+        txt_sku.setActionCommand("txtArticuloNombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_nombre, gridBagConstraints);
+        jPanel4.add(txt_sku, gridBagConstraints);
 
-        txt_descripcion.setActionCommand("txtArticuloDesc");
+        txt_nombre.setActionCommand("txtArticuloDesc");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_descripcion, gridBagConstraints);
+        jPanel4.add(txt_nombre, gridBagConstraints);
 
-        txt_stock.setActionCommand("txtArticuloStock");
+        txt_descripcion.setActionCommand("txtArticuloStock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_stock, gridBagConstraints);
+        jPanel4.add(txt_descripcion, gridBagConstraints);
 
-        txt_precio.setActionCommand("txtArticuloPrecio");
+        txt_stock.setActionCommand("txtArticuloPrecio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_precio, gridBagConstraints);
+        jPanel4.add(txt_stock, gridBagConstraints);
 
-        txt_peso.setActionCommand("txtArticuloPeso");
+        txt_precio.setActionCommand("txtArticuloPeso");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_peso, gridBagConstraints);
+        jPanel4.add(txt_precio, gridBagConstraints);
 
-        txt_sku.setActionCommand("txtArticuloSku");
+        txt_peso.setActionCommand("txtArticuloSku");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_sku, gridBagConstraints);
+        jPanel4.add(txt_peso, gridBagConstraints);
 
-        lbl_id_categoria.setText("id Categoria");
+        lbl_fecha_actualizada.setText("Fecha actualizada");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_id_categoria, gridBagConstraints);
+        jPanel4.add(lbl_fecha_actualizada, gridBagConstraints);
 
-        txt_id_categoria.addActionListener(new java.awt.event.ActionListener() {
+        txt_fecha_actualizada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_id_categoriaActionPerformed(evt);
+                txt_fecha_actualizadaActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
+
+        lbl_fecha_creada.setText("Fecha creada");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_creada, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txt_fecha_creada, gridBagConstraints);
+
+        lbl_id_categoria.setText("id_Categoria");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 17;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_id_categoria, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 17;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txt_id_categoria, gridBagConstraints);
 
@@ -321,43 +450,17 @@ public class MenuArticulo extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_AgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_AgregarMouseClicked
-        try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String descripcion = txt_descripcion.getText();
-            int stock = Integer.parseInt(txt_stock.getText());
-            float precio = Float.parseFloat(txt_precio.getText());
-            float peso = Float.parseFloat(txt_peso.getText());
-            int sku = Integer.parseInt(txt_sku.getText());
-            int id_categoria = Integer.parseInt(txt_id_categoria.getText());
-
-            if (nombre.isBlank() || descripcion.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Articulo articulo = new Articulo(id, nombre, descripcion, stock, precio, sku, null, null, peso, id_categoria);
-
-                ICA.ingresarDatosArticulo(articulo);
-
-                JOptionPane.showMessageDialog(this, "El usuario se ha creado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
-        }
+       
     }//GEN-LAST:event_btn_AgregarMouseClicked
 
-    private void txt_id_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_id_categoriaActionPerformed
+    private void txt_fecha_actualizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fecha_actualizadaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_id_categoriaActionPerformed
+    }//GEN-LAST:event_txt_fecha_actualizadaActionPerformed
 
     private void btn_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_categoriaActionPerformed
         // TODO add your handling code here:
@@ -373,6 +476,56 @@ public class MenuArticulo extends javax.swing.JPanel {
         MenuFabricante fabricante = new MenuFabricante();
         fabricante.setVisible(true);
     }//GEN-LAST:event_btn_FabricanteMouseClicked
+
+    private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+     try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            int sku = Integer.parseInt(txt_sku.getText());
+            String nombre = txt_nombre.getText();
+            String descripcion = txt_descripcion.getText();
+            int stock = Integer.parseInt(txt_stock.getText());
+            float precio = Float.parseFloat(txt_precio.getText());
+            float peso = Float.parseFloat(txt_peso.getText());
+            
+             // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date update_date=formato.parse(txt_fecha_actualizada.getText());
+            
+            Date create_date=formato.parse(txt_fecha_creada.getText());
+            
+            int id_categoria = Integer.parseInt(txt_id_categoria.getText());
+            
+
+            if (nombre.isBlank() || descripcion.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, id_categoria);
+                ICA.modificaDatosArticulo(articulo);
+
+                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
+                txt_id.setText("");
+                txt_sku.setText("");
+                txt_nombre.setText("");
+                txt_descripcion.setText("");
+                txt_stock.setText("");
+                txt_precio.setText("");
+                txt_peso.setText("");
+                txt_fecha_actualizada.setText("");
+                txt_fecha_creada.setText("");
+                txt_id_categoria.setText("");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+      
+      
+    }//GEN-LAST:event_btn_ModificarMouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -420,6 +573,8 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_Articulo;
     private javax.swing.JLabel lbl_descripcion;
+    private javax.swing.JLabel lbl_fecha_actualizada;
+    private javax.swing.JLabel lbl_fecha_creada;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_id_categoria;
     private javax.swing.JLabel lbl_nombre;
@@ -429,6 +584,8 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_stock;
     private javax.swing.JTable tbl_Articulo;
     private javax.swing.JTextField txt_descripcion;
+    private javax.swing.JTextField txt_fecha_actualizada;
+    private javax.swing.JTextField txt_fecha_creada;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_id_categoria;
     private javax.swing.JTextField txt_nombre;

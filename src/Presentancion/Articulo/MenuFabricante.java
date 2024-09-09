@@ -4,18 +4,112 @@
  */
 package Presentancion.Articulo;
 
+import Persistencia.ConexionDB;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Clases.Articulo;
+import logica.Clases.Categoria;
+import logica.Clases.Fabricante;
+import logica.Controladores.ControladorArticulo;
+import logica.Fabrica;
+import logica.Interfaces.IControladorArticulo;
+
 /**
  *
  * @author Luciano
  */
 public class MenuFabricante extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuFabricante
-     */
+   IControladorArticulo ICA;
+    Articulo articulo = new Articulo();
+    private Connection conexion = new ConexionDB().getConexion();
+
+    //variables
+    int id;
+    String nombre;
+    String telefono;
+    String correo;
+    Date update_date;
+    Date create_date;
+    
+    
+    
     public MenuFabricante() {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
+        
+          this.ICA = Fabrica.getInstance().getIControladorUsuario();
+        
+        
+        try {
+            PreparedStatement status = conexion.prepareStatement("SELECT * FROM fabricante");
+            ResultSet rs = status.executeQuery();
+
+            DefaultTableModel modelo = (DefaultTableModel) this.tbl_Articulo.getModel();
+            modelo.setRowCount(0);
+
+            while (rs.next()) {
+                id = rs.getInt("id_fabricante");
+                nombre = rs.getString("nombre_fabricante");
+                telefono=rs.getString("telefono");
+                correo = rs.getString("email");
+                update_date = rs.getDate("update_date");
+                create_date = rs.getDate("create_date");
+                
+                String[] datos
+                        = {
+                            String.valueOf(id),
+                            nombre,
+                            String.valueOf(telefono),
+                            correo,
+                            String.valueOf(update_date),
+                            String.valueOf(create_date),
+                            
+                            
+                        };
+
+                modelo.addRow(datos);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Articulo.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
+                    String nombre = tbl_Articulo.getValueAt(selectedRow, 1).toString();
+                    String telefono = tbl_Articulo.getValueAt(selectedRow, 2).toString();
+                    String correo = tbl_Articulo.getValueAt(selectedRow, 3).toString();
+                    String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 4).toString();
+                    String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 5).toString();
+                    
+                  
+
+                    // Asignar los valores a los JTextField
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_nombre.setText(nombre);
+                    txt_correo.setText(correo);
+                    txt_telefono.setText(telefono);
+                    txt_fecha_actualizada.setText(fecha_actualizada);
+                    txt_fecha_creada.setText(fecha_creada);
+                    
+
+                }
+            }
+        });
     }
 
     /**
@@ -29,7 +123,7 @@ public class MenuFabricante extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_Fabricante = new javax.swing.JTable();
+        tbl_Articulo = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
@@ -41,11 +135,15 @@ public class MenuFabricante extends javax.swing.JFrame {
         lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
         lbl_nombre = new javax.swing.JLabel();
-        lbl_descripcion = new javax.swing.JLabel();
-        lbl_stock = new javax.swing.JLabel();
+        lbl_telefono = new javax.swing.JLabel();
+        lbl_correo = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
-        txt_descripcion = new javax.swing.JTextField();
-        txt_stock = new javax.swing.JTextField();
+        txt_telefono = new javax.swing.JTextField();
+        txt_correo = new javax.swing.JTextField();
+        lbl_fecha_actualizado = new javax.swing.JLabel();
+        txt_fecha_actualizada = new javax.swing.JTextField();
+        lbl_fecha_creado = new javax.swing.JLabel();
+        txt_fecha_creada = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btn_volver = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -53,27 +151,27 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         setSize(new java.awt.Dimension(1920, 1080));
 
-        tbl_Fabricante.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Sku"
+                "ID", "Nombre", "Telefono", "Correo", "Fecha actualizada", "Fecha creada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        tbl_Fabricante.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_Fabricante);
+        tbl_Articulo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Articulo);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
@@ -89,6 +187,11 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Modificar);
 
         btn_Buscar.setText("Buscar");
@@ -133,21 +236,21 @@ public class MenuFabricante extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_nombre, gridBagConstraints);
 
-        lbl_descripcion.setText("Correo");
+        lbl_telefono.setText("Telefono");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_descripcion, gridBagConstraints);
+        jPanel4.add(lbl_telefono, gridBagConstraints);
 
-        lbl_stock.setText("Telefono");
+        lbl_correo.setText("Correo");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_stock, gridBagConstraints);
+        jPanel4.add(lbl_correo, gridBagConstraints);
 
         txt_nombre.setActionCommand("txtArticuloNombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -158,23 +261,47 @@ public class MenuFabricante extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(txt_nombre, gridBagConstraints);
 
-        txt_descripcion.setActionCommand("txtArticuloDesc");
+        txt_telefono.setActionCommand("txtArticuloDesc");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_descripcion, gridBagConstraints);
+        jPanel4.add(txt_telefono, gridBagConstraints);
 
-        txt_stock.setActionCommand("txtArticuloStock");
+        txt_correo.setActionCommand("txtArticuloStock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_stock, gridBagConstraints);
+        jPanel4.add(txt_correo, gridBagConstraints);
+
+        lbl_fecha_actualizado.setText("Fecha actualizado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_actualizado, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
+
+        lbl_fecha_creado.setText("Fecha creado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_creado, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txt_fecha_creada, gridBagConstraints);
 
         btn_volver.setText("Volver");
         btn_volver.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -236,10 +363,10 @@ public class MenuFabricante extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,15 +378,15 @@ public class MenuFabricante extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(120, 120, 120)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -274,6 +401,47 @@ public class MenuFabricante extends javax.swing.JFrame {
      articulo.setVisible(true);
      this.dispose();
     }//GEN-LAST:event_btn_volverMouseClicked
+
+    private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+       try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            String nombre = txt_nombre.getText();
+            String telefono = txt_telefono.getText();
+            String correo = txt_correo.getText();
+            
+             // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date update_date=formato.parse(txt_fecha_actualizada.getText());
+            
+            Date create_date=formato.parse(txt_fecha_creada.getText());
+
+            if (nombre.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Fabricante fabricante = new Fabricante(id, nombre,telefono,correo,update_date,create_date);
+                ICA.modificaDatosFabricante(fabricante);
+
+                JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
+                txt_id.setText("");
+                txt_nombre.setText("");
+                txt_telefono.setText("");
+                txt_correo.setText("");
+                txt_fecha_actualizada.setText("");
+                txt_fecha_creada.setText("");
+               
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+      
+      
+    }//GEN-LAST:event_btn_ModificarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -324,14 +492,18 @@ public class MenuFabricante extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_Fabricante;
-    private javax.swing.JLabel lbl_descripcion;
+    private javax.swing.JLabel lbl_correo;
+    private javax.swing.JLabel lbl_fecha_actualizado;
+    private javax.swing.JLabel lbl_fecha_creado;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
-    private javax.swing.JLabel lbl_stock;
-    private javax.swing.JTable tbl_Fabricante;
-    private javax.swing.JTextField txt_descripcion;
+    private javax.swing.JLabel lbl_telefono;
+    private javax.swing.JTable tbl_Articulo;
+    private javax.swing.JTextField txt_correo;
+    private javax.swing.JTextField txt_fecha_actualizada;
+    private javax.swing.JTextField txt_fecha_creada;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
-    private javax.swing.JTextField txt_stock;
+    private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
 }
