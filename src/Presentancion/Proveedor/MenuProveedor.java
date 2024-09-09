@@ -4,8 +4,14 @@
  */
 package Presentancion.Proveedor;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import logica.Fabrica;
+import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
 /**
@@ -15,13 +21,36 @@ import logica.Interfaces.IControladorProveedor;
 public class MenuProveedor extends javax.swing.JPanel {
 
     private IControladorProveedor ICP;
+    Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     
     MenuDireccion menuDireccion = new MenuDireccion();
-
+    private DefaultTableModel modeloTabla;
     
     public MenuProveedor() {
         initComponents();
+        this.ICP = fabrica.getIControladorProveedor();
+        cargarDatosEnTabla();
+    }
+
+     private void cargarDatosEnTabla() {
+        String[] columnas = { "ID", "Nombre", "Teléfonos", "Correo", "Fecha Actualización", "Fecha Creación" };
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
+        for (Proveedor proveedor : proveedores) {
+            Object[] fila = {
+                    proveedor.getId(),
+                    proveedor.getNombre(),
+                    String.join(", ", proveedor.getTelefonos()),
+                    proveedor.getEmail(),
+                    proveedor.getUpdateDate(),
+                    proveedor.getCreateDate()
+            };
+            modeloTabla.addRow(fila);
+        }
+
+        tbl_proveedor.setModel(modeloTabla);
     }
 
     private void eliminarProveedor(int selectedRow) {

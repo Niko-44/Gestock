@@ -5,9 +5,13 @@
 package logica.servicios;
 
 import Persistencia.ConexionDB;
+import logica.Clases.Direccion;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -38,6 +42,31 @@ public class DireccionesServicios {
             System.out.println("Error al eliminar la direccion: " + e.getMessage());
             return false;
         }
+    }
+
+
+    public ArrayList<Direccion> getDirecciones() throws SQLException {
+        ArrayList<Direccion> direcciones = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM direccion");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idDireccion = rs.getInt("id_direccion");
+                String calle = rs.getString("calle");
+                int nuemroPuerta = rs.getInt("nuemro_puerta");
+                String localidad = rs.getString("localidad");
+                String departamento = rs.getString("departamento");
+                int idPeoveedorFk = rs.getInt("id_proveedor_fk");
+
+                Direccion direccion = new Direccion(idDireccion, calle, nuemroPuerta, localidad, departamento, idPeoveedorFk);
+                direcciones.add(direccion);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return direcciones;
     }
     
 }

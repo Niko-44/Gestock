@@ -18,7 +18,7 @@ public class Articulo {
     private Date createDate;
     private Date updateDate;
     private float peso;
-    private float id_categoria;
+    private int id_categoria;
 
     public Articulo(int id, String nombre, String descripcion, int stock, float precio, int sku, Date createDate, Date updateDate, float peso,int id_categoria) {
         this.id = id;
@@ -104,11 +104,11 @@ public class Articulo {
         this.peso = peso;
     }
 
-    public float getId_categoria() {
+    public int getId_categoria() {
         return id_categoria;
     }
 
-    public void setId_categoria(float id_categoria) {
+    public void setId_categoria(int id_categoria) {
         this.id_categoria = id_categoria;
     }
 

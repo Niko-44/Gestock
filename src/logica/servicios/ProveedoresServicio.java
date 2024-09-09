@@ -7,12 +7,14 @@ package logica.servicios;
 import Persistencia.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import logica.Clases.Proveedor;
 
-/**
- *
- * @author Vignolo
- */
+
+
 public class ProveedoresServicio {
 
     private Connection conexion = new ConexionDB().getConexion();
@@ -39,5 +41,42 @@ public class ProveedoresServicio {
             System.out.println("Error al eliminar el proveedor: " + e.getMessage());
             return false;
         }
+    }
+
+
+    public ArrayList<Proveedor> getProveedor() throws SQLException {
+        ArrayList<Proveedor> proveedores = new ArrayList<>();
+        ArrayList<String> telefonos = new ArrayList<>();
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idProveedor = rs.getInt("id_proveedor");
+                String nombre = rs.getString("nombre_proveedor");
+                String email = rs.getString("email");
+                Date updateDate = rs.getDate("update_date");
+                Date createDate = rs.getDate("create_date");
+                try {
+                    PreparedStatement ps2 = conexion.prepareStatement("SELECT T.numero_telefono FROM PROVEEDOR P JOIN PROVEEDOR_TELEFONO PT ON P.id_proveedor = PT.id_proveedor_fk JOIN TELEFONO T ON PT.id_telefono_fk = T.id_telefono WHERE P.id_proveedor =" + idProveedor + ";");
+                    ResultSet rs2 = ps2.executeQuery();
+                    while (rs2.next()) {
+                        String telefono = rs2.getString("numero_telefono");
+                        
+                        telefonos.add(telefono);
+                    }
+                    rs2.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                
+                Proveedor proveedor = new Proveedor(idProveedor, nombre, telefonos, email, updateDate, createDate);
+                proveedores.add(proveedor);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return proveedores;
     }
 }

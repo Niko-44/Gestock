@@ -4,8 +4,12 @@
  */
 package logica.Controladores;
 
+import java.sql.SQLException;
 //import java.util.Map;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import logica.Clases.Direccion;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
@@ -25,7 +29,7 @@ public class ControladorProveedor implements IControladorProveedor {
     private IngresaServicio servicioIngresa;
     private static ControladorProveedor instancia;
 
-    public ControladorProveedor() {
+    private ControladorProveedor() {
         this.servicioProveedores = new ProveedoresServicio();
     }
 
@@ -37,7 +41,7 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public void ingresarDatosProveedor(Proveedor datos) {
-
+        
     }
 
     public void confirmarAgregadoProveedor() {
@@ -79,8 +83,14 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public ArrayList<Proveedor> obtenerProveedor() {
-        ArrayList<Proveedor> DtProveedor = null;
-        return DtProveedor;
+
+        ArrayList<Proveedor> proveedores = null;
+        try {
+            proveedores = servicioProveedores.getProveedor();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return proveedores;
     }
 
     public void modificarDatosProveedor(Proveedor idProveedor) {

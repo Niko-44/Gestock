@@ -4,29 +4,56 @@
  */
 package Presentancion.Articulo;
 
-import java.sql.SQLException;
-import java.util.Date;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Controladores.ControladorArticulo;
 import logica.Interfaces.IControladorArticulo;
-import logica.servicios.ArticulosServicios;
 import logica.Clases.Articulo;
 import logica.Fabrica;
 
 
 public class MenuArticulo extends javax.swing.JPanel {
 
+    private DefaultTableModel modeloTabla;
     /**
      * Creates new form Listar_Articulo
      */
     IControladorArticulo ICA;
+    Fabrica fabrica = Fabrica.getInstance();
 
     public MenuArticulo() {
         initComponents();
-        this.ICA = Fabrica.getInstance().getIControladorUsuario();
+        this.ICA = fabrica.getIControladorArticulo();
+        cargarDatosEnTabla();
     }
 
+    private void cargarDatosEnTabla() {
+        // Definir las columnas del modelo
+        String[] columnas = {"ID", "Nombre", "Descripción", "Peso", "Stock", "Precio", "SKU", "Fecha Creación", "Fecha Actualización"};
+
+        // Crear el modelo de la tabla con las columnas definidas
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        // Establecer el modelo en la tabla
+        tbl_articulo.setModel(modeloTabla);
+
+        // Obtener los datos desde la base de datos y agregar a la tabla
+        ArrayList<Articulo> listaArticulos = ICA.obtenerArticulos();
+        for (Articulo articulo : listaArticulos) {
+            Object[] fila = new Object[9];
+            fila[0] = articulo.getId();
+            fila[1] = articulo.getNombre();
+            fila[2] = articulo.getDescripcion();
+            fila[3] = articulo.getPeso();
+            fila[4] = articulo.getStock();
+            fila[5] = articulo.getPrecio();
+            fila[6] = articulo.getSku();
+            fila[7] = articulo.getCreateDate(); // Ajusta el formato según sea necesario
+            fila[8] = articulo.getUpdateDate(); // Ajusta el formato según sea necesario
+            modeloTabla.addRow(fila);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +65,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_Articulo = new javax.swing.JTable();
+        tbl_articulo = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
@@ -69,7 +96,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         setMaximumSize(getPreferredSize());
 
-        tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_articulo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -88,9 +115,9 @@ public class MenuArticulo extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbl_Articulo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tbl_Articulo.setMaximumSize(getPreferredSize());
-        jScrollPane1.setViewportView(tbl_Articulo);
+        tbl_articulo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tbl_articulo.setMaximumSize(getPreferredSize());
+        jScrollPane1.setViewportView(tbl_articulo);
 
         jPanel1.setMaximumSize(getPreferredSize());
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
@@ -108,6 +135,11 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Eliminar);
 
         btn_Modificar.setText("Modificar");
@@ -373,6 +405,10 @@ public class MenuArticulo extends javax.swing.JPanel {
         MenuFabricante fabricante = new MenuFabricante();
         fabricante.setVisible(true);
     }//GEN-LAST:event_btn_FabricanteMouseClicked
+
+    private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EliminarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -427,7 +463,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_precio;
     private javax.swing.JLabel lbl_sku;
     private javax.swing.JLabel lbl_stock;
-    private javax.swing.JTable tbl_Articulo;
+    private javax.swing.JTable tbl_articulo;
     private javax.swing.JTextField txt_descripcion;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_id_categoria;

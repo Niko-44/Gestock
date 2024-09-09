@@ -4,6 +4,7 @@
  */
 package logica.Controladores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ public class ControladorArticulo implements IControladorArticulo{
     private ArticulosServicios servicioArticulo;
     private static ControladorArticulo instancia;
 
-    public ControladorArticulo() {
+    private ControladorArticulo() {
         this.servicioArticulo = new ArticulosServicios();
     }
 
@@ -85,7 +86,15 @@ public class ControladorArticulo implements IControladorArticulo{
 
     @Override
     public ArrayList<Articulo> obtenerArticulos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      
+        ArrayList<Articulo> articulos = null;
+        try {
+            articulos = servicioArticulo.getArticulos();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return articulos;
+        
     }
 
     @Override

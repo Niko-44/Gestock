@@ -5,17 +5,44 @@
 package Presentancion.Venta;
 
 import Presentancion.Articulo.*;
+import logica.Fabrica;
+import logica.Clases.Venta;
+import logica.Interfaces.IControladorVenta;
+
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 
 public class MenuVenta extends javax.swing.JPanel {
 
     MenuLineaVenta menuLineaVenta = new MenuLineaVenta();
+
+    private DefaultTableModel modeloTabla;
+    private IControladorVenta ICV;
+    Fabrica fabrica = Fabrica.getInstance();
     
     public MenuVenta() {
         initComponents();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
+        this.ICV = fabrica.getIControladoreVenta();
+        cargarDatosEnTabla();
     }
+
+    private void cargarDatosEnTabla() {
+    String[] columnas = {"ID", "Fecha Venta"};
+    modeloTabla = new DefaultTableModel(columnas, 0);
+    
+    ArrayList<Venta> ventas = ICV.obtenerVenta();
+    for (Venta venta : ventas) {
+        Object[] fila = {
+            venta.getId(),
+            venta.getFechaVenta()
+        };
+        modeloTabla.addRow(fila);
+    }
+    
+    tbl_venta.setModel(modeloTabla);
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -23,7 +50,7 @@ public class MenuVenta extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl_venta = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -42,7 +69,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         setMaximumSize(getPreferredSize());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_venta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -58,9 +85,9 @@ public class MenuVenta extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jTable1.setMaximumSize(getPreferredSize());
-        jScrollPane1.setViewportView(jTable1);
+        tbl_venta.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tbl_venta.setMaximumSize(getPreferredSize());
+        jScrollPane1.setViewportView(tbl_venta);
 
         jPanel1.setMaximumSize(getPreferredSize());
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
@@ -209,9 +236,9 @@ public class MenuVenta extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tbl_venta;
     // End of variables declaration//GEN-END:variables
 }

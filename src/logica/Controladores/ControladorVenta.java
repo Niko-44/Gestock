@@ -19,11 +19,11 @@ public class ControladorVenta implements IControladorVenta{
     private VentasServicios ventasServicio;
     private static ControladorVenta instancia;
 
-    public ControladorVenta() {
+    private ControladorVenta() {
         this.ventasServicio = new VentasServicios();
     }
 
-    public static ControladorVenta getInstVenta() {
+    public static ControladorVenta getInstance() {
         if (instancia == null) {
             instancia = new ControladorVenta();
         }

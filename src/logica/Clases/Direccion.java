@@ -14,17 +14,19 @@ public class Direccion {
     private String calle;
     private int numeroPuerta;
     private String localidad;
-    private int departamento;
+    private String departamento;
+    private int id_proveedor_fk;
 
     public Direccion() {
     }
 
-    public Direccion(int id, String calle, int numeroPuerta, String localidad, int departamento) {
+    public Direccion(int id, String calle, int numeroPuerta, String localidad, String departamento, int id_proveedor_fk) {
         this.id = id;
         this.calle = calle;
         this.numeroPuerta = numeroPuerta;
         this.localidad = localidad;
         this.departamento = departamento;
+        this.id_proveedor_fk = id_proveedor_fk;
     }
 
     public int getId() {
@@ -59,11 +61,17 @@ public class Direccion {
         this.localidad = localidad;
     }
 
-    public int getDepartamento() {
+    public String getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(int departamento) {
+    public void setDepartamento(String departamento) {
         this.departamento = departamento;
+    }
+    public int getId_proveedor_fk() {
+        return id_proveedor_fk;
+    }
+    public void setId_proveedor_fk(int id_proveedor_fk) {
+        this.id_proveedor_fk = id_proveedor_fk;
     }
 }

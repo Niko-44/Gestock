@@ -10,13 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import logica.Clases.Venta;
 
-/**
- *
- * @author n1c0l
- */
+
 public class VentasServicios {
 
     public VentasServicios() {
@@ -27,10 +23,10 @@ public class VentasServicios {
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT * FROM ventas");
+            PreparedStatement status = conexion.prepareStatement("SELECT * FROM venta");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
-                resultado.add(new Venta(rs.getInt("id"), rs.getDate("fecha")));
+                resultado.add(new Venta(rs.getInt("id_venta"), rs.getDate("fecha_venta")));
 
             }
         } catch (SQLException ex) {

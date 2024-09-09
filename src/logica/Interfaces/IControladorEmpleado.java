@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface IControladorEmpleado {
 
-    public abstract ArrayList<Empleado> Empleados();
+    
     public abstract Empleado iniciarSesion(String nombreUsuario, String contraseña);
     public abstract void ingresarDatosEmpleado(Empleado datos);
     public abstract void modificaDatosEmpleado(Empleado idEmpleado);

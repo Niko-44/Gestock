@@ -15,8 +15,8 @@ public class Empleado {
     private ROLEMPLEADO rol;
     
     public enum ROLEMPLEADO {
-        ADMINISTRADOR,
-        VENDEDOR
+        admin,
+        vendedor
     }
 
     // Constructor

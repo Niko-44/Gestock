@@ -5,6 +5,7 @@
 package Presentancion;
 
 import Presentancion.Articulo.MenuArticulo;
+import Presentancion.Empleado.MenuEmpleado;
 import Presentancion.Ingresa.MenuIngresa;
 import Presentancion.Proveedor.MenuProveedor;
 import Presentancion.Venta.MenuLineaVenta;
@@ -23,6 +24,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     MenuVenta menuVenta = new MenuVenta();
     MenuProveedor menuProveedor = new MenuProveedor();
     MenuIngresa menuIngresa = new MenuIngresa();
+    MenuEmpleado menuEmpleado = new MenuEmpleado();
 
     public MenuPrincipal() {
         initComponents();
@@ -43,8 +45,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnVenta = new javax.swing.JButton();
         btnIngresa = new javax.swing.JButton();
         btnArticulo = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnFabricante = new javax.swing.JButton();
+        btnEmpleado = new javax.swing.JButton();
         btnProveedor = new javax.swing.JButton();
         jPanelContenido = new javax.swing.JPanel();
 
@@ -74,12 +76,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Fabricantes");
+        btnFabricante.setText("Fabricantes");
 
-        jButton1.setText("Empleado");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEmpleado.setText("Empleado");
+        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEmpleadoActionPerformed(evt);
             }
         });
 
@@ -97,10 +99,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanelMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFabricante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnIngresa, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
                 .addContainerGap())
@@ -113,13 +115,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnVenta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnEmpleado)
                 .addGap(12, 12, 12)
                 .addComponent(btnProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnArticulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
+                .addComponent(btnFabricante)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -157,9 +159,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
+        menuEmpleado.setLocation(0, 0);
+        jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
+        jPanelContenido.removeAll();
+        jPanelContenido.add(menuEmpleado, BorderLayout.CENTER);
+        jPanelContenido.revalidate();
+        jPanelContenido.repaint();
+    }//GEN-LAST:event_btnEmpleadoActionPerformed
 
     private void btnArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticuloActionPerformed
         menuArticulo.setLocation(0, 0);
@@ -234,11 +241,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArticulo;
+    private javax.swing.JButton btnEmpleado;
+    private javax.swing.JButton btnFabricante;
     private javax.swing.JButton btnIngresa;
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton btnVenta;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton6;
     private javax.swing.JPanel jPanelContenido;
     private javax.swing.JPanel jPanelMenu;
     // End of variables declaration//GEN-END:variables

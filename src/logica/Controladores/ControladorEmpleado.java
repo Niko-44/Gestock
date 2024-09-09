@@ -4,17 +4,29 @@
  */
 package logica.Controladores;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
+import logica.servicios.EmpleadosServicios;
 
 public class ControladorEmpleado implements IControladorEmpleado{
-    
-    public ArrayList<Empleado> Empleados(){
+   
+    private EmpleadosServicios servicioEmpleado;
 
-        return null;
-
+    private static ControladorEmpleado instancia;
+    public static ControladorEmpleado getInstance() {
+        if (instancia == null) {
+            instancia = new ControladorEmpleado();
+        }
+        return instancia;
     }
+    private ControladorEmpleado() {
+        this.servicioEmpleado = new EmpleadosServicios();
+    }
+
     public Empleado iniciarSesion(String nombreUsuario, String contraseña){
         
         return null;
@@ -44,7 +56,13 @@ public class ControladorEmpleado implements IControladorEmpleado{
     }
     public ArrayList<Empleado> obtenerEmpleado(){
 
-        return null;
+        ArrayList<Empleado> Empleados = null;
+        try {
+            Empleados = servicioEmpleado.getEmpleado();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Empleados;
 
     }
     public void seleccionarEmpleado(Empleado empleado){
