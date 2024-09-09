@@ -18,37 +18,37 @@ import logica.Interfaces.IControladorEmpleado;
  * @author vale5
  */
 public class MenuEmpleado extends javax.swing.JPanel {
+
     private DefaultTableModel modeloTabla;
     private IControladorEmpleado ICE;
     Fabrica fabrica = Fabrica.getInstance();
 
-public MenuEmpleado() {
-    initComponents();
-    this.ICE = fabrica.getIControladoreEmpleado();
-    cargarDatosEnTabla();
-}
+    public MenuEmpleado() {
+        initComponents();
+        this.ICE = fabrica.getIControladoreEmpleado();
+        cargarDatosEnTabla();
+    }
 
     private void cargarDatosEnTabla() {
-    String[] columnas = {"ID", "Nombre Usuario", "Contraseña", "Nombre", "Apellido", "Cédula", "Rol"};
-    modeloTabla = new DefaultTableModel(columnas, 0);
-    
-    ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
-    for (Empleado empleado : empleados) {
-        Object[] fila = {
-            empleado.getId(),
-            empleado.getNombreUsuario(),
-            empleado.getContraseña(),
-            empleado.getNombre(),
-            empleado.getApellido(),
-            empleado.getCedula(),
-            empleado.getRol()
-        };
-        modeloTabla.addRow(fila);
-    }
-    
-    tbl_empleado.setModel(modeloTabla);
-}
+        String[] columnas = {"ID", "Nombre Usuario", "Contraseña", "Nombre", "Apellido", "Cédula", "Rol"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
 
+        ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
+        for (Empleado empleado : empleados) {
+            Object[] fila = {
+                empleado.getId(),
+                empleado.getNombreUsuario(),
+                empleado.getContraseña(),
+                empleado.getNombre(),
+                empleado.getApellido(),
+                empleado.getCedula(),
+                empleado.getRol()
+            };
+            modeloTabla.addRow(fila);
+        }
+
+        tbl_empleado.setModel(modeloTabla);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

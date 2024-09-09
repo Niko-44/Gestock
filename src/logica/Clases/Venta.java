@@ -12,21 +12,42 @@ import java.util.Date;
  */
 public class Venta {
     public enum EstadoVenta {
-        PENDIENTE,
-        CANCELADO,
-        ENTREGADO
+        Pendiente,
+        Cancelada,
+        Completada
     }
     
     private int id;
     private Date fechaVenta;
+    private EstadoVenta estado;
+    private int id_empleado;
 
     public Venta() {
         
     }
-
-    public Venta(int id, Date fechaVenta) {
+    
+    public Venta(int id, Date fechaVenta, EstadoVenta estado, int id_empleado) {
         this.id = id; 
         this.fechaVenta = fechaVenta;
+        this.estado = estado;
+        this.id_empleado = id_empleado;
+    }
+    
+
+    public EstadoVenta getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoVenta estado) {
+        this.estado = estado;
+    }
+
+    public int getId_empleado() {
+        return id_empleado;
+    }
+
+    public void setId_empleado(int id_empleado) {
+        this.id_empleado = id_empleado;
     }
 
     public int getId() {

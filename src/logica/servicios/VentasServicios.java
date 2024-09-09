@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import logica.Clases.Venta;
 
 
@@ -26,7 +27,14 @@ public class VentasServicios {
             PreparedStatement status = conexion.prepareStatement("SELECT * FROM venta");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
-                resultado.add(new Venta(rs.getInt("id_venta"), rs.getDate("fecha_venta")));
+                
+                int id = rs.getInt("id_venta");
+                Date fecha_venta = rs.getDate("fecha_venta");
+                String estado = rs.getString("estado");
+                int id_empleado = rs.getInt("id_empleado_fk");
+                
+                Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), id_empleado);
+                resultado.add(venta);
 
             }
         } catch (SQLException ex) {
@@ -34,5 +42,28 @@ public class VentasServicios {
 
         }
         return resultado;
+    }
+    
+    public boolean agregarVenta(Venta venta)
+    {
+        try {
+            System.out.println(venta.getId_empleado());
+            
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `venta` (`id_venta`, `fecha_venta`, `estado`, `id_empleado_fk`) VALUES (?, ?, ?, ?)");
+            status.setObject(1, 0);
+            status.setObject(2, venta.getFechaVenta());
+            status.setObject(3, venta.getEstado().name());
+            status.setObject(4, venta.getId_empleado());
+            
+            
+            int rs = status.executeUpdate();
+            
+            return true;
+            
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 }

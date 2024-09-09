@@ -14,7 +14,7 @@ import logica.servicios.VentasServicios;
  *
  * @author n1c0l
  */
-public class ControladorVenta implements IControladorVenta{
+public class ControladorVenta implements IControladorVenta {
 
     private VentasServicios ventasServicio;
     private static ControladorVenta instancia;
@@ -56,40 +56,36 @@ public class ControladorVenta implements IControladorVenta{
         return ventasServicio.getVentas();  //HACER ESTO EN OBTENER ARTICULO
     }
 
-    public void listarVentas(int numeroVenta)
-    {
-        
+    public boolean agregarVenta(Venta venta) {
+        return ventasServicio.agregarVenta(venta);
     }
-    
-    public void seleccionarVenta(Venta venta)
-    {
-        
+
+    public void listarVentas(int numeroVenta) {
+
     }
-    
-    public void confirmarModificacion()
-    {
-        
+
+    public void seleccionarVenta(Venta venta) {
+
     }
-    
-    public void cancelarModificacion()
-    {
-        
+
+    public void confirmarModificacion() {
+
     }
-    
-    public void eliminarVenta(int idVenta)
-    {
-        
+
+    public void cancelarModificacion() {
+
     }
-    
-    public void cancelarProceso()
-    {
-        
+
+    public void eliminarVenta(int idVenta) {
+
     }
-    
-    public void modificarDatosVentas(Venta dataVenta)
-    {
-        
+
+    public void cancelarProceso() {
+
     }
-    
+
+    public void modificarDatosVentas(Venta dataVenta) {
+
+    }
 
 }
