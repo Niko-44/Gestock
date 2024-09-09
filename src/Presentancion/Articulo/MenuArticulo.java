@@ -524,11 +524,11 @@ public class MenuArticulo extends javax.swing.JPanel {
     private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
         try {
             if (this.selectedRow != -1) {
-                int idIngresa = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
+                int idArticulo = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este artículo?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    if (ICA.eliminarArticulo(idIngresa) == true) {
+                    if (ICA.eliminarArticulo(idArticulo) == true) {
                         eliminarArticulo(this.selectedRow);
                         JOptionPane.showMessageDialog(this, "El artículo se eliminó correctamente.");
                     } else {

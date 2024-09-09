@@ -30,7 +30,7 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     IControladorArticulo ICA;
     Articulo articulo = new Articulo();
-
+    private int selectedRow;
     
     
     public MenuCategoria() {
@@ -41,7 +41,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
-                int selectedRow = tbl_Articulo.getSelectedRow();
+                selectedRow = tbl_Articulo.getSelectedRow();
                 if (selectedRow != -1) {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
@@ -77,6 +77,12 @@ public class MenuCategoria extends javax.swing.JFrame {
         }
 
         tbl_Articulo.setModel(modeloTabla);
+    }
+    
+    private void eliminarCategoria(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_Articulo.getModel();
+        model.removeRow(selectedRow);
+
     }
     
     @SuppressWarnings("unchecked")
@@ -189,6 +195,11 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Eliminar);
 
         btn_Modificar.setText("Modificar");
@@ -308,6 +319,29 @@ public class MenuCategoria extends javax.swing.JFrame {
       
       
     }//GEN-LAST:event_btn_ModificarMouseClicked
+
+    private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
+       try {
+            if (this.selectedRow != -1) {
+                int idCategoria = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar esta categoría?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICA.eliminarCategoria(idCategoria) == true) {
+                        eliminarCategoria(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "La categoría se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la categoría.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una categoría para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EliminarMouseClicked
 
     /**
      * @param args the command line arguments

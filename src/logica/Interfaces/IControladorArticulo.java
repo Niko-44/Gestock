@@ -50,7 +50,7 @@ public interface IControladorArticulo {
 
     public abstract void seleccionarCategoria(int idCategoria);
 
-    public abstract void eliminarCategoria(int idCategoria);
+    public abstract boolean eliminarCategoria(int idCategoria);
 
     public abstract void modificaDatosArticulo(Articulo articulo);  
 

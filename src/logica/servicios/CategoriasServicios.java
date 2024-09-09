@@ -60,4 +60,25 @@ public class CategoriasServicios {
             System.out.println("Error al actualizar La categoria: " + e.getMessage());
         }
     }
+    
+    public boolean eliminarCategoria(int idCategoria) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("DELETE FROM categoria WHERE id_categoria = ?");
+
+            status.setObject(1, idCategoria);
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Categoría eliminado exitosamente.");
+                return true;
+            } else {
+                System.out.println("No se encontró la categoría con el ID proporcionado.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar la categoría: " + e.getMessage());
+            return false;
+        }
+    }
 }
