@@ -78,8 +78,8 @@ public class ControladorVenta implements IControladorVenta {
 
     }
 
-    public void eliminarVenta(int idVenta) {
-
+    public boolean eliminarVenta(int idVenta) {
+        return this.ventasServicio.eliminarVenta(idVenta);
     }
 
     public boolean eliminarLineaVenta(int idLineaVenta) {

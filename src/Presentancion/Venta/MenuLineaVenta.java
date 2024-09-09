@@ -215,7 +215,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
+                JOptionPane.showMessageDialog(this, "Selecciona una linea de venta para eliminar.");
             }
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
