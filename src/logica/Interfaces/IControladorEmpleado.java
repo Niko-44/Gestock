@@ -19,7 +19,7 @@ public interface IControladorEmpleado {
     public abstract void cancelarAlta();
     public abstract ArrayList<Empleado> obtenerEmpleado();
     public abstract void seleccionarEmpleado(Empleado empleado);
-    public abstract void eliminarEmpleado(int idEmpleado);
+    public abstract boolean eliminarEmpleado(int idEmpleado);
     public abstract void cancelarProceso();
     public abstract void confirmarModificacion();
     public abstract void cancelarModificacion();

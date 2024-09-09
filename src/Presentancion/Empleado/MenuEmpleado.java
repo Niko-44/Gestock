@@ -6,6 +6,7 @@ package Presentancion.Empleado;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +23,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     private DefaultTableModel modeloTabla;
     private IControladorEmpleado ICE;
     Fabrica fabrica = Fabrica.getInstance();
+    private int selectedRow;
 
     public MenuEmpleado() {
         initComponents();
@@ -48,6 +50,12 @@ public class MenuEmpleado extends javax.swing.JPanel {
         }
 
         tbl_empleado.setModel(modeloTabla);
+    }
+
+    private void eliminarEmpleado(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_empleado.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -85,6 +93,11 @@ public class MenuEmpleado extends javax.swing.JPanel {
         jBtnIngresarEmpleado.setText("Nuevo Empleado");
 
         jBtnEliminarEmpleado.setText("Eliminar Empleado");
+        jBtnEliminarEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBtnEliminarEmpleadoMouseClicked(evt);
+            }
+        });
 
         jBtnModificarEmpleado.setText("Modificar Empleado");
 
@@ -134,6 +147,29 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBtnEliminarEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarEmpleadoMouseClicked
+        try {
+            if (this.selectedRow != -1) {
+                int idEmpleado = (Integer) tbl_empleado.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este empleado?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICE.eliminarEmpleado(idEmpleado) == true) {
+                        eliminarEmpleado(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "El empleado se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el empleado.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnEliminarEmpleadoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

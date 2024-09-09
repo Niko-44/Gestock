@@ -68,8 +68,8 @@ public class ControladorEmpleado implements IControladorEmpleado{
     public void seleccionarEmpleado(Empleado empleado){
 
     }
-    public void eliminarEmpleado(int idEmpleado){
-
+    public boolean eliminarEmpleado(int idEmpleado){
+        return this.servicioEmpleado.eliminarEmpleado(idEmpleado);
     }
     public void cancelarProceso(){
 

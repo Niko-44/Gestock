@@ -48,4 +48,25 @@ public class EmpleadosServicios {
         }
         return empleados;
     }
+    
+        public boolean eliminarEmpleado(int idEmpleado) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("DELETE FROM empleado WHERE id_empleado = ?");
+
+            status.setObject(1, idEmpleado);
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Empleado eliminado exitosamente.");
+                return true;
+            } else {
+                System.out.println("No se encontró el empleado con el ID proporcionado.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar el empleado: " + e.getMessage());
+            return false;
+        }
+    }
 }
