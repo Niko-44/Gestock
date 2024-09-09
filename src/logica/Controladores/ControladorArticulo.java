@@ -95,8 +95,8 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public void eliminarArticulo(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarArticulo(int idArticulo) {
+        return servicioArticulo.eliminarArticulo(idArticulo);
     }
 
     @Override

@@ -36,7 +36,7 @@ public interface IControladorArticulo {
 
     public abstract void seleccionarArticulo(int id);
 
-    public abstract void eliminarArticulo(int id);
+    public abstract boolean eliminarArticulo(int id);
 
     public abstract void cancelarProceso();
 
