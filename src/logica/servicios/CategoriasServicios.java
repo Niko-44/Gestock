@@ -19,7 +19,7 @@ public class CategoriasServicios {
     }
     private Connection conexion = new ConexionDB().getConexion();
 
-    public ArrayList<Categoria> getCategorias() throws SQLException {
+    public ArrayList<Categoria> getCategorias(){
         ArrayList<Categoria> categorias = new ArrayList<>();
 
         try {
@@ -27,7 +27,7 @@ public class CategoriasServicios {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idCategoria = rs.getInt("id_categoria");
-                String nombre = rs.getString("nombre");
+                String nombre = rs.getString("nombre_categoria");
                 String descripcion = rs.getString("descripcion");
 
                 Categoria categoria = new Categoria(idCategoria, nombre, descripcion);
@@ -38,5 +38,26 @@ public class CategoriasServicios {
             ex.printStackTrace();
         }
         return categorias;
+    }
+
+    public void modificaDatosCategoria(Categoria categoria) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `categoria` SET `nombre_categoria` = ?, `descripcion` = ? WHERE `categoria`.`id_categoria` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, categoria.getNombre());
+            status.setObject(2, categoria.getDescripcion());
+            status.setObject(3, categoria.getId());
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Categoria actualizada exitosamente.");
+            } else {
+                System.out.println("No se encontró la categoria con los datos proporcionados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar La categoria: " + e.getMessage());
+        }
     }
 }

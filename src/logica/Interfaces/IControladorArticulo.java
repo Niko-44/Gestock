@@ -52,15 +52,15 @@ public interface IControladorArticulo {
 
     public abstract void eliminarCategoria(int idCategoria);
 
-    public abstract void modificaDatosArticulo(int id);  
+    public abstract void modificaDatosArticulo(Articulo articulo);  
 
     public abstract void confirmarModificacion();
 
     public abstract void cancelarModificacion();
 
-    public abstract void modificaDatosFabricante();  
+    public abstract void modificaDatosFabricante(Fabricante fabricante);  
 
-    public abstract void modificaDatosCategoria(); 
+    public abstract void modificaDatosCategoria(Categoria categoria); 
 
     public abstract ArrayList<Categoria> buscar(String nombre, String dato);  
 

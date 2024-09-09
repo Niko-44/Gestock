@@ -4,7 +4,6 @@
  */
 package logica.Controladores;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,17 +12,20 @@ import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
 import logica.Interfaces.IControladorArticulo;
 import logica.servicios.ArticulosServicios;
+import logica.servicios.CategoriasServicios;
+import logica.servicios.FabricantesServicios;
 
-
-public class ControladorArticulo implements IControladorArticulo{
-    
-
+public class ControladorArticulo implements IControladorArticulo {
 
     private ArticulosServicios servicioArticulo;
+    private CategoriasServicios servicioCategoria;
+    private FabricantesServicios servicioFabricante;
     private static ControladorArticulo instancia;
 
-    private ControladorArticulo() {
+    public ControladorArticulo() {
         this.servicioArticulo = new ArticulosServicios();
+        this.servicioCategoria = new CategoriasServicios();
+        this.servicioFabricante = new FabricantesServicios();
     }
 
     public static ControladorArticulo getInstance() {
@@ -33,15 +35,9 @@ public class ControladorArticulo implements IControladorArticulo{
         return instancia;
     }
 
-    
     @Override
     public void ingresarDatosArticulo(Articulo articulo) {
-        
-        try {
-           servicioArticulo.ingresarDatosArticulo(articulo);
-        } catch (Exception ex) {
-            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 
     @Override
@@ -86,15 +82,11 @@ public class ControladorArticulo implements IControladorArticulo{
 
     @Override
     public ArrayList<Articulo> obtenerArticulos() {
-      
-        ArrayList<Articulo> articulos = null;
         try {
-            articulos = servicioArticulo.getArticulos();
-        } catch (SQLException ex) {
-            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+            return servicioArticulo.getArticulos();
+        } catch (Exception e) {
+            throw e;
         }
-        return articulos;
-        
     }
 
     @Override
@@ -114,7 +106,11 @@ public class ControladorArticulo implements IControladorArticulo{
 
     @Override
     public ArrayList<Fabricante> obtenerFabricantes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            return servicioFabricante.getFabricante();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override
@@ -129,7 +125,7 @@ public class ControladorArticulo implements IControladorArticulo{
 
     @Override
     public ArrayList<Categoria> obtenerCategorias() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return servicioCategoria.getCategorias();
     }
 
     @Override
@@ -142,9 +138,13 @@ public class ControladorArticulo implements IControladorArticulo{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void modificaDatosArticulo(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void modificaDatosArticulo(Articulo articulo) {
+        try {
+            servicioArticulo.modificaDatosArticulo(articulo);
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
     @Override
@@ -157,14 +157,22 @@ public class ControladorArticulo implements IControladorArticulo{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void modificaDatosFabricante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void modificaDatosFabricante(Fabricante fabricante) {
+        try {
+            servicioFabricante.modificaDatosFabricante(fabricante);
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
-    @Override
-    public void modificaDatosCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void modificaDatosCategoria(Categoria categoria) {
+        try {
+            servicioCategoria.modificaDatosCategoria(categoria);
+        } catch (Exception e) {
+            throw e;
+        }
+
     }
 
     @Override
@@ -191,6 +199,5 @@ public class ControladorArticulo implements IControladorArticulo{
     public ArrayList<Categoria> listarFabricante() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-  
+
 }

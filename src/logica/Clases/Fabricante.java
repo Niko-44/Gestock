@@ -16,11 +16,11 @@ public class Fabricante {
     private Date updateDate;
     private Date createDate;
 
-    public Fabricante(int id, String nombre, String correo, String telefono, Date updateDate, Date createDate) {
+    public Fabricante(int id, String nombre, String telefono, String correo, Date updateDate, Date createDate) {
         this.id = id;
         this.nombre = nombre;
-        this.correo = correo;
         this.telefono = telefono;
+        this.correo = correo;
         this.updateDate = updateDate;
         this.createDate = createDate;
     }
