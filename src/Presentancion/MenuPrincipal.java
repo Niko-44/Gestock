@@ -17,11 +17,11 @@ import java.awt.event.ComponentEvent;
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuPrincipal
-     */
-    // Obtener el tamaño de la pantalla
+    
     MenuArticulo listarArticulo = new MenuArticulo();
+    
+    
+    
 
     public MenuPrincipal() {
     initComponents();
@@ -31,8 +31,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     jPanelContenido.add(listarArticulo, BorderLayout.CENTER);
     jPanelContenido.revalidate();
     jPanelContenido.repaint();
-    
-    
+     this.setExtendedState(this.MAXIMIZED_BOTH);
+     
+        
+       
+
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,45 +47,56 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelMenu = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_Ventas = new javax.swing.JButton();
+        btn_Compras_M = new javax.swing.JButton();
+        btn_Articulos = new javax.swing.JButton();
+        btn_Empleado = new javax.swing.JButton();
+        btn_Proveedores = new javax.swing.JButton();
+        btn_Fabricante = new javax.swing.JButton();
         jPanelContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1920, 1080));
 
         jPanelMenu.setBackground(new java.awt.Color(0, 255, 204));
         jPanelMenu.setMaximumSize(getPreferredSize());
 
-        jButton2.setText("Ventas");
+        btn_Ventas.setText("Ventas");
 
-        jButton3.setText("Compras Mercaderia");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_Compras_M.setText("Compras Mercaderia");
+        btn_Compras_M.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_Compras_MActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Articulos");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btn_Articulos.setText("Articulos");
+        btn_Articulos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ArticulosMouseClicked(evt);
+            }
+        });
+        btn_Articulos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btn_ArticulosActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Fabricantes");
-
-        jButton1.setText("Empleado");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_Empleado.setText("Empleado");
+        btn_Empleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_EmpleadoActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Proveedores");
+        btn_Proveedores.setText("Proveedores");
+
+        btn_Fabricante.setText("Fabricante");
+        btn_Fabricante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_FabricanteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelMenuLayout = new javax.swing.GroupLayout(jPanelMenu);
         jPanelMenu.setLayout(jPanelMenuLayout);
@@ -91,30 +105,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanelMenuLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6)
-                    .addComponent(jButton4)
-                    .addComponent(jButton1)
-                    .addComponent(jButton5)
-                    .addComponent(jButton2))
+                    .addComponent(btn_Compras_M)
+                    .addComponent(btn_Proveedores)
+                    .addComponent(btn_Empleado)
+                    .addComponent(btn_Articulos)
+                    .addComponent(btn_Ventas)
+                    .addComponent(btn_Fabricante))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelMenuLayout.setVerticalGroup(
             jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMenuLayout.createSequentialGroup()
                 .addGap(49, 49, 49)
-                .addComponent(jButton3)
+                .addComponent(btn_Compras_M)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btn_Ventas)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btn_Empleado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(btn_Proveedores)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addComponent(btn_Articulos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_Fabricante)
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         jPanelContenido.setMaximumSize(getPreferredSize());
@@ -123,7 +137,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanelContenido.setLayout(jPanelContenidoLayout);
         jPanelContenidoLayout.setHorizontalGroup(
             jPanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 661, Short.MAX_VALUE)
+            .addGap(0, 506, Short.MAX_VALUE)
         );
         jPanelContenidoLayout.setVerticalGroup(
             jPanelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,17 +167,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_EmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EmpleadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_EmpleadoActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btn_ArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ArticulosActionPerformed
+      
+    }//GEN-LAST:event_btn_ArticulosActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_Compras_MActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Compras_MActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_Compras_MActionPerformed
+
+    private void btn_FabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FabricanteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_FabricanteActionPerformed
+
+    private void btn_ArticulosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ArticulosMouseClicked
+    listarArticulo.setLocation(0, 0);
+    jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
+    jPanelContenido.removeAll();
+    jPanelContenido.add(listarArticulo, BorderLayout.CENTER);
+    jPanelContenido.revalidate();
+    jPanelContenido.repaint();
+     this.setExtendedState(this.MAXIMIZED_BOTH);
+    }//GEN-LAST:event_btn_ArticulosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -201,12 +229,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btn_Articulos;
+    private javax.swing.JButton btn_Compras_M;
+    private javax.swing.JButton btn_Empleado;
+    private javax.swing.JButton btn_Fabricante;
+    private javax.swing.JButton btn_Proveedores;
+    private javax.swing.JButton btn_Ventas;
     private javax.swing.JPanel jPanelContenido;
     private javax.swing.JPanel jPanelMenu;
     // End of variables declaration//GEN-END:variables

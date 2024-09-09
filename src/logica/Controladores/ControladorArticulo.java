@@ -5,6 +5,8 @@
 package logica.Controladores;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
@@ -15,25 +17,30 @@ import logica.servicios.ArticulosServicios;
 public class ControladorArticulo implements IControladorArticulo{
     
 
-    private static ControladorArticulo instancia;
+
     private ArticulosServicios servicioArticulo;
+    private static ControladorArticulo instancia;
 
-
-    private ControladorArticulo() {
-       this.servicioArticulo= new ArticulosServicios();
+    public ControladorArticulo() {
+        this.servicioArticulo = new ArticulosServicios();
     }
 
-    
-    public static synchronized ControladorArticulo obtenerInstancia() {
+    public static ControladorArticulo getInstance() {
         if (instancia == null) {
             instancia = new ControladorArticulo();
         }
         return instancia;
     }
 
+    
     @Override
     public void ingresarDatosArticulo(Articulo articulo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        try {
+           servicioArticulo.ingresarDatosArticulo(articulo);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
