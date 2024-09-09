@@ -2,67 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Presentancion.Articulo;
+package Presentancion.Venta;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Articulo;
-import logica.servicios.ArticulosServicios;
 
 /**
  *
  * @author vale5
  */
-public class Listar_Articulo extends javax.swing.JPanel {
-
+public class Listar_Venta extends javax.swing.JPanel {
     private DefaultTableModel modeloTabla;
 
-    /**
-     * Creates new form Listar_Articulo
-     */
-    public Listar_Articulo() {
+    public Listar_Venta() {
         initComponents();
         cargarDatosEnTabla();
     }
 
-    /**
-     * Método para cargar los datos en la tabla.
-     */
     private void cargarDatosEnTabla() {
-        // Definir las columnas del modelo
-        String[] columnas = {"ID", "Nombre", "Descripción", "Peso", "Stock", "Precio", "SKU", "Fecha Creación", "Fecha Actualización"};
-
-        // Crear el modelo de la tabla con las columnas definidas
+        String[] columnas = {"ID", "Fecha Venta", "Estado"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-
-        // Establecer el modelo en la tabla
-        jTableArticulo.setModel(modeloTabla);
-
-        // Obtener los datos desde la base de datos y agregar a la tabla
-        try {
-            ArticulosServicios dao = new ArticulosServicios();
-            ArrayList<Articulo> listaArticulos = dao.getArticulos();
-
-            for (Articulo articulo : listaArticulos) {
-                Object[] fila = new Object[9];
-                fila[0] = articulo.getId();
-                fila[1] = articulo.getNombre();
-                fila[2] = articulo.getDescripcion();
-                fila[3] = articulo.getPeso();
-                fila[4] = articulo.getStock();
-                fila[5] = articulo.getPrecio();
-                fila[6] = articulo.getSku();
-                fila[7] = articulo.getCreateDate(); // Ajusta el formato según sea necesario
-                fila[8] = articulo.getUpdateDate(); // Ajusta el formato según sea necesario
-                modeloTabla.addRow(fila);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar los datos de los artículos", "Error", JOptionPane.ERROR_MESSAGE);
+        Object[][] datos = {
+            {1, "2024-09-01", "PENDIENTE"},
+            {2, "2024-09-03", "ENTREGADO"}
+        };
+        for (Object[] fila : datos) {
+            modeloTabla.addRow(fila);
         }
+        jTableVenta.setModel(modeloTabla);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,15 +42,15 @@ public class Listar_Articulo extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableArticulo = new javax.swing.JTable();
+        jTableVenta = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jBtnCrearArticulo = new javax.swing.JButton();
-        jBtnEliminarArticulo = new javax.swing.JButton();
-        jBtnModificarArticulo = new javax.swing.JButton();
+        jBtnEliminarVenta = new javax.swing.JButton();
+        jBtnModificarVenta = new javax.swing.JButton();
+        jBtnDetallarVenta = new javax.swing.JButton();
 
         setMaximumSize(getPreferredSize());
 
-        jTableArticulo.setModel(new javax.swing.table.DefaultTableModel(
+        jTableVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -90,39 +58,39 @@ public class Listar_Articulo extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9"
             }
         ));
-        jTableArticulo.setMaximumSize(getPreferredSize());
-        jScrollPane1.setViewportView(jTableArticulo);
+        jTableVenta.setMaximumSize(getPreferredSize());
+        jScrollPane1.setViewportView(jTableVenta);
 
         jPanel1.setMaximumSize(getPreferredSize());
 
-        jBtnCrearArticulo.setText("Crear Nuevo Articulo");
+        jBtnEliminarVenta.setText("Eliminar Venta");
 
-        jBtnEliminarArticulo.setText("Eliminar Articulo");
+        jBtnModificarVenta.setText("Modificar Venta");
 
-        jBtnModificarArticulo.setText("Modificar Articulo");
+        jBtnDetallarVenta.setText("Eliminar Venta");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jBtnCrearArticulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(jBtnEliminarArticulo)
-                .addGap(79, 79, 79)
-                .addComponent(jBtnModificarArticulo)
-                .addGap(72, 72, 72))
+                .addGap(60, 60, 60)
+                .addComponent(jBtnDetallarVenta)
+                .addGap(130, 130, 130)
+                .addComponent(jBtnModificarVenta)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtnEliminarVenta)
+                .addGap(42, 42, 42))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnCrearArticulo)
-                    .addComponent(jBtnEliminarArticulo)
-                    .addComponent(jBtnModificarArticulo))
-                .addGap(36, 36, 36))
+                    .addComponent(jBtnModificarVenta)
+                    .addComponent(jBtnDetallarVenta)
+                    .addComponent(jBtnEliminarVenta))
+                .addGap(57, 57, 57))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -132,7 +100,7 @@ public class Listar_Articulo extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -148,11 +116,11 @@ public class Listar_Articulo extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnCrearArticulo;
-    private javax.swing.JButton jBtnEliminarArticulo;
-    private javax.swing.JButton jBtnModificarArticulo;
+    private javax.swing.JButton jBtnDetallarVenta;
+    private javax.swing.JButton jBtnEliminarVenta;
+    private javax.swing.JButton jBtnModificarVenta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableArticulo;
+    private javax.swing.JTable jTableVenta;
     // End of variables declaration//GEN-END:variables
 }

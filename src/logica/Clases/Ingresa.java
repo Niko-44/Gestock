@@ -16,7 +16,7 @@ public class Ingresa {
     public Ingresa() {
     }
 
-    public Ingresa(Date fechaIngreso, int cantidad, int lote, float precioCompra, Proveedor proveedor) {
+    public Ingresa(Date fechaIngreso, int cantidad, int lote, float precioCompra, Proveedor proveedor, Articulo articulo) {
         this.fechaIngreso = fechaIngreso;
         this.cantidad = cantidad;
         this.lote = lote;

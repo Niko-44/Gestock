@@ -24,7 +24,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="688" max="32767" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -50,7 +50,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTableArticulo">
+        <Component class="javax.swing.JTable" name="jTableVenta">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="9" rowCount="0">
@@ -135,13 +135,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                  <Component id="jBtnCrearArticulo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
-                  <Component id="jBtnEliminarArticulo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                  <Component id="jBtnModificarArticulo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                  <Component id="jBtnDetallarVenta" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                  <Component id="jBtnModificarVenta" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jBtnEliminarVenta" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -150,29 +150,29 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="41" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jBtnCrearArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jBtnEliminarArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jBtnModificarArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnModificarVenta" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnDetallarVenta" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnEliminarVenta" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jBtnCrearArticulo">
+        <Component class="javax.swing.JButton" name="jBtnEliminarVenta">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Crear Nuevo Articulo"/>
+            <Property name="text" type="java.lang.String" value="Eliminar Venta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jBtnEliminarArticulo">
+        <Component class="javax.swing.JButton" name="jBtnModificarVenta">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar Articulo"/>
+            <Property name="text" type="java.lang.String" value="Modificar Venta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jBtnModificarArticulo">
+        <Component class="javax.swing.JButton" name="jBtnDetallarVenta">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Modificar Articulo"/>
+            <Property name="text" type="java.lang.String" value="Eliminar Venta"/>
           </Properties>
         </Component>
       </SubComponents>

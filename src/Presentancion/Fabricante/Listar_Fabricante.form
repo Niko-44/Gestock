@@ -50,7 +50,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTableArticulo">
+        <Component class="javax.swing.JTable" name="jTableFabricante">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="9" rowCount="0">
@@ -136,11 +136,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                  <Component id="jBtnCrearArticulo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
-                  <Component id="jBtnEliminarArticulo" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBtnAgregarFabricante" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <Component id="jBtnEliminarFabricante" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                  <Component id="jBtnModificarArticulo" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBtnModificarFabricante" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -150,9 +150,9 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="41" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jBtnCrearArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jBtnEliminarArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jBtnModificarArticulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnAgregarFabricante" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnEliminarFabricante" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBtnModificarFabricante" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               </Group>
@@ -160,19 +160,19 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jBtnCrearArticulo">
+        <Component class="javax.swing.JButton" name="jBtnAgregarFabricante">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Crear Nuevo Articulo"/>
+            <Property name="text" type="java.lang.String" value="Agregar Fabricante"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jBtnEliminarArticulo">
+        <Component class="javax.swing.JButton" name="jBtnEliminarFabricante">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar Articulo"/>
+            <Property name="text" type="java.lang.String" value="Eliminar Fabricante"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jBtnModificarArticulo">
+        <Component class="javax.swing.JButton" name="jBtnModificarFabricante">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Modificar Articulo"/>
+            <Property name="text" type="java.lang.String" value="Modificar Fabricante"/>
           </Properties>
         </Component>
       </SubComponents>

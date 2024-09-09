@@ -14,12 +14,13 @@ public class Direccion {
     private String calle;
     private int numeroPuerta;
     private String localidad;
-    private int departamento;
+    private String departamento;
+    private Proveedor proveedor;
 
     public Direccion() {
     }
 
-    public Direccion(int id, String calle, int numeroPuerta, String localidad, int departamento) {
+    public Direccion(int id, String calle, int numeroPuerta, String localidad, String departamento) {
         this.id = id;
         this.calle = calle;
         this.numeroPuerta = numeroPuerta;
@@ -59,11 +60,19 @@ public class Direccion {
         this.localidad = localidad;
     }
 
-    public int getDepartamento() {
+    public String getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(int departamento) {
+    public void setDepartamento(String departamento) {
         this.departamento = departamento;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
     }
 }

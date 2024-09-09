@@ -2,67 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Presentancion.Articulo;
+package Presentancion.Fabricante;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Articulo;
-import logica.servicios.ArticulosServicios;
 
 /**
  *
  * @author vale5
  */
-public class Listar_Articulo extends javax.swing.JPanel {
-
+public class Listar_Fabricante extends javax.swing.JPanel {
     private DefaultTableModel modeloTabla;
 
-    /**
-     * Creates new form Listar_Articulo
-     */
-    public Listar_Articulo() {
+    public Listar_Fabricante() {
         initComponents();
         cargarDatosEnTabla();
     }
 
-    /**
-     * Método para cargar los datos en la tabla.
-     */
     private void cargarDatosEnTabla() {
-        // Definir las columnas del modelo
-        String[] columnas = {"ID", "Nombre", "Descripción", "Peso", "Stock", "Precio", "SKU", "Fecha Creación", "Fecha Actualización"};
-
-        // Crear el modelo de la tabla con las columnas definidas
+        String[] columnas = {"ID", "Nombre", "Correo", "Teléfono", "Fecha Actualización", "Fecha Creación"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-
-        // Establecer el modelo en la tabla
-        jTableArticulo.setModel(modeloTabla);
-
-        // Obtener los datos desde la base de datos y agregar a la tabla
-        try {
-            ArticulosServicios dao = new ArticulosServicios();
-            ArrayList<Articulo> listaArticulos = dao.getArticulos();
-
-            for (Articulo articulo : listaArticulos) {
-                Object[] fila = new Object[9];
-                fila[0] = articulo.getId();
-                fila[1] = articulo.getNombre();
-                fila[2] = articulo.getDescripcion();
-                fila[3] = articulo.getPeso();
-                fila[4] = articulo.getStock();
-                fila[5] = articulo.getPrecio();
-                fila[6] = articulo.getSku();
-                fila[7] = articulo.getCreateDate(); // Ajusta el formato según sea necesario
-                fila[8] = articulo.getUpdateDate(); // Ajusta el formato según sea necesario
-                modeloTabla.addRow(fila);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar los datos de los artículos", "Error", JOptionPane.ERROR_MESSAGE);
+        Object[][] datos = {
+            {1, "Fabricante A", "correoA@ejemplo.com", 5551234, "2024-09-01", "2022-01-01"},
+            {2, "Fabricante B", "correoB@ejemplo.com", 5555678, "2024-09-05", "2023-02-15"}
+        };
+        for (Object[] fila : datos) {
+            modeloTabla.addRow(fila);
         }
+        jTableFabricante.setModel(modeloTabla);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -74,15 +43,15 @@ public class Listar_Articulo extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableArticulo = new javax.swing.JTable();
+        jTableFabricante = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jBtnCrearArticulo = new javax.swing.JButton();
-        jBtnEliminarArticulo = new javax.swing.JButton();
-        jBtnModificarArticulo = new javax.swing.JButton();
+        jBtnAgregarFabricante = new javax.swing.JButton();
+        jBtnEliminarFabricante = new javax.swing.JButton();
+        jBtnModificarFabricante = new javax.swing.JButton();
 
         setMaximumSize(getPreferredSize());
 
-        jTableArticulo.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFabricante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -90,16 +59,16 @@ public class Listar_Articulo extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9"
             }
         ));
-        jTableArticulo.setMaximumSize(getPreferredSize());
-        jScrollPane1.setViewportView(jTableArticulo);
+        jTableFabricante.setMaximumSize(getPreferredSize());
+        jScrollPane1.setViewportView(jTableFabricante);
 
         jPanel1.setMaximumSize(getPreferredSize());
 
-        jBtnCrearArticulo.setText("Crear Nuevo Articulo");
+        jBtnAgregarFabricante.setText("Agregar Fabricante");
 
-        jBtnEliminarArticulo.setText("Eliminar Articulo");
+        jBtnEliminarFabricante.setText("Eliminar Fabricante");
 
-        jBtnModificarArticulo.setText("Modificar Articulo");
+        jBtnModificarFabricante.setText("Modificar Fabricante");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -107,11 +76,11 @@ public class Listar_Articulo extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(68, 68, 68)
-                .addComponent(jBtnCrearArticulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(jBtnEliminarArticulo)
+                .addComponent(jBtnAgregarFabricante)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addComponent(jBtnEliminarFabricante)
                 .addGap(79, 79, 79)
-                .addComponent(jBtnModificarArticulo)
+                .addComponent(jBtnModificarFabricante)
                 .addGap(72, 72, 72))
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,9 +88,9 @@ public class Listar_Articulo extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnCrearArticulo)
-                    .addComponent(jBtnEliminarArticulo)
-                    .addComponent(jBtnModificarArticulo))
+                    .addComponent(jBtnAgregarFabricante)
+                    .addComponent(jBtnEliminarFabricante)
+                    .addComponent(jBtnModificarFabricante))
                 .addGap(36, 36, 36))
         );
 
@@ -148,11 +117,11 @@ public class Listar_Articulo extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnCrearArticulo;
-    private javax.swing.JButton jBtnEliminarArticulo;
-    private javax.swing.JButton jBtnModificarArticulo;
+    private javax.swing.JButton jBtnAgregarFabricante;
+    private javax.swing.JButton jBtnEliminarFabricante;
+    private javax.swing.JButton jBtnModificarFabricante;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableArticulo;
+    private javax.swing.JTable jTableFabricante;
     // End of variables declaration//GEN-END:variables
 }
