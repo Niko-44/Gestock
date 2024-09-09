@@ -38,6 +38,8 @@ public interface IControladorVenta {
     
     public abstract void eliminarVenta(int idVenta);
     
+    public abstract boolean eliminarLineaVenta(int idVenta);
+    
     public abstract void cancelarProceso();
     
     public abstract void modificarDatosVentas(Venta dataVenta);
