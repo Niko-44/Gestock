@@ -119,8 +119,8 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public void eliminarFabricante(int idFabricante) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarFabricante(int idFabricante) {
+        return this.servicioFabricante.eliminarFabricante(idFabricante);
     }
 
     @Override

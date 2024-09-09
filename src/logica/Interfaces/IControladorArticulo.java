@@ -44,7 +44,7 @@ public interface IControladorArticulo {
 
     public abstract void seleccionarFabricante(int idFabricante);
 
-    public abstract void eliminarFabricante(int idFabricante);
+    public abstract boolean eliminarFabricante(int idFabricante);
 
     public abstract ArrayList<Categoria> obtenerCategorias();  
 
