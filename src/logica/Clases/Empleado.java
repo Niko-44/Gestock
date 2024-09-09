@@ -4,30 +4,34 @@
  */
 package logica.Clases;
 
-
 public class Empleado {
+
     private int id;
-    private String nombreUsuario;
-    private String contraseña;
     private String nombre;
     private String apellido;
     private int cedula;
+    private String nombreUsuario;
+    private String email;
+    private String contraseña;
     private ROLEMPLEADO rol;
-    
+
     public enum ROLEMPLEADO {
         admin,
         vendedor
     }
 
     // Constructor
-    public Empleado(int id, String nombreUsuario, String contraseña, String nombre, String apellido, int cedula, ROLEMPLEADO rol) {
+    public Empleado(int id, String nombre, String apellido, int cedula, String nombreUsuario, String email, String contraseña, ROLEMPLEADO rol) {
+        
         this.id = id;
-        this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cedula = cedula;
+        this.cedula=cedula;
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
+        this.email = email;
         this.rol = rol;
+        
     }
 
     // Getters and Setters
@@ -86,4 +90,14 @@ public class Empleado {
     public void setRol(ROLEMPLEADO rol) {
         this.rol = rol;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    
 }

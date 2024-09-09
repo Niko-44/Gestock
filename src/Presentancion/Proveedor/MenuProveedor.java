@@ -31,10 +31,32 @@ public class MenuProveedor extends javax.swing.JPanel {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
+        
+           tbl_Proveedor.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Proveedor.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Proveedor.getValueAt(selectedRow, 0).toString();
+                    String nombre = tbl_Proveedor.getValueAt(selectedRow, 1).toString();
+                    String email = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
+                    String update_date = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
+                    String create_date = tbl_Proveedor.getValueAt(selectedRow, 4).toString();
+
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_nombre.setText(nombre);
+                    txt_email.setText(email);
+                    txt_fecha_actualizada.setText(update_date);
+                    txt_fecha_creada.setText(create_date);
+
+                }
+            }
+        }); 
     }
 
      private void cargarDatosEnTabla() {
-        String[] columnas = { "ID", "Nombre", "Teléfonos", "Correo", "Fecha Actualización", "Fecha Creación" };
+        String[] columnas = { "ID", "Nombre", "Email", "Correo", "Fecha Actualización", "Fecha Creación" };
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
@@ -50,11 +72,11 @@ public class MenuProveedor extends javax.swing.JPanel {
             modeloTabla.addRow(fila);
         }
 
-        tbl_proveedor.setModel(modeloTabla);
+        tbl_Proveedor.setModel(modeloTabla);
     }
 
     private void eliminarProveedor(int selectedRow) {
-        DefaultTableModel model = (DefaultTableModel) tbl_proveedor.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_Proveedor.getModel();
         model.removeRow(selectedRow);
 
     }
@@ -65,7 +87,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_proveedor = new javax.swing.JTable();
+        tbl_Proveedor = new javax.swing.JTable();
         btn_direcciones = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         lbl_id = new javax.swing.JLabel();
@@ -76,6 +98,10 @@ public class MenuProveedor extends javax.swing.JPanel {
         txt_nombre = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txt_fecha_actualizada = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txt_fecha_creada = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         btn_agregar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
@@ -84,7 +110,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         lbl_proveedor = new javax.swing.JLabel();
 
-        tbl_proveedor.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Proveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,8 +129,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbl_proveedor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_proveedor);
+        tbl_Proveedor.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Proveedor);
 
         btn_direcciones.setText("Direcciones");
         btn_direcciones.addActionListener(new java.awt.event.ActionListener() {
@@ -114,8 +140,8 @@ public class MenuProveedor extends javax.swing.JPanel {
         });
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 10, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -186,6 +212,32 @@ public class MenuProveedor extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(txt_email, gridBagConstraints);
+
+        jLabel1.setText("Fecha actualizada");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
+
+        jLabel2.setText("Fecha creado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(txt_fecha_creada, gridBagConstraints);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
@@ -258,9 +310,9 @@ public class MenuProveedor extends javax.swing.JPanel {
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
 
         try {
-            this.selectedRow = tbl_proveedor.getSelectedRow();
+            this.selectedRow = tbl_Proveedor.getSelectedRow();
             if (this.selectedRow != -1) {
-                int idProveedor = (Integer) tbl_proveedor.getValueAt(selectedRow, 0);
+                int idProveedor = (Integer) tbl_Proveedor.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este proveedor?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
@@ -296,6 +348,8 @@ public class MenuProveedor extends javax.swing.JPanel {
     private javax.swing.JButton btn_direcciones;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -305,8 +359,10 @@ public class MenuProveedor extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JLabel lbl_proveedor;
     private javax.swing.JLabel lbl_telefono;
-    private javax.swing.JTable tbl_proveedor;
+    private javax.swing.JTable tbl_Proveedor;
     private javax.swing.JTextField txt_email;
+    private javax.swing.JTextField txt_fecha_actualizada;
+    private javax.swing.JTextField txt_fecha_creada;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;

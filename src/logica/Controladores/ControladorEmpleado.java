@@ -35,8 +35,8 @@ public class ControladorEmpleado implements IControladorEmpleado{
     public void ingresarDatosEmpleado(Empleado datos){
 
     }
-    public void modificaDatosEmpleado(Empleado idEmpleado){
-
+    public void modificaDatosEmpleado(Empleado empleado){
+        servicioEmpleado.modificaDatosEmpleado(empleado);
     }
     public ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda){
 

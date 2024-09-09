@@ -5,7 +5,10 @@
 package Presentancion.Empleado;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -27,27 +30,56 @@ public class MenuEmpleado extends javax.swing.JPanel {
         initComponents();
         this.ICE = fabrica.getIControladoreEmpleado();
         cargarDatosEnTabla();
+        
+          tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Empleado.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Empleado.getValueAt(selectedRow, 0).toString();
+                    String nombre = tbl_Empleado.getValueAt(selectedRow, 1).toString();
+                    String apellido = tbl_Empleado.getValueAt(selectedRow, 2).toString();
+                    String cedula = tbl_Empleado.getValueAt(selectedRow, 3).toString();
+                    String nombre_usuario = tbl_Empleado.getValueAt(selectedRow, 4).toString();
+                    String email = tbl_Empleado.getValueAt(selectedRow, 5).toString();
+                    String contraseña = tbl_Empleado.getValueAt(selectedRow, 6).toString();
+                    String rol = tbl_Empleado.getValueAt(selectedRow, 7).toString();
+
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_nombre.setText(nombre);
+                    txt_apellido.setText(apellido);
+                    txt_cedula.setText(cedula);
+                    txt_nombre_usuario.setText(nombre_usuario);
+                    txt_email.setText(email);
+                    txt_contraseña.setText(contraseña);
+                    txt_rol.setText(rol);
+
+                }
+            }
+        }); 
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre Usuario", "Contraseña", "Nombre", "Apellido", "Cédula", "Rol"};
+        String[] columnas = {"ID", "Nombre","Apellido","Cédula","Nombre Usuario","Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
         for (Empleado empleado : empleados) {
             Object[] fila = {
                 empleado.getId(),
-                empleado.getNombreUsuario(),
-                empleado.getContraseña(),
                 empleado.getNombre(),
                 empleado.getApellido(),
                 empleado.getCedula(),
+                empleado.getNombreUsuario(),
+                empleado.getEmail(),
+                empleado.getContraseña(),
                 empleado.getRol()
             };
             modeloTabla.addRow(fila);
         }
 
-        tbl_empleado.setModel(modeloTabla);
+        tbl_Empleado.setModel(modeloTabla);
     }
 
     /**
@@ -58,61 +90,238 @@ public class MenuEmpleado extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_empleado = new javax.swing.JTable();
+        tbl_Empleado = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        jBtnIngresarEmpleado = new javax.swing.JButton();
-        jBtnEliminarEmpleado = new javax.swing.JButton();
-        jBtnModificarEmpleado = new javax.swing.JButton();
+        btn_Agregar = new javax.swing.JButton();
+        btn_Eliminar = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        lbl_Articulo = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        lbl_id = new javax.swing.JLabel();
+        txt_id = new javax.swing.JTextField();
+        lbl_nombre = new javax.swing.JLabel();
+        lbl_nombre1 = new javax.swing.JLabel();
+        lbl_descripcion = new javax.swing.JLabel();
+        lbl_stock = new javax.swing.JLabel();
+        lbl_precio = new javax.swing.JLabel();
+        lbl_peso = new javax.swing.JLabel();
+        txt_nombre = new javax.swing.JTextField();
+        txt_apellido = new javax.swing.JTextField();
+        txt_cedula = new javax.swing.JTextField();
+        txt_nombre_usuario = new javax.swing.JTextField();
+        txt_email = new javax.swing.JTextField();
+        txt_contraseña = new javax.swing.JTextField();
+        lbl_fecha_actualizada = new javax.swing.JLabel();
+        txt_rol = new javax.swing.JTextField();
 
         setMaximumSize(getPreferredSize());
 
-        tbl_empleado.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Empleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
+                "ID", "Nombre", "Apellido", "Cedula", "Nombre_Usuario", "Email", "Contraseña", "Rol"
             }
-        ));
-        tbl_empleado.setMaximumSize(getPreferredSize());
-        jScrollPane1.setViewportView(tbl_empleado);
-        tbl_empleado.getAccessibleContext().setAccessibleName("");
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true
+            };
 
-        jPanel1.setMaximumSize(getPreferredSize());
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_Empleado.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Empleado);
 
-        jBtnIngresarEmpleado.setText("Nuevo Empleado");
+        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
+        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
 
-        jBtnEliminarEmpleado.setText("Eliminar Empleado");
+        btn_Agregar.setActionCommand("jButtonAgregar");
+        btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_AgregarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Agregar);
 
-        jBtnModificarEmpleado.setText("Modificar Empleado");
+        btn_Eliminar.setText("Eliminar");
+        btn_Eliminar.setActionCommand("jButtonEliminar");
+        jPanel1.add(btn_Eliminar);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(jBtnIngresarEmpleado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                .addComponent(jBtnEliminarEmpleado)
-                .addGap(79, 79, 79)
-                .addComponent(jBtnModificarEmpleado)
-                .addGap(72, 72, 72))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnIngresarEmpleado)
-                    .addComponent(jBtnEliminarEmpleado)
-                    .addComponent(jBtnModificarEmpleado))
-                .addGap(36, 36, 36))
-        );
+        btn_Modificar.setText("Modificar");
+        btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Modificar);
 
-        jBtnIngresarEmpleado.getAccessibleContext().setAccessibleName("Crear Empleado");
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.setActionCommand("jButtonBuscar");
+        jPanel1.add(btn_Buscar);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lbl_Articulo.setText("Artículo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
+        jPanel2.add(lbl_Articulo, gridBagConstraints);
+
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        lbl_id.setText("ID");
+        lbl_id.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_id, gridBagConstraints);
+
+        txt_id.setActionCommand("txtArticuloID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_id, gridBagConstraints);
+
+        lbl_nombre.setText("Nombre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_nombre, gridBagConstraints);
+
+        lbl_nombre1.setText("Apellido");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_nombre1, gridBagConstraints);
+
+        lbl_descripcion.setText("Cedula");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_descripcion, gridBagConstraints);
+
+        lbl_stock.setText("Nombre_Usuario");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_stock, gridBagConstraints);
+
+        lbl_precio.setText("Email");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_precio, gridBagConstraints);
+
+        lbl_peso.setText("Contraseña");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_peso, gridBagConstraints);
+
+        txt_nombre.setActionCommand("txtArticuloNombre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_nombre, gridBagConstraints);
+
+        txt_apellido.setActionCommand("txtArticuloDesc");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_apellido, gridBagConstraints);
+
+        txt_cedula.setActionCommand("txtArticuloStock");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_cedula, gridBagConstraints);
+
+        txt_nombre_usuario.setActionCommand("txtArticuloPrecio");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_nombre_usuario, gridBagConstraints);
+
+        txt_email.setActionCommand("txtArticuloPeso");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_email, gridBagConstraints);
+
+        txt_contraseña.setActionCommand("txtArticuloSku");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(txt_contraseña, gridBagConstraints);
+
+        lbl_fecha_actualizada.setText("Rol");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_actualizada, gridBagConstraints);
+
+        txt_rol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_rolActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txt_rol, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -121,27 +330,103 @@ public class MenuEmpleado extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(158, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_AgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_AgregarMouseClicked
+
+    }//GEN-LAST:event_btn_AgregarMouseClicked
+
+    private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+        try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            String nombre = txt_nombre.getText();
+            String apellido = txt_apellido.getText();
+            int cedula = Integer.parseInt(txt_cedula.getText());
+            String nombre_usuario = txt_nombre_usuario.getText();
+            String email = txt_email.getText();
+            String contraseña = txt_contraseña.getText();
+            String rol=txt_rol.getText();
+
+
+
+            if (nombre.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Empleado empleado = new Empleado(id,nombre,apellido,cedula,nombre_usuario,email,contraseña,Empleado.ROLEMPLEADO.valueOf(rol));
+                ICE.modificaDatosEmpleado(empleado);
+
+                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+                txt_id.setText("");
+                txt_nombre.setText("");
+                txt_apellido.setText("");
+                txt_cedula.setText("");
+                txt_nombre_usuario.setText("");
+                txt_email.setText("");
+                txt_contraseña.setText("");
+                txt_rol.setText("");
+               
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+    }//GEN-LAST:event_btn_ModificarMouseClicked
+
+    private void txt_rolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_rolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_rolActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBtnEliminarEmpleado;
-    private javax.swing.JButton jBtnIngresarEmpleado;
-    private javax.swing.JButton jBtnModificarEmpleado;
+    private javax.swing.JButton btn_Agregar;
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Eliminar;
+    private javax.swing.JButton btn_Modificar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbl_empleado;
+    private javax.swing.JLabel lbl_Articulo;
+    private javax.swing.JLabel lbl_descripcion;
+    private javax.swing.JLabel lbl_fecha_actualizada;
+    private javax.swing.JLabel lbl_id;
+    private javax.swing.JLabel lbl_nombre;
+    private javax.swing.JLabel lbl_nombre1;
+    private javax.swing.JLabel lbl_peso;
+    private javax.swing.JLabel lbl_precio;
+    private javax.swing.JLabel lbl_stock;
+    private javax.swing.JTable tbl_Empleado;
+    private javax.swing.JTextField txt_apellido;
+    private javax.swing.JTextField txt_cedula;
+    private javax.swing.JTextField txt_contraseña;
+    private javax.swing.JTextField txt_email;
+    private javax.swing.JTextField txt_id;
+    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_nombre_usuario;
+    private javax.swing.JTextField txt_rol;
     // End of variables declaration//GEN-END:variables
 }
