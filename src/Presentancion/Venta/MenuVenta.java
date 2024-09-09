@@ -84,12 +84,13 @@ public class MenuVenta extends javax.swing.JPanel {
 
     private int buscarEmpleadoID(String nombreEmpleado, ArrayList<Empleado> dataEmleado) {
         for (Empleado empleado : dataEmleado) {
-            if (empleado.getNombre() == nombreEmpleado) {
+            
+            if (empleado.getNombre().equals(nombreEmpleado)) {
                 return empleado.getId();
             }
         }
 
-        return -1;
+        return 0;
     }
 
     private void cargarDatosCombobox() {
@@ -301,14 +302,13 @@ public class MenuVenta extends javax.swing.JPanel {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         try {
             String estadoVenta = (String) cmbEstado.getSelectedItem();
-
-            String fechaTexto = txtDate.getText();
-            Date fecha = formatoFecha.parse(fechaTexto);
-            
-            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
             String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
+            String fechaTexto = txtDate.getText();
             
-            int id_empleado = buscarEmpleadoID(, dataEmpleado);
+            Date fecha = formatoFecha.parse(fechaTexto);
+            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
+
+            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
 
             Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), id_empleado);
 
