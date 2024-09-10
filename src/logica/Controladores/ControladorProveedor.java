@@ -109,8 +109,8 @@ public class ControladorProveedor implements IControladorProveedor {
         return direcciones;
     }
 
-    public void administradorModificaDireccion(Direccion idDireccion) {
-
+    public void administradorModificaDireccion(Direccion direccion) {
+    servicioDirecciones.administradorModificaDireccion(direccion);
     }
 
     public void buscarPorNombre(String nombre) {

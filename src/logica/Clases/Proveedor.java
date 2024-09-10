@@ -25,7 +25,7 @@ public class Proveedor {
     public Proveedor(int id, String nombre, String telefonos, String email, Date updateDate, Date createDate) {
         this.id = id;
         this.nombre = nombre;
-        this.telefono = telefono;
+        this.telefonos = telefonos;
         this.email = email;
         this.updateDate = updateDate;
         this.createDate = createDate;

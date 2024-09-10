@@ -19,7 +19,7 @@ public class ArticulosServicios {
 
     public void modificaDatosArticulo(Articulo articulo) {
         try {
-            PreparedStatement status = conexion.prepareStatement("UPDATE `articulo` SET `sku` = ?, `nombre` = ?, `descripcion` = ?, `stock` = ?, `precio` = ?, `peso` = ?, `update_date` = ?, `create_date` = ?, `id_categoria_fk` = ? WHERE `articulo`.`id_articulo` = ?;");
+            PreparedStatement status = conexion.prepareStatement("UPDATE `articulo` SET `sku` = ?, `nombre` = ?, `descripcion` = ?, `stock` = ?, `precio` = ?, `peso` = ?, `update_date` = ?, `create_date` = ?, `id_categoria_fk`= ? WHERE `articulo`.`id_articulo` = ?;");
 
             // Nuevos valores para actualizar
             status.setObject(1, articulo.getSku());
@@ -30,18 +30,18 @@ public class ArticulosServicios {
             status.setObject(6, articulo.getPeso());
             status.setObject(7, articulo.getUpdateDate());
             status.setObject(8, articulo.getCreateDate());
-            status.setObject(9, articulo.getId_categoria());
+            status.setObject(9, 1);
             status.setObject(10, articulo.getId());
 
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Usuario actualizado exitosamente.");
+                System.out.println("Articulo actualizado exitosamente.");
             } else {
-                System.out.println("No se encontró el usuario con los datos proporcionados.");
+                System.out.println("No se encontró el articulo con los datos proporcionados.");
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el usuario: " + e.getMessage());
+            System.out.println("Error al actualizar el Articulo: " + e.getMessage());
         }
     }
 

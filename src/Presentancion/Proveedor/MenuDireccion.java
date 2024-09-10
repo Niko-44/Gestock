@@ -4,12 +4,16 @@
  */
 package Presentancion.Proveedor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.Articulo;
 
 import logica.Fabrica;
 import logica.Clases.Direccion;
+import logica.Clases.Empleado;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
@@ -31,22 +35,54 @@ public class MenuDireccion extends javax.swing.JFrame {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
+        
+         tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                int selectedRow = tbl_Direccion.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Direccion.getValueAt(selectedRow, 0).toString();
+                    String calle = tbl_Direccion.getValueAt(selectedRow, 1).toString();
+                    String num_puerta = tbl_Direccion.getValueAt(selectedRow, 2).toString();
+                    String localidad = tbl_Direccion.getValueAt(selectedRow, 3).toString();
+                    String departamento = tbl_Direccion.getValueAt(selectedRow, 4).toString();
+                    
+
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_calle.setText(calle);
+                    txt_numeroPuerta.setText(num_puerta);
+                    txt_localidad.setText(localidad);
+                    txt_departamento.setText(departamento);
+            
+
+                }
+            }
+        });
+         
+         ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
+
+        for (Direccion item : dataDireccion) {
+            
+            cmb_proveedor.addItem(String.valueOf(item.getId_proveedor_fk()));
+        }
     }
 
     private void eliminarDireccion(int selectedRow) {
-        DefaultTableModel model = (DefaultTableModel) tbl_direccion.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_Direccion.getModel();
         model.removeRow(selectedRow);
 
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {  "Calle", "Numero Puerta", "Localidad", "Departamento", "ID Proveedor" };
+        String[] columnas = {  "ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "ID Proveedor" };
         modeloTabla = new DefaultTableModel(columnas, 0);
-
+      
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
         for (Direccion direccion : direcciones) {
             Object[] fila = {
                 
+                direccion.getId(),
                 direccion.getCalle(),
                 direccion.getNumeroPuerta(),
                 direccion.getLocalidad(),
@@ -56,7 +92,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             modeloTabla.addRow(fila);
         }
 
-        tbl_direccion.setModel(modeloTabla);
+        tbl_Direccion.setModel(modeloTabla);
     }
 
     /**
@@ -66,13 +102,13 @@ public class MenuDireccion extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_direccion = new javax.swing.JTable();
+        tbl_Direccion = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
@@ -96,30 +132,31 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        tbl_direccion.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null },
-                        { null, null, null, null, null },
-                        { null, null, null, null, null },
-                        { null, null, null, null, null }
-                },
-                new String[] {
-                        "ID", "Calle", "Número de puerta", "Localidad", "Departamento"
-                }) {
-            boolean[] canEdit = new boolean[] {
-                    false, true, true, true, true
+        tbl_Direccion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Calle", "Número de puerta", "Localidad", "Departamento"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
-        tbl_direccion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_direccion);
+        tbl_Direccion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Direccion);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] { 0, 10, 0 };
-        jPanel4Layout.rowHeights = new int[] { 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0 };
+        jPanel4Layout.columnWidths = new int[] {0, 10, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -217,8 +254,6 @@ public class MenuDireccion extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_proveedor, gridBagConstraints);
 
-        cmb_proveedor.setModel(
-                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -246,6 +281,11 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_modificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_modificar);
 
         btn_buscar.setText("Buscar");
@@ -265,53 +305,76 @@ public class MenuDireccion extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 708, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jScrollPane1)
-                                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addContainerGap())));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 708, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 598, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 598, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
+       try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            String calle = txt_calle.getText();
+            int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
+            String localidad = txt_localidad.getText();
+            String departamento = txt_departamento.getText();
+            int combo=Integer.parseInt(cmb_proveedor.getSelectedItem().toString());
+
+            if (calle.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Direccion direccion = new Direccion(id, calle, num_puerta,localidad,departamento,combo);
+                ICP.administradorModificaDireccion(direccion);
+
+                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+           txt_id.getText();
+           txt_calle.getText();
+           txt_numeroPuerta.getText();
+           txt_localidad.getText();
+           txt_departamento.getText();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+
+    }//GEN-LAST:event_btn_modificarMouseClicked
+
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_eliminarMouseClicked
         try {
-            this.selectedRow = tbl_direccion.getSelectedRow();
+            this.selectedRow = tbl_Direccion.getSelectedRow();
             if (this.selectedRow != -1) {
-                int idDireccion = (Integer) tbl_direccion.getValueAt(selectedRow, 0);
+                int idDireccion = (Integer) tbl_Direccion.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this,
                         "¿Estás seguro de que deseas eliminar esta dirección?", "Confirmar Eliminación",
@@ -395,7 +458,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_localidad;
     private javax.swing.JLabel lbl_numeroPuerta;
     private javax.swing.JLabel lbl_proveedor;
-    private javax.swing.JTable tbl_direccion;
+    private javax.swing.JTable tbl_Direccion;
     private javax.swing.JTextField txt_calle;
     private javax.swing.JTextField txt_departamento;
     private javax.swing.JTextField txt_id;

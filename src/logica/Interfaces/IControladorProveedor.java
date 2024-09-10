@@ -47,7 +47,7 @@ public interface IControladorProveedor {
 
     public abstract ArrayList<Direccion> obtenerDireccion();
 
-    public abstract void administradorModificaDireccion(Direccion idDireccion);
+    public abstract void administradorModificaDireccion(Direccion direccion);
 
     public abstract void buscarPorNombre(String nombre);
 

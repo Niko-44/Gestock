@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import logica.Clases.Empleado;
 
 /**
  *
@@ -69,4 +70,28 @@ public class DireccionesServicios {
         return direcciones;
     }
     
+    
+      public void administradorModificaDireccion(Direccion direccion) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `direccion` SET `calle` = ?, `num_direccion` = ?, `departamento` = ?, `localidad` = ? `id_proveedor` = ? WHERE `direccion`.`id_direccion` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, direccion.getCalle());
+            status.setObject(2, direccion.getNumeroPuerta());
+            status.setObject(3, direccion.getDepartamento());
+            status.setObject(4, direccion.getLocalidad());
+            status.setObject(5, 1);
+            status.setObject(6, direccion.getId());
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Direccion actualizada exitosamente.");
+            } else {
+                System.out.println("No se encontró la Direccion con los datos proporcionados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar la direccion: " + e.getMessage());
+        }
+    }
 }
