@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
 
@@ -35,6 +36,8 @@ public class MenuDireccion extends javax.swing.JFrame {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
         
          tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección

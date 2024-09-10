@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
@@ -38,6 +39,8 @@ public class MenuFabricante extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.ICA = Fabrica.getInstance().getIControladorArticulo();
         cargarDatosEnTabla();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
         tbl_Fabricante.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección

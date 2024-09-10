@@ -6,6 +6,7 @@ package Presentancion.Venta;
 
 import Presentancion.Articulo.*;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Fabrica;
 import logica.Interfaces.IControladorVenta;
@@ -27,6 +28,8 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     public MenuLineaVenta() {
         initComponents();
         this.ICV = fabrica.getIControladoreVenta();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
     }
 
     private void eliminarLineaVenta(int selectedRow) {

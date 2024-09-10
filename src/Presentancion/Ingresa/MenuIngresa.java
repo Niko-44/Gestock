@@ -5,6 +5,7 @@
 package Presentancion.Ingresa;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Interfaces.IControladorProveedor;
 
@@ -22,6 +23,8 @@ public class MenuIngresa extends javax.swing.JPanel {
      */
     public MenuIngresa() {
         initComponents();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
     }
 
         
@@ -280,6 +283,8 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
         try {
+            
+
             this.selectedRow = tbl_ingresa.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idIngresa = (Integer) tbl_ingresa.getValueAt(selectedRow, 0);

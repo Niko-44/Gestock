@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
@@ -36,6 +37,8 @@ public class MenuVenta extends javax.swing.JPanel {
     public MenuVenta() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
         txtDate.setValue(new Date()); //Establecer fecha actual al txtFormattedField
 

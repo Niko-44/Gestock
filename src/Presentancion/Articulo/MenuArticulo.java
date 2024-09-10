@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Controladores.ControladorArticulo;
 import logica.Interfaces.IControladorArticulo;
@@ -41,6 +42,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         initComponents();
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
         
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
