@@ -21,6 +21,10 @@ public class Empleado {
     }
 
     // Constructor
+    public Empleado(){
+        
+    }
+    
     public Empleado(int id, String nombre, String apellido, int cedula, String nombreUsuario, String email, String contraseña, ROLEMPLEADO rol) {
         
         this.id = id;

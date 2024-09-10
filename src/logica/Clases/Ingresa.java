@@ -7,21 +7,33 @@ package logica.Clases;
 import java.util.Date;
 
 public class Ingresa {
+    private int idIngresa;
     private Date fechaIngreso;
     private int cantidad;
     private int lote;
     private float precioCompra;
-    private Proveedor proveedor;
+    private Proveedor proveedor ;
+    private Articulo articulo ;
 
     public Ingresa() {
     }
 
-    public Ingresa(Date fechaIngreso, int cantidad, int lote, float precioCompra, Proveedor proveedor) {
+    public Ingresa(int idIngresa, Date fechaIngreso, int cantidad, int lote, float precioCompra, Proveedor proveedor, Articulo articulo) { 
+        this.idIngresa = idIngresa;
         this.fechaIngreso = fechaIngreso;
         this.cantidad = cantidad;
         this.lote = lote;
         this.precioCompra = precioCompra;
         this.proveedor = proveedor;
+        this.articulo = articulo;
+
+    }
+
+    public int getIdIngresa() {
+        return idIngresa;
+    }
+    public void setIdIngresa(int idIngresa) {
+        this.idIngresa = idIngresa;
     }
 
     public Date getFechaIngreso() {
@@ -59,9 +71,16 @@ public class Ingresa {
     public Proveedor getProveedor() {
         return proveedor;
     }
-
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
     }
 }
 

@@ -24,6 +24,8 @@ public class MenuIngresa extends javax.swing.JPanel {
         initComponents();
     }
 
+        
+    
     private void eliminarIngresa(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) tbl_ingresa.getModel();
         model.removeRow(selectedRow);

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import logica.Clases.Proveedor;
 
 /**
  *
@@ -49,17 +50,22 @@ public class DireccionesServicios {
         ArrayList<Direccion> direcciones = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM direccion");
+            PreparedStatement ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                
+                Proveedor proveedor = new Proveedor();
+                proveedor.setId(rs.getInt("id_proveedor_fk"));
+                proveedor.setNombre(rs.getString("nombre_proveedor"));
+                
                 int idDireccion = rs.getInt("id_direccion");
                 String calle = rs.getString("calle");
                 int nuemroPuerta = rs.getInt("numero_direccion");
                 String localidad = rs.getString("localidad");
                 String departamento = rs.getString("departamento");
-                int idPeoveedorFk = rs.getInt("id_proveedor_fk");
+                
 
-                Direccion direccion = new Direccion(idDireccion, calle, nuemroPuerta, localidad, departamento, idPeoveedorFk);
+                Direccion direccion = new Direccion(idDireccion, calle, nuemroPuerta, localidad, departamento, proveedor);
                 direcciones.add(direccion);
             }
             rs.close();

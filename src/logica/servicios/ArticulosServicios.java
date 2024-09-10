@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import logica.Clases.Articulo;
+import logica.Clases.Categoria;
 
 public class ArticulosServicios {
 
@@ -30,7 +31,7 @@ public class ArticulosServicios {
             status.setObject(6, articulo.getPeso());
             status.setObject(7, articulo.getUpdateDate());
             status.setObject(8, articulo.getCreateDate());
-            status.setObject(9, articulo.getId_categoria());
+            status.setObject(9, articulo.getCategoria().getId());
             status.setObject(10, articulo.getId());
 
             int filasAfectadas = status.executeUpdate();
@@ -45,40 +46,19 @@ public class ArticulosServicios {
         }
     }
 
-    public void ingresarDatosArticulo(Articulo articulo) throws Exception {
-        try {
 
-            PreparedStatement status = conexion.prepareStatement("INSERT INTO articulo (id_articulo, sku, nombre, descripcion, stock, precio, peso, update_Date, create_Date, id_categoria_fk) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            status.setString(1, String.valueOf(articulo.getId()));
-            status.setString(2, String.valueOf(articulo.getSku()));
-            status.setString(3, articulo.getNombre());
-            status.setString(4, articulo.getDescripcion());
-            status.setString(5, String.valueOf(articulo.getStock()));
-            status.setString(6, String.valueOf(articulo.getPrecio()));
-            status.setString(7, String.valueOf(articulo.getPeso()));
-            status.setString(8, null);
-            status.setString(9, null);
-            status.setString(10, String.valueOf(articulo.getId_categoria()));
-
-            int filasInsertadas = status.executeUpdate();
-
-            if (filasInsertadas > 0) {
-                System.out.print("Nuevo usuario creado.");
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new Exception("No se pudo insertar el usuario, algo saió mal");
-        }
-    }
 
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM articulo");
+            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                Categoria categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria_fk"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+                
                 int idArticulo = rs.getInt("id_articulo");
                 int sku = rs.getInt("sku");
                 String nombre = rs.getString("nombre");
@@ -88,9 +68,8 @@ public class ArticulosServicios {
                 float peso = rs.getFloat("peso");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
-                int idCategoriaFk = rs.getInt("id_categoria_fk");
 
-                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, idCategoriaFk);
+                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
                 articulos.add(articulo);
             }
             rs.close();

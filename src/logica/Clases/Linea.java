@@ -10,15 +10,28 @@ package logica.Clases;
  */
 public class Linea {
 
+    private int idLinea;
     private float precioVenta;
     private int cantidad;
+    private Articulo articulo;
+    private Proveedor proveedor;
     
     public Linea() {
     }
     
-    public Linea(float precioVenta, int cantidad) {
+    public Linea(int idLinea ,float precioVenta, int cantidad, Articulo articulo, Proveedor proveedor) {
+        this.idLinea = idLinea;
         this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+        this.articulo = articulo;
+        this.proveedor = proveedor;
+    }
+
+    public int getIdLinea() {
+        return idLinea;
+    }
+    public void setIdLinea(int idLinea) {
+        this.idLinea = idLinea;
     }
 
     public float getPrecioVenta() {
@@ -37,5 +50,19 @@ public class Linea {
         this.cantidad = cantidad;
     }
     
+    public Articulo getArticulo() {
+        return articulo;
+    }
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+    
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
+    }
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
     
 }

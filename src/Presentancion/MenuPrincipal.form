@@ -58,7 +58,6 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnFabricante" max="32767" attributes="0"/>
                       <Component id="btnArticulo" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnProveedor" alignment="0" max="32767" attributes="0"/>
                       <Component id="btnEmpleado" alignment="0" max="32767" attributes="0"/>
@@ -82,8 +81,6 @@
                   <Component id="btnProveedor" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnArticulo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="btnFabricante" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -113,11 +110,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnArticuloActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnFabricante">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Fabricantes"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnEmpleado">
           <Properties>

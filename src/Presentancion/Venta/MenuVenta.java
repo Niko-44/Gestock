@@ -56,13 +56,12 @@ public class MenuVenta extends javax.swing.JPanel {
         for (Venta venta : ventas) {
 
             //Obtener el nombre del empleado que realizo la venta
-            String nombreEmpleado = buscarEmpleado(venta.getId_empleado(), dataEmpleado);
 
             Object[] fila = {
                 venta.getId(),
                 venta.getFechaVenta(),
                 venta.getEstado(),
-                nombreEmpleado
+                venta.getEmpleado().getNombre()
 
             };
 
@@ -309,8 +308,10 @@ public class MenuVenta extends javax.swing.JPanel {
             ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
             int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
+            Empleado nuevoEmpleado = new Empleado();
+            nuevoEmpleado.setId(id_empleado);
 
-            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), id_empleado);
+            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
 
             if (ICV.agregarVenta(nuevaVenta) == true) {
                 JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
