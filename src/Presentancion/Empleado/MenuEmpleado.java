@@ -413,6 +413,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_rolActionPerformed
     private void jBtnEliminarEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarEmpleadoMouseClicked
         try {
+            this.selectedRow = tbl_Empleado.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idEmpleado = (Integer) tbl_Empleado.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación

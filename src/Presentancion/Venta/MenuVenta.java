@@ -338,6 +338,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try {
+            this.selectedRow = tbl_venta.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
