@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -222,6 +223,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_id, gridBagConstraints);
 
+        txt_id.setEditable(false);
         txt_id.setActionCommand("txtArticuloID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -456,6 +458,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_FabricanteMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+       
         try {
 
             int id = Integer.parseInt(txt_id.getText());
@@ -469,11 +472,11 @@ public class MenuArticulo extends javax.swing.JPanel {
             // Definir el formato que esperas en el campo de texto
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
-            Date update_date = formato.parse(txt_fecha_actualizada.getText());
+        Date update_date =formato.parse(txt_fecha_actualizada.getText());
 
-            Date create_date = formato.parse(txt_fecha_creada.getText());
+        Date create_date = formato.parse(txt_fecha_creada.getText());
 
-            int id_categoria = Integer.parseInt(txt_id_categoria.getText());
+        int id_categoria = Integer.parseInt(txt_id_categoria.getText());
 
             if (nombre.isBlank() || descripcion.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");

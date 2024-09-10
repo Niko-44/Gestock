@@ -12,7 +12,7 @@ public interface IControladorEmpleado {
     
     public abstract Empleado iniciarSesion(String nombreUsuario, String contraseña);
     public abstract void ingresarDatosEmpleado(Empleado datos);
-    public abstract void modificaDatosEmpleado(Empleado idEmpleado);
+    public abstract void modificaDatosEmpleado(Empleado empleado);
     public abstract ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda);
     public abstract ArrayList<Empleado> listarEmpleado();
     public abstract void confirmarAlta();

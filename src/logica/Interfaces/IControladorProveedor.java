@@ -40,7 +40,7 @@ public interface IControladorProveedor {
 
     public abstract ArrayList<Proveedor> obtenerProveedor();
 
-    public abstract void modificarDatosProveedor(Proveedor idProveedor);
+    public abstract void modificarDatosProveedor(Proveedor proveedor);
 
     public abstract void confirmarModificacion();
 

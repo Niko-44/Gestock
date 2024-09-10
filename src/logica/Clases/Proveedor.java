@@ -15,7 +15,7 @@ public class Proveedor {
 
     private int id;
     private String nombre;
-    private ArrayList<String> telefonos;
+    private String telefonos;
     private String email;
     private Date updateDate;
     private Date createDate;
@@ -23,7 +23,7 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor(int id, String nombre, ArrayList<String> telefonos, String email, Date updateDate, Date createDate) {
+    public Proveedor(int id, String nombre, String telefonos, String email, Date updateDate, Date createDate) {
         this.id = id;
         this.nombre = nombre;
         this.telefonos = telefonos;
@@ -48,11 +48,11 @@ public class Proveedor {
         this.nombre = nombre;
     }
 
-    public ArrayList<String> getTelefonos() {
+    public String getTelefonos() {
         return telefonos;
     }
 
-    public void setTelefonos(ArrayList<String> telefonos) {
+    public void setTelefonos(String telefonos) {
         this.telefonos = telefonos;
     }
 

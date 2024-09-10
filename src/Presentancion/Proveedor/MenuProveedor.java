@@ -5,10 +5,13 @@
 package Presentancion.Proveedor;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.Fabricante;
 
 import logica.Fabrica;
 import logica.Clases.Proveedor;
@@ -39,13 +42,15 @@ public class MenuProveedor extends javax.swing.JPanel {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Proveedor.getValueAt(selectedRow, 0).toString();
                     String nombre = tbl_Proveedor.getValueAt(selectedRow, 1).toString();
-                    String email = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
-                    String update_date = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
-                    String create_date = tbl_Proveedor.getValueAt(selectedRow, 4).toString();
+                    String telefono = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
+                    String email = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
+                    String update_date = tbl_Proveedor.getValueAt(selectedRow, 4).toString();
+                    String create_date = tbl_Proveedor.getValueAt(selectedRow, 5).toString();
 
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
                     txt_nombre.setText(nombre);
+                    txt_telefono.setText(telefono);
                     txt_email.setText(email);
                     txt_fecha_actualizada.setText(update_date);
                     txt_fecha_creada.setText(create_date);
@@ -56,7 +61,7 @@ public class MenuProveedor extends javax.swing.JPanel {
     }
 
      private void cargarDatosEnTabla() {
-        String[] columnas = { "ID", "Nombre", "Email", "Correo", "Fecha Actualización", "Fecha Creación" };
+        String[] columnas = { "ID", "Nombre","Correo", "Telefono" , "Fecha Actualización", "Fecha Creación"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
@@ -64,7 +69,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             Object[] fila = {
                     proveedor.getId(),
                     proveedor.getNombre(),
-                    String.join(", ", proveedor.getTelefonos()),
+                    proveedor.getTelefonos(),
                     proveedor.getEmail(),
                     proveedor.getUpdateDate(),
                     proveedor.getCreateDate()
@@ -112,17 +117,17 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         tbl_Proveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Teléfono", "Email"
+                "ID", "Nombre", "Teléfono", "Email", "Fecha Actualizada", "Fecha Creada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -258,6 +263,11 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_modificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_modificar);
 
         btn_buscar.setText("Buscar");
@@ -340,6 +350,47 @@ public class MenuProveedor extends javax.swing.JPanel {
     private void btn_direccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_direccionesActionPerformed
         menuDireccion.setVisible(true);
     }//GEN-LAST:event_btn_direccionesActionPerformed
+
+    private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
+         try {
+
+            int id = Integer.parseInt(txt_id.getText());
+            String nombre = txt_nombre.getText();
+            String telefono=txt_telefono.getText();
+            String correo = txt_email.getText();
+
+            // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date update_date = formato.parse(txt_fecha_actualizada.getText());
+
+            Date create_date = formato.parse(txt_fecha_creada.getText());
+
+            if (nombre.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, update_date, create_date);
+                ICP.modificarDatosProveedor(proveedor);
+
+                JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+                txt_id.setText("");
+                txt_nombre.setText("");
+                txt_telefono.setText("");
+                txt_email.setText("");
+                txt_fecha_actualizada.setText("");
+                txt_fecha_creada.setText("");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+
+    }//GEN-LAST:event_btn_modificarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

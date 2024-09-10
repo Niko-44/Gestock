@@ -62,7 +62,7 @@ public class EmpleadosServicios {
             status.setObject(4, empleado.getNombreUsuario());
             status.setObject(5, empleado.getEmail());
             status.setObject(6, empleado.getContraseña());
-            status.setObject(7, empleado.getRol());
+            status.setObject(7, empleado.getRol().toString());
             status.setObject(8, empleado.getId());
 
             int filasAfectadas = status.executeUpdate();

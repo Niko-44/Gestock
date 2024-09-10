@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import logica.Clases.Empleado;
+import logica.Clases.Fabricante;
 import logica.Clases.Proveedor;
 
 
@@ -46,7 +48,7 @@ public class ProveedoresServicio {
 
     public ArrayList<Proveedor> getProveedor() throws SQLException {
         ArrayList<Proveedor> proveedores = new ArrayList<>();
-        ArrayList<String> telefonos = new ArrayList<>();
+        
         
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor");
@@ -55,22 +57,11 @@ public class ProveedoresServicio {
                 int idProveedor = rs.getInt("id_proveedor");
                 String nombre = rs.getString("nombre_proveedor");
                 String email = rs.getString("email");
+                String telefono = rs.getString("telefono");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
-                try {
-                    PreparedStatement ps2 = conexion.prepareStatement("SELECT T.numero_telefono FROM PROVEEDOR P JOIN PROVEEDOR_TELEFONO PT ON P.id_proveedor = PT.id_proveedor_fk JOIN TELEFONO T ON PT.id_telefono_fk = T.id_telefono WHERE P.id_proveedor =" + idProveedor + ";");
-                    ResultSet rs2 = ps2.executeQuery();
-                    while (rs2.next()) {
-                        String telefono = rs2.getString("numero_telefono");
-                        
-                        telefonos.add(telefono);
-                    }
-                    rs2.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
                 
-                Proveedor proveedor = new Proveedor(idProveedor, nombre, telefonos, email, updateDate, createDate);
+                Proveedor proveedor = new Proveedor(idProveedor, nombre, telefono, email, updateDate, createDate);
                 proveedores.add(proveedor);
             }
             rs.close();
@@ -78,5 +69,30 @@ public class ProveedoresServicio {
             ex.printStackTrace();
         }
         return proveedores;
+    }
+    
+    
+     public void modificaDatosproveedor(Proveedor proveedor) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `proveedor` SET `nombre_proveedor` = ?, `email` = ?, `telefono` = ?, `update_date` = ?, `create_date` = ? WHERE `proveedor`.`id_proveedor` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, proveedor.getNombre());
+            status.setObject(2, proveedor.getEmail());
+            status.setObject(3, proveedor.getTelefonos());
+            status.setObject(4, proveedor.getUpdateDate());
+            status.setObject(5, proveedor.getCreateDate());
+            status.setObject(6, proveedor.getId());
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Fabricante actualizado exitosamente.");
+            } else {
+                System.out.println("No se encontró el fabricante con los datos proporcionados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el fabricante: " + e.getMessage());
+        }
     }
 }

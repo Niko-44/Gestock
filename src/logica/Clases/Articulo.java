@@ -18,7 +18,7 @@ public class Articulo {
     private float peso;
     private Date createDate;
     private Date updateDate;
-    private float id_categoria;
+    private int id_categoria;
 
     public Articulo() {
     }
@@ -109,11 +109,11 @@ public class Articulo {
         this.peso = peso;
     }
 
-    public float getId_categoria() {
+    public int getId_categoria() {
         return id_categoria;
     }
 
-    public void setId_categoria(float id_categoria) {
+    public void setId_categoria(int id_categoria) {
         this.id_categoria = id_categoria;
     }
 

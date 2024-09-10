@@ -93,8 +93,8 @@ public class ControladorProveedor implements IControladorProveedor {
         return proveedores;
     }
 
-    public void modificarDatosProveedor(Proveedor idProveedor) {
-
+    public void modificarDatosProveedor(Proveedor proveedor) {
+        servicioProveedores.modificaDatosproveedor(proveedor);
     }
 
     public void confirmarModificacion() {
