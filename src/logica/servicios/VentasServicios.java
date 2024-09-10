@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import logica.Clases.Empleado;
 import logica.Clases.Venta;
 
 
@@ -24,16 +25,18 @@ public class VentasServicios {
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT * FROM venta");
+            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, EMPLEADO.nombre AS nombre_empleado, EMPLEADO.id_empleado FROM VENTA JOIN EMPLEADO ON VENTA.id_empleado_fk = EMPLEADO.id_empleado;");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setId(rs.getInt("id_empleado"));
+                empleado.setNombre(rs.getString("nombre_empleado"));
                 
                 int id = rs.getInt("id_venta");
                 Date fecha_venta = rs.getDate("fecha_venta");
                 String estado = rs.getString("estado");
-                int id_empleado = rs.getInt("id_empleado_fk");
                 
-                Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), id_empleado);
+                Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
                 resultado.add(venta);
 
             }
@@ -46,14 +49,13 @@ public class VentasServicios {
     
     public boolean agregarVenta(Venta venta)
     {
-        try {
-            System.out.println(venta.getId_empleado());
+        try {   
             
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `venta` (`id_venta`, `fecha_venta`, `estado`, `id_empleado_fk`) VALUES (?, ?, ?, ?)");
             status.setObject(1, 0);
             status.setObject(2, venta.getFechaVenta());
             status.setObject(3, venta.getEstado().name());
-            status.setObject(4, venta.getId_empleado());
+            status.setObject(4, venta.getEmpleado().getId());
             
             
             int rs = status.executeUpdate();

@@ -5,6 +5,7 @@
 package Presentancion;
 
 import Presentancion.Articulo.MenuArticulo;
+import Presentancion.Articulo.MenuFabricante;
 import Presentancion.Empleado.MenuEmpleado;
 import Presentancion.Ingresa.MenuIngresa;
 import Presentancion.Proveedor.MenuProveedor;
@@ -25,6 +26,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     MenuProveedor menuProveedor = new MenuProveedor();
     MenuIngresa menuIngresa = new MenuIngresa();
     MenuEmpleado menuEmpleado = new MenuEmpleado();
+    MenuFabricante menuFabricante = new MenuFabricante();
 
     public MenuPrincipal() {
         initComponents();
@@ -45,7 +47,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnVenta = new javax.swing.JButton();
         btnIngresa = new javax.swing.JButton();
         btnArticulo = new javax.swing.JButton();
-        btnFabricante = new javax.swing.JButton();
         btnEmpleado = new javax.swing.JButton();
         btnProveedor = new javax.swing.JButton();
         jPanelContenido = new javax.swing.JPanel();
@@ -76,8 +77,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btnFabricante.setText("Fabricantes");
-
         btnEmpleado.setText("Empleado");
         btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,7 +98,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(jPanelMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFabricante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnArticulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -120,8 +118,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addComponent(btnProveedor)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnArticulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnFabricante)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -242,7 +238,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArticulo;
     private javax.swing.JButton btnEmpleado;
-    private javax.swing.JButton btnFabricante;
     private javax.swing.JButton btnIngresa;
     private javax.swing.JButton btnProveedor;
     private javax.swing.JButton btnVenta;

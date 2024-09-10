@@ -75,7 +75,8 @@ public class MenuDireccion extends javax.swing.JFrame {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {  "ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "ID Proveedor" };
+       
+        String[] columnas = {  "ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor" ,"ID Proveedor" };
         modeloTabla = new DefaultTableModel(columnas, 0);
       
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
@@ -87,7 +88,8 @@ public class MenuDireccion extends javax.swing.JFrame {
                 direccion.getNumeroPuerta(),
                 direccion.getLocalidad(),
                 direccion.getDepartamento(),
-                direccion.getId_proveedor_fk()
+                direccion.getProveedor().getNombre(),
+                direccion.getProveedor().getId()
             };
             modeloTabla.addRow(fila);
         }

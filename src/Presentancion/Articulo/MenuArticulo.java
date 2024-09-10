@@ -21,6 +21,7 @@ import logica.Controladores.ControladorArticulo;
 import logica.Interfaces.IControladorArticulo;
 import logica.servicios.ArticulosServicios;
 import logica.Clases.Articulo;
+import logica.Clases.Categoria;
 import logica.Fabrica;
 
 public class MenuArticulo extends javax.swing.JPanel {
@@ -76,7 +77,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }
     
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "ID_Categoria"};
+        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria","ID_Categoria"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
         
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
@@ -91,7 +92,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getPeso(),
                 articulos.getUpdateDate(),
                 articulos.getCreateDate(),
-                articulos.getId_categoria()
+                articulos.getCategoria().getNombre(),
+                articulos.getCategoria().getId()
             };
             modeloTabla.addRow(fila);
             
@@ -487,12 +489,17 @@ public class MenuArticulo extends javax.swing.JPanel {
             Date update_date = formato.parse(txt_fecha_actualizada.getText());
             
             Date create_date = formato.parse(txt_fecha_creada.getText());
+
+            int id_categoria = Integer.parseInt(txt_id_categoria.getText());
             
+            Categoria nuevaCategoria = new Categoria();
+            nuevaCategoria.setId(id_categoria);
+
             if (nombre.isBlank() || descripcion.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
-                
-                Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, 0);
+
+                Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
                 ICA.modificaDatosArticulo(articulo);
                 
                 JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);

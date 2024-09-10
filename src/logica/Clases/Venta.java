@@ -20,17 +20,17 @@ public class Venta {
     private int id;
     private Date fechaVenta;
     private EstadoVenta estado;
-    private int id_empleado;
+    private Empleado empleado;
 
     public Venta() {
         
     }
     
-    public Venta(int id, Date fechaVenta, EstadoVenta estado, int id_empleado) {
+    public Venta(int id, Date fechaVenta, EstadoVenta estado, Empleado empleado) {
         this.id = id; 
         this.fechaVenta = fechaVenta;
         this.estado = estado;
-        this.id_empleado = id_empleado;
+        this.empleado = empleado;
     }
     
 
@@ -42,12 +42,12 @@ public class Venta {
         this.estado = estado;
     }
 
-    public int getId_empleado() {
-        return id_empleado;
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setId_empleado(int id_empleado) {
-        this.id_empleado = id_empleado;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
 
     public int getId() {
