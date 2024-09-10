@@ -288,6 +288,11 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         btn_agregar.setActionCommand("btn_agregar");
         btn_agregar.setLabel("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_agregar);
 
         btn_eliminar.setText("Eliminar");
@@ -425,6 +430,10 @@ public class MenuIngresa extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_btn_modificarMouseClicked
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

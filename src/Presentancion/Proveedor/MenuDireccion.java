@@ -352,7 +352,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             String localidad = txt_localidad.getText();
             String departamento = txt_departamento.getText();
             
-             int cmb_id=cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
+            int cmb_id=cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
             Proveedor nuevoProveedor=new Proveedor();
             nuevoProveedor.setId(cmb_id);
