@@ -5,6 +5,10 @@
 package Presentancion.Venta;
 
 import Presentancion.Articulo.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Fabrica;
+import logica.Interfaces.IControladorVenta;
 
 /**
  *
@@ -12,11 +16,23 @@ import Presentancion.Articulo.*;
  */
 public class MenuLineaVenta extends javax.swing.JFrame {
 
+    private DefaultTableModel modeloTabla;
+    private IControladorVenta ICV;
+    private int selectedRow;
+    Fabrica fabrica = Fabrica.getInstance();
+
     /**
      * Creates new form MenuCategoria
      */
     public MenuLineaVenta() {
         initComponents();
+        this.ICV = fabrica.getIControladoreVenta();
+    }
+
+    private void eliminarLineaVenta(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_lineaVenta.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -124,6 +140,11 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
         jButton2.setText("Eliminar");
         jButton2.setActionCommand("jButtonEliminar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         jButton3.setText("Modificar");
@@ -177,6 +198,29 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        try {
+            if (this.selectedRow != -1) {
+                int idLineaVenta = (Integer) tbl_lineaVenta.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar esta linea de venta?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICV.eliminarLineaVenta(idLineaVenta) == true) {
+                        eliminarLineaVenta(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "La linea de venta se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la linea de venta.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una linea de venta para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments

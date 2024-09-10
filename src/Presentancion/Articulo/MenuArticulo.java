@@ -31,6 +31,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     IControladorArticulo ICA;
     Articulo articulo = new Articulo();
     Fabrica fabrica = Fabrica.getInstance();
+    private int selectedRow;
     
     MenuFabricante fabricante = new MenuFabricante();
     MenuCategoria categoria = new MenuCategoria();
@@ -42,7 +43,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
-                int selectedRow = tbl_Articulo.getSelectedRow();
+                selectedRow = tbl_Articulo.getSelectedRow();
                 if (selectedRow != -1) {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
@@ -97,6 +98,12 @@ public class MenuArticulo extends javax.swing.JPanel {
         }
         
         tbl_Articulo.setModel(modeloTabla);
+    }
+    
+      private void eliminarArticulo(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_Articulo.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -184,6 +191,11 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Eliminar);
 
         btn_Modificar.setText("Modificar");
@@ -509,6 +521,29 @@ public class MenuArticulo extends javax.swing.JPanel {
         
         fabricante.setVisible(true);
     }//GEN-LAST:event_btn_FabricanteActionPerformed
+
+    private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
+        try {
+            if (this.selectedRow != -1) {
+                int idArticulo = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este artículo?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICA.eliminarArticulo(idArticulo) == true) {
+                        eliminarArticulo(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "El artículo se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el artículo.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona un artíuclo para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EliminarMouseClicked
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

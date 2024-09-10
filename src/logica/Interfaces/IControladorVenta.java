@@ -36,7 +36,9 @@ public interface IControladorVenta {
     
     public abstract void cancelarModificacion();
     
-    public abstract void eliminarVenta(int idVenta);
+    public abstract boolean eliminarVenta(int idVenta);
+    
+    public abstract boolean eliminarLineaVenta(int idVenta);
     
     public abstract void cancelarProceso();
     

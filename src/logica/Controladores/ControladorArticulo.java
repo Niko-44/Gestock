@@ -95,8 +95,8 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public void eliminarArticulo(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarArticulo(int idArticulo) {
+        return servicioArticulo.eliminarArticulo(idArticulo);
     }
 
     @Override
@@ -119,8 +119,8 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public void eliminarFabricante(int idFabricante) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarFabricante(int idFabricante) {
+        return this.servicioFabricante.eliminarFabricante(idFabricante);
     }
 
     @Override
@@ -134,8 +134,8 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public void eliminarCategoria(int idCategoria) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarCategoria(int idCategoria) {
+        return this.servicioCategoria.eliminarCategoria(idCategoria);
     }
 
     public void modificaDatosArticulo(Articulo articulo) {

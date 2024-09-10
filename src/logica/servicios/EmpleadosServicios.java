@@ -64,16 +64,24 @@ public class EmpleadosServicios {
             status.setObject(6, empleado.getContraseña());
             status.setObject(7, empleado.getRol().toString());
             status.setObject(8, empleado.getId());
+        public boolean eliminarEmpleado(int idEmpleado) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("DELETE FROM empleado WHERE id_empleado = ?");
+
+            status.setObject(1, idEmpleado);
 
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Empleado actualizado exitosamente.");
+                System.out.println("Empleado eliminado exitosamente.");
+                return true;
             } else {
-                System.out.println("No se encontró el Empleado con los datos proporcionados.");
+                System.out.println("No se encontró el empleado con el ID proporcionado.");
+                return false;
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el Empleado: " + e.getMessage());
+            System.out.println("Error al eliminar el empleado: " + e.getMessage());
+            return false;
         }
     }
 }

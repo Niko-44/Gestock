@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import logica.Clases.Articulo;
 import logica.Clases.Venta;
 import logica.Interfaces.IControladorVenta;
+import logica.servicios.LineasServicio;
 import logica.servicios.VentasServicios;
 
 /**
@@ -17,6 +18,7 @@ import logica.servicios.VentasServicios;
 public class ControladorVenta implements IControladorVenta {
 
     private VentasServicios ventasServicio;
+    private LineasServicio servicioLinea;
     private static ControladorVenta instancia;
 
     private ControladorVenta() {
@@ -76,8 +78,12 @@ public class ControladorVenta implements IControladorVenta {
 
     }
 
-    public void eliminarVenta(int idVenta) {
+    public boolean eliminarVenta(int idVenta) {
+        return this.ventasServicio.eliminarVenta(idVenta);
+    }
 
+    public boolean eliminarLineaVenta(int idLineaVenta) {
+        return this.servicioLinea.eliminarLineaVenta(idLineaVenta);
     }
 
     public void cancelarProceso() {

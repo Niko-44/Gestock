@@ -21,7 +21,7 @@ public class FabricantesServicios {
 
     private Connection conexion = new ConexionDB().getConexion();
 
-    public ArrayList<Fabricante> getFabricante(){
+    public ArrayList<Fabricante> getFabricante() {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
 
         try {
@@ -66,6 +66,27 @@ public class FabricantesServicios {
             }
         } catch (SQLException e) {
             System.out.println("Error al actualizar el fabricante: " + e.getMessage());
+        }
+    }
+
+    public boolean eliminarFabricante(int idFabricante) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("DELETE FROM fabricante WHERE id_fabricante = ?");
+
+            status.setObject(1, idFabricante);
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Fabricante eliminado exitosamente.");
+                return true;
+            } else {
+                System.out.println("No se encontró el fabricante con el ID proporcionado.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar el fabricante: " + e.getMessage());
+            return false;
         }
     }
 }

@@ -27,6 +27,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     private IControladorVenta ICV;
     private IControladorEmpleado ICE;
+    private int selectedRow;
 
     Fabrica fabrica = Fabrica.getInstance();
 
@@ -84,7 +85,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     private int buscarEmpleadoID(String nombreEmpleado, ArrayList<Empleado> dataEmleado) {
         for (Empleado empleado : dataEmleado) {
-            
+
             if (empleado.getNombre().equals(nombreEmpleado)) {
                 return empleado.getId();
             }
@@ -99,6 +100,12 @@ public class MenuVenta extends javax.swing.JPanel {
         for (Empleado item : dataEmpleado) {
             cmbEmpleado.addItem(item.getNombre());
         }
+    }
+
+    private void eliminarVenta(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -164,6 +171,11 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btnEliminar.setText("Eliminar");
         btnEliminar.setActionCommand("jButtonEliminar");
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btnEliminar);
 
         btnModificar.setText("Modificar");
@@ -304,7 +316,7 @@ public class MenuVenta extends javax.swing.JPanel {
             String estadoVenta = (String) cmbEstado.getSelectedItem();
             String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
             String fechaTexto = txtDate.getText();
-            
+
             Date fecha = formatoFecha.parse(fechaTexto);
             ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
@@ -322,6 +334,29 @@ public class MenuVenta extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        try {
+            if (this.selectedRow != -1) {
+                int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar esta venta?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICV.eliminarVenta(idVenta) == true) {
+                        eliminarVenta(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "La venta se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la venta.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una venta para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -31,8 +31,9 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     IControladorArticulo ICA;
     Articulo articulo = new Articulo();
+    private int selectedRow;
 
-    public MenuFabricante(){
+    public MenuFabricante() {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.ICA = Fabrica.getInstance().getIControladorArticulo();
@@ -40,7 +41,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         tbl_Fabricante.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
-                int selectedRow = tbl_Fabricante.getSelectedRow();
+                selectedRow = tbl_Fabricante.getSelectedRow();
                 if (selectedRow != -1) {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Fabricante.getValueAt(selectedRow, 0).toString();
@@ -83,6 +84,12 @@ public class MenuFabricante extends javax.swing.JFrame {
         }
 
         tbl_Fabricante.setModel(modeloTabla);
+    }
+
+    private void eliminarFabricante(int selectedRow) {
+        DefaultTableModel model = (DefaultTableModel) tbl_Fabricante.getModel();
+        model.removeRow(selectedRow);
+
     }
 
     /**
@@ -156,6 +163,11 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EliminarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_Eliminar);
 
         btn_Modificar.setText("Modificar");
@@ -415,6 +427,29 @@ public class MenuFabricante extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
+
+    private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
+        try {
+            if (this.selectedRow != -1) {
+                int idFabricante = (Integer) tbl_Fabricante.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este fabricante?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICA.eliminarFabricante(idFabricante) == true) {
+                        eliminarFabricante(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "El fabricante se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el fabricante.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona un fabricante para eliminar.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EliminarMouseClicked
 
     /**
      * @param args the command line arguments

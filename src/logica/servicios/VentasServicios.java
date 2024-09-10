@@ -66,4 +66,25 @@ public class VentasServicios {
             return false;
         }
     }
+    
+        public boolean eliminarVenta(int idVenta) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("DELETE FROM venta WHERE id_venta = ?");
+
+            status.setObject(1, idVenta);
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Venta eliminada exitosamente.");
+                return true;
+            } else {
+                System.out.println("No se encontró la venta con el ID proporcionado.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar la venta: " + e.getMessage());
+            return false;
+        }
+    }
 }

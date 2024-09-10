@@ -36,7 +36,7 @@ public interface IControladorArticulo {
 
     public abstract void seleccionarArticulo(int id);
 
-    public abstract void eliminarArticulo(int id);
+    public abstract boolean eliminarArticulo(int id);
 
     public abstract void cancelarProceso();
 
@@ -44,13 +44,13 @@ public interface IControladorArticulo {
 
     public abstract void seleccionarFabricante(int idFabricante);
 
-    public abstract void eliminarFabricante(int idFabricante);
+    public abstract boolean eliminarFabricante(int idFabricante);
 
     public abstract ArrayList<Categoria> obtenerCategorias();  
 
     public abstract void seleccionarCategoria(int idCategoria);
 
-    public abstract void eliminarCategoria(int idCategoria);
+    public abstract boolean eliminarCategoria(int idCategoria);
 
     public abstract void modificaDatosArticulo(Articulo articulo);  
 
