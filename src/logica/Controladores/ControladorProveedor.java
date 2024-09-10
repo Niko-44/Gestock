@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logica.Clases.Direccion;
+import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 import logica.servicios.DireccionesServicios;
@@ -31,6 +32,7 @@ public class ControladorProveedor implements IControladorProveedor {
     private ControladorProveedor() {
         this.servicioProveedores = new ProveedoresServicio();
         this.servicioDirecciones = new DireccionesServicios();
+        this.servicioIngresa = new  IngresaServicio();
     }
 
     public static ControladorProveedor getInstance() {
@@ -127,5 +129,10 @@ public class ControladorProveedor implements IControladorProveedor {
     public boolean eliminarIngresa(int idIngresa)
     {
         return this.servicioIngresa.eliminarIngresa(idIngresa);
+    }
+    
+    public ArrayList<Ingresa> obtenerIngresosMercaderia(){
+        
+        return servicioIngresa.getIngresa();
     }
 }

@@ -4,8 +4,12 @@
  */
 package Presentancion.Ingresa;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Fabrica;
+import logica.Clases.Ingresa;
 import logica.Interfaces.IControladorProveedor;
 
 /**
@@ -15,6 +19,7 @@ import logica.Interfaces.IControladorProveedor;
 public class MenuIngresa extends javax.swing.JPanel {
 
     private IControladorProveedor ICP;
+    Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
 
     /**
@@ -22,8 +27,30 @@ public class MenuIngresa extends javax.swing.JPanel {
      */
     public MenuIngresa() {
         initComponents();
+        this.ICP = fabrica.getIControladorProveedor();
+        cargarDatosEnTabla();
     }
+    
+    
+    private void cargarDatosEnTabla() {
+    String[] columnas = {"ID", "Fecha de ingreso", "Cantidad", "Lote", "Precio de compra", "Artículo", "Proveedor"};
+    DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
 
+    ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
+    for (Ingresa ingreso : ingresos) {
+        Object[] fila = {
+            ingreso.getIdIngresa(),
+            ingreso.getFechaIngreso(),
+            ingreso.getCantidad(),
+            ingreso.getLote(),
+            ingreso.getPrecioCompra(),
+            ingreso.getArticulo().getNombre(),
+            ingreso.getProveedor().getNombre()
+        };
+        modeloTabla.addRow(fila);
+    }
+    tbl_ingresa.setModel(modeloTabla);
+}
         
     
     private void eliminarIngresa(int selectedRow) {
