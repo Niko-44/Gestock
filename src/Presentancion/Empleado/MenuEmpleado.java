@@ -382,7 +382,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
 
 
-            if (nombre.isBlank()) {
+            if (nombre.isBlank() || apellido.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 

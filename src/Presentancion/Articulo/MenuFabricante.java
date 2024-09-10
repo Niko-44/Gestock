@@ -411,7 +411,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
             Date create_date = formato.parse(txt_fecha_creada.getText());
 
-            if (nombre.isBlank()) {
+            if (nombre.isBlank() || correo.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 
