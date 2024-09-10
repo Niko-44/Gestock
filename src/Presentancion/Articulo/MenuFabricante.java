@@ -32,6 +32,7 @@ public class MenuFabricante extends javax.swing.JFrame {
     IControladorArticulo ICA;
     Articulo articulo = new Articulo();
     private int selectedRow;
+    DefaultTableModel modeloTabla;
 
     public MenuFabricante() {
         initComponents();
@@ -73,7 +74,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Correo", "Teléfono", "Fecha Actualización", "Fecha Creación"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Fabricante> fabricantes = ICA.obtenerFabricantes();
         for (Fabricante fabricante : fabricantes) {
@@ -165,6 +166,11 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         btn_Agregar.setActionCommand("jButtonAgregar");
         btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar);
 
         btn_Eliminar.setText("Eliminar");
@@ -459,6 +465,38 @@ public class MenuFabricante extends javax.swing.JFrame {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btn_EliminarMouseClicked
+
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+
+            Fabricante nuevoFabricante = new Fabricante();
+            
+            nuevoFabricante.setId(Integer.parseInt(txt_id.getText())); //CAMBIAR ID
+            nuevoFabricante.setNombre(txt_nombre.getText());
+            nuevoFabricante.setCorreo(txt_correo.getText());
+            nuevoFabricante.setTelefono(txt_telefono.getText());
+            nuevoFabricante.setUpdateDate(new Date());
+            nuevoFabricante.setCreateDate(new Date());
+
+            if (ICA.agregarFabricante(nuevoFabricante) == true) {
+                JOptionPane.showMessageDialog(this, "El fabricante se agrego correctamente");
+
+                Object[] fila = {
+                    nuevoFabricante.getId(),
+                    nuevoFabricante.getNombre(),
+                    nuevoFabricante.getCorreo(),
+                    nuevoFabricante.getTelefono(),
+                    nuevoFabricante.getUpdateDate(),
+                    nuevoFabricante.getCreateDate()
+                };
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
 
     /**
      * @param args the command line arguments

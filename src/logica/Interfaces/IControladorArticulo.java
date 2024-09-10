@@ -16,11 +16,7 @@ public interface IControladorArticulo {
 
     public abstract boolean agregarArticulo(Articulo articulo);
 
-    public abstract void ingresarDatosFabricante();
-
-    public abstract void confirmarAgregadoFabricante();
-
-    public abstract void cancelarAgregadoFabricante();
+    public abstract boolean agregarFabricante(Fabricante fabricante);
 
     public abstract boolean agregarCategoria(Categoria categoria);
 

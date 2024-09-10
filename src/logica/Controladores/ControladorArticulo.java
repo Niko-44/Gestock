@@ -35,8 +35,7 @@ public class ControladorArticulo implements IControladorArticulo {
         return instancia;
     }
 
-    public boolean agregarArticulo(Articulo articulo)
-    {
+    public boolean agregarArticulo(Articulo articulo) {
         try {
             return servicioArticulo.agregarArticulo(articulo);
         } catch (Exception ex) {
@@ -45,23 +44,16 @@ public class ControladorArticulo implements IControladorArticulo {
         return false;
     }
 
-    @Override
-    public void ingresarDatosFabricante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean agregarFabricante(Fabricante fabricante) {
+        try {
+            return servicioFabricante.agregarFabricante(fabricante);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
-    @Override
-    public void confirmarAgregadoFabricante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void cancelarAgregadoFabricante() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public boolean agregarCategoria(Categoria categoria)
-    {
+    public boolean agregarCategoria(Categoria categoria) {
         try {
             return servicioCategoria.agregarCategoria(categoria);
         } catch (Exception ex) {

@@ -6,9 +6,8 @@ package logica.Clases;
 
 import java.util.Date;
 
-
 public class Fabricante {
-    
+
     private int id;
     private String nombre;
     private String correo;
@@ -23,6 +22,9 @@ public class Fabricante {
         this.correo = correo;
         this.updateDate = updateDate;
         this.createDate = createDate;
+    }
+
+    public Fabricante() {
     }
 
     public int getId() {
@@ -72,7 +74,5 @@ public class Fabricante {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    
-    
-    
+
 }

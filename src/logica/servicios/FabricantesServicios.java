@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Fabricante;
 
 public class FabricantesServicios {
@@ -88,5 +89,50 @@ public class FabricantesServicios {
             System.out.println("Error al eliminar el fabricante: " + e.getMessage());
             return false;
         }
+    }
+
+    public boolean agregarFabricante(Fabricante fabricante) throws Exception {
+        try {
+
+            if (verificarExistencia(fabricante)) {
+                throw new Exception("El fabricante ya existe");
+            }
+
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `fabricante` (`id_fabricante`, `nombre_fabricante`, `telefono`, `email`, `update_date`, `create_date`) VALUES (?, ?, ?, ?, ?, ?);");
+            status.setObject(1, null);
+            status.setObject(2, fabricante.getNombre());
+            status.setObject(3, fabricante.getTelefono());
+            status.setObject(4, fabricante.getCorreo());
+            status.setObject(5, fabricante.getUpdateDate());
+            status.setObject(6, fabricante.getCreateDate());
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean verificarExistencia(Fabricante fabricante) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `fabricante`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                String nombre = rs.getString("nombre_fabricante");
+
+                if (fabricante.getNombre().equals(nombre)) {
+                    return true;
+                }
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
