@@ -23,7 +23,6 @@ import logica.servicios.ProveedoresServicio;
  */
 public class ControladorProveedor implements IControladorProveedor {
 
-    //private Map<String, Usuario> Usuarios;
     private ProveedoresServicio servicioProveedores;
     private DireccionesServicios servicioDirecciones;
     private IngresaServicio servicioIngresa;
@@ -31,6 +30,7 @@ public class ControladorProveedor implements IControladorProveedor {
 
     private ControladorProveedor() {
         this.servicioProveedores = new ProveedoresServicio();
+        this.servicioDirecciones = new DireccionesServicios();
     }
 
     public static ControladorProveedor getInstance() {
@@ -67,13 +67,6 @@ public class ControladorProveedor implements IControladorProveedor {
         return this.servicioProveedores.eliminarProveedor(idProveedor);
     }
 
-    public ArrayList<Direccion> obtenerDirecciones() {
-
-        ArrayList<Direccion> DtDireccion = null;
-        return DtDireccion;
-
-    }
-
     public void seleccionarDireccion(Direccion direccion) {
 
     }
@@ -107,8 +100,13 @@ public class ControladorProveedor implements IControladorProveedor {
 
     public ArrayList<Direccion> obtenerDireccion() {
 
-        ArrayList<Direccion> DtDireccion = null;
-        return DtDireccion;
+        ArrayList<Direccion> direcciones = null;
+        try {
+            direcciones = servicioDirecciones.getDirecciones();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return direcciones;
     }
 
     public void administradorModificaDireccion(Direccion idDireccion) {

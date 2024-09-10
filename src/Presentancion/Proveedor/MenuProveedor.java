@@ -26,16 +26,16 @@ public class MenuProveedor extends javax.swing.JPanel {
     private IControladorProveedor ICP;
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
-    
+
     MenuDireccion menuDireccion = new MenuDireccion();
     private DefaultTableModel modeloTabla;
-    
+
     public MenuProveedor() {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
-        
-           tbl_Proveedor.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_Proveedor.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Proveedor.getSelectedRow();
                 if (selectedRow != -1) {
@@ -57,7 +57,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
                 }
             }
-        }); 
+        });
     }
 
      private void cargarDatosEnTabla() {
@@ -326,16 +326,12 @@ public class MenuProveedor extends javax.swing.JPanel {
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este proveedor?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    if(ICP.eliminarProveedor(idProveedor) == true)
-                    {
+                    if (ICP.eliminarProveedor(idProveedor) == true) {
                         eliminarProveedor(this.selectedRow);
                         JOptionPane.showMessageDialog(this, "El proveedor se eliminó correctamente.");
-                    }
-                    else
-                    {
+                    } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el proveedor.");
                     }
-  
 
                 }
             } else {

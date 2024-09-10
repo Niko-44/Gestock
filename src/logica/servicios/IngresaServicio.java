@@ -18,6 +18,8 @@ public class IngresaServicio {
         
          public IngresaServicio() {
     }
+         
+         
 
     public boolean eliminarIngresa(int idIngresa) {
         try {

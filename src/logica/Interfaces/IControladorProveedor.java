@@ -32,7 +32,6 @@ public interface IControladorProveedor {
 
     public abstract boolean eliminarProveedor(int idProveedor);
 
-    public abstract ArrayList<Direccion> obtenerDirecciones();
 
     public abstract void seleccionarDireccion(Direccion direccion);
 
