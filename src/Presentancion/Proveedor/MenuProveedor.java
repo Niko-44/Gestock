@@ -56,7 +56,11 @@ public class MenuProveedor extends javax.swing.JPanel {
     }
 
      private void cargarDatosEnTabla() {
+<<<<<<< Updated upstream
         String[] columnas = { "ID", "Nombre", "Email", "Correo", "Fecha Actualización", "Fecha Creación" };
+=======
+        String[] columnas = { "ID", "Nombre", "Teléfono", "Correo", "Fecha Actualización", "Fecha Creación" };
+>>>>>>> Stashed changes
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
@@ -64,7 +68,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             Object[] fila = {
                     proveedor.getId(),
                     proveedor.getNombre(),
-                    String.join(", ", proveedor.getTelefonos()),
+                    proveedor.getTelefono(),
                     proveedor.getEmail(),
                     proveedor.getUpdateDate(),
                     proveedor.getCreateDate()

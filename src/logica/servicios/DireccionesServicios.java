@@ -54,7 +54,7 @@ public class DireccionesServicios {
             while (rs.next()) {
                 int idDireccion = rs.getInt("id_direccion");
                 String calle = rs.getString("calle");
-                int nuemroPuerta = rs.getInt("nuemro_puerta");
+                int nuemroPuerta = rs.getInt("numero_direccion");
                 String localidad = rs.getString("localidad");
                 String departamento = rs.getString("departamento");
                 int idPeoveedorFk = rs.getInt("id_proveedor_fk");

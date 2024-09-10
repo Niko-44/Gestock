@@ -8,14 +8,13 @@ package logica.Clases;
  *
  * @author n1c0l
  */
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Proveedor {
 
     private int id;
     private String nombre;
-    private ArrayList<String> telefonos;
+    private String telefono;
     private String email;
     private Date updateDate;
     private Date createDate;
@@ -23,10 +22,10 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor(int id, String nombre, ArrayList<String> telefonos, String email, Date updateDate, Date createDate) {
+    public Proveedor(int id, String nombre, String telefono, String email, Date updateDate, Date createDate) {
         this.id = id;
         this.nombre = nombre;
-        this.telefonos = telefonos;
+        this.telefono = telefono;
         this.email = email;
         this.updateDate = updateDate;
         this.createDate = createDate;
@@ -48,12 +47,12 @@ public class Proveedor {
         this.nombre = nombre;
     }
 
-    public ArrayList<String> getTelefonos() {
-        return telefonos;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setTelefonos(ArrayList<String> telefonos) {
-        this.telefonos = telefonos;
+    public void setTelefono(String telefonos) {
+        this.telefono = telefonos;
     }
 
     public String getEmail() {
