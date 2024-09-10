@@ -79,14 +79,14 @@ public class DireccionesServicios {
     
       public void administradorModificaDireccion(Direccion direccion) {
         try {
-            PreparedStatement status = conexion.prepareStatement("UPDATE `direccion` SET `calle` = ?, `num_direccion` = ?, `departamento` = ?, `localidad` = ? `id_proveedor` = ? WHERE `direccion`.`id_direccion` = ?;");
+            PreparedStatement status = conexion.prepareStatement("UPDATE `direccion` SET `calle` = ?, `numero_direccion` = ?, `departamento` = ?, `localidad` = ?, `id_proveedor_fk` = ? WHERE `direccion`.`id_direccion` = ?;");
 
             // Nuevos valores para actualizar
             status.setObject(1, direccion.getCalle());
             status.setObject(2, direccion.getNumeroPuerta());
             status.setObject(3, direccion.getDepartamento());
             status.setObject(4, direccion.getLocalidad());
-            status.setObject(5, 1);
+            status.setObject(5, direccion.getProveedor().getId());
             status.setObject(6, direccion.getId());
 
             int filasAfectadas = status.executeUpdate();

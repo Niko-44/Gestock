@@ -11,6 +11,7 @@ package logica.Interfaces;
 import java.util.ArrayList;
 import logica.Clases.Proveedor;
 import logica.Clases.Direccion;
+import logica.Clases.Ingresa;
 
 /**
  *
@@ -32,7 +33,6 @@ public interface IControladorProveedor {
 
     public abstract boolean eliminarProveedor(int idProveedor);
 
-
     public abstract void seleccionarDireccion(Direccion direccion);
 
     public abstract boolean eliminarDireccion(int idDireccion);
@@ -40,6 +40,8 @@ public interface IControladorProveedor {
     public abstract ArrayList<Proveedor> obtenerProveedor();
 
     public abstract void modificarDatosProveedor(Proveedor proveedor);
+
+    public abstract void modificarDatosIngresa(Ingresa ingresa);
 
     public abstract void confirmarModificacion();
 
@@ -52,7 +54,9 @@ public interface IControladorProveedor {
     public abstract void buscarPorNombre(String nombre);
 
     public abstract ArrayList<Proveedor> listarProveedores();
-    
+
     public abstract boolean eliminarIngresa(int idIngresa);
+
+    public abstract ArrayList<Ingresa> obtenerIngresa();
 
 }

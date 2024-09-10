@@ -47,7 +47,7 @@
               <Component id="jScrollPane1" min="-2" pref="178" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" pref="65" max="-2" attributes="0"/>
-              <EmptySpace pref="91" max="32767" attributes="0"/>
+              <EmptySpace pref="86" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -366,16 +366,6 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_fecha_actualizada">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_fecha_actualizadaActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="2" gridY="14" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="javax.swing.JLabel" name="lbl_fecha_creada">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fecha creada"/>
@@ -387,26 +377,44 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txt_fecha_creada">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
               <GridBagConstraints gridX="2" gridY="16" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbl_id_categoria">
+        <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="id_Categoria"/>
+            <Property name="text" type="java.lang.String" value="ID categoria"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="0" gridY="17" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="0" gridY="18" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="17" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_id_categoria">
+        <Component class="javax.swing.JComboBox" name="cmb_id_categoria">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="2" gridY="17" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="2" gridY="18" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="txt_fecha_actualizada">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
+              <GridBagConstraints gridX="2" gridY="14" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -1800,7 +1808,7 @@
           <Parameters>
             <CodeExpression id="102">
               <ExpressionOrigin>
-                <Value type="int" value="2"/>
+                <Value type="int" value="0"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1813,7 +1821,7 @@
           <Parameters>
             <CodeExpression id="103">
               <ExpressionOrigin>
-                <Value type="int" value="14"/>
+                <Value type="int" value="16"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1821,12 +1829,12 @@
         <CodeStatement>
           <CodeExpression id="101_gridBagConstraints"/>
           <StatementProvider type="CodeField">
-            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
+            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="104">
               <ExpressionOrigin>
-                <Value type="int" value="2"/>
+                <Value type="int" value="17"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1837,11 +1845,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="105_txt_fecha_actualizada">
-              <CodeVariable name="txt_fecha_actualizada" type="8194" declaredType="javax.swing.JTextField"/>
+            <CodeExpression id="105_lbl_fecha_creada">
+              <CodeVariable name="lbl_fecha_creada" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="txt_fecha_actualizada"/>
+                  <ComponentRef name="lbl_fecha_creada"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1869,7 +1877,7 @@
           <Parameters>
             <CodeExpression id="107">
               <ExpressionOrigin>
-                <Value type="int" value="0"/>
+                <Value type="int" value="2"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1890,12 +1898,12 @@
         <CodeStatement>
           <CodeExpression id="106_gridBagConstraints"/>
           <StatementProvider type="CodeField">
-            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
+            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="109">
               <ExpressionOrigin>
-                <Value type="int" value="17"/>
+                <Value type="int" value="2"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1906,11 +1914,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="110_lbl_fecha_creada">
-              <CodeVariable name="lbl_fecha_creada" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="110_txt_fecha_creada">
+              <CodeVariable name="txt_fecha_creada" type="8194" declaredType="javax.swing.JTextField"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="lbl_fecha_creada"/>
+                  <ComponentRef name="txt_fecha_creada"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -1938,7 +1946,7 @@
           <Parameters>
             <CodeExpression id="112">
               <ExpressionOrigin>
-                <Value type="int" value="2"/>
+                <Value type="int" value="0"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1951,7 +1959,7 @@
           <Parameters>
             <CodeExpression id="113">
               <ExpressionOrigin>
-                <Value type="int" value="16"/>
+                <Value type="int" value="18"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1959,12 +1967,12 @@
         <CodeStatement>
           <CodeExpression id="111_gridBagConstraints"/>
           <StatementProvider type="CodeField">
-            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
+            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="114">
               <ExpressionOrigin>
-                <Value type="int" value="2"/>
+                <Value type="int" value="17"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -1975,11 +1983,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="115_txt_fecha_creada">
-              <CodeVariable name="txt_fecha_creada" type="8194" declaredType="javax.swing.JTextField"/>
+            <CodeExpression id="115_jLabel1">
+              <CodeVariable name="jLabel1" type="8194" declaredType="javax.swing.JLabel"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="txt_fecha_creada"/>
+                  <ComponentRef name="jLabel1"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -2007,7 +2015,7 @@
           <Parameters>
             <CodeExpression id="117">
               <ExpressionOrigin>
-                <Value type="int" value="0"/>
+                <Value type="int" value="2"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -2020,7 +2028,7 @@
           <Parameters>
             <CodeExpression id="118">
               <ExpressionOrigin>
-                <Value type="int" value="17"/>
+                <Value type="int" value="18"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -2028,12 +2036,12 @@
         <CodeStatement>
           <CodeExpression id="116_gridBagConstraints"/>
           <StatementProvider type="CodeField">
-            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
+            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="119">
               <ExpressionOrigin>
-                <Value type="int" value="17"/>
+                <Value type="int" value="2"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -2044,11 +2052,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="120_lbl_id_categoria">
-              <CodeVariable name="lbl_id_categoria" type="8194" declaredType="javax.swing.JLabel"/>
+            <CodeExpression id="120_cmb_id_categoria">
+              <CodeVariable name="cmb_id_categoria" type="8194" declaredType="javax.swing.JComboBox"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="lbl_id_categoria"/>
+                  <ComponentRef name="cmb_id_categoria"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
@@ -2089,7 +2097,7 @@
           <Parameters>
             <CodeExpression id="123">
               <ExpressionOrigin>
-                <Value type="int" value="17"/>
+                <Value type="int" value="14"/>
               </ExpressionOrigin>
             </CodeExpression>
           </Parameters>
@@ -2113,11 +2121,11 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="125_txt_id_categoria">
-              <CodeVariable name="txt_id_categoria" type="8194" declaredType="javax.swing.JTextField"/>
+            <CodeExpression id="125_txt_fecha_actualizada">
+              <CodeVariable name="txt_fecha_actualizada" type="8194" declaredType="javax.swing.JFormattedTextField"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
-                  <ComponentRef name="txt_id_categoria"/>
+                  <ComponentRef name="txt_fecha_actualizada"/>
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>

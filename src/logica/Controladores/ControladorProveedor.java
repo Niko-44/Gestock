@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import logica.Clases.Direccion;
+import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 import logica.servicios.DireccionesServicios;
@@ -31,6 +32,7 @@ public class ControladorProveedor implements IControladorProveedor {
     private ControladorProveedor() {
         this.servicioProveedores = new ProveedoresServicio();
         this.servicioDirecciones = new DireccionesServicios();
+        this.servicioIngresa= new IngresaServicio();
     }
 
     public static ControladorProveedor getInstance() {
@@ -41,7 +43,7 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public void ingresarDatosProveedor(Proveedor datos) {
-        
+
     }
 
     public void confirmarAgregadoProveedor() {
@@ -72,7 +74,7 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public boolean eliminarDireccion(int idDireccion) {
-         return this.servicioDirecciones.eliminarDireccion(idDireccion);
+        return this.servicioDirecciones.eliminarDireccion(idDireccion);
     }
 
     public ArrayList<Proveedor> obtenerProveedor() {
@@ -85,6 +87,25 @@ public class ControladorProveedor implements IControladorProveedor {
         }
         return proveedores;
     }
+
+    public ArrayList<Ingresa> obtenerIngresa() {
+        
+         ArrayList<Ingresa> ingresa = null;
+        try {
+           
+            ingresa = servicioIngresa.getIngresa();
+           
+        } catch (Exception e) {
+            throw e;
+        }
+        return ingresa;
+    }
+    
+    
+        public void modificarDatosIngresa(Ingresa ingresa)
+        {
+            servicioIngresa.modificaDatosIngresa(ingresa);
+        }
 
     public void modificarDatosProveedor(Proveedor proveedor) {
         servicioProveedores.modificaDatosproveedor(proveedor);
@@ -110,7 +131,7 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public void administradorModificaDireccion(Direccion direccion) {
-    servicioDirecciones.administradorModificaDireccion(direccion);
+        servicioDirecciones.administradorModificaDireccion(direccion);
     }
 
     public void buscarPorNombre(String nombre) {
@@ -123,9 +144,8 @@ public class ControladorProveedor implements IControladorProveedor {
         return DtProveedor;
 
     }
-    
-    public boolean eliminarIngresa(int idIngresa)
-    {
+
+    public boolean eliminarIngresa(int idIngresa) {
         return this.servicioIngresa.eliminarIngresa(idIngresa);
     }
 }

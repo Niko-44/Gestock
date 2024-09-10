@@ -27,6 +27,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     private DefaultTableModel modeloTabla;
+    ArrayList<Integer> cmbProveedor_id=new ArrayList<>();
 
     /**
      * Creates new form MenuDirecciones
@@ -35,6 +36,8 @@ public class MenuDireccion extends javax.swing.JFrame {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
+        
+        
         
          tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -64,7 +67,8 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         for (Direccion item : dataDireccion) {
             
-            cmb_proveedor.addItem(String.valueOf(item.getProveedor().getId()));
+            cmb_proveedor.addItem(String.valueOf(item.getProveedor().getNombre()));
+            cmbProveedor_id.add(item.getId());
         }
     }
 
@@ -170,6 +174,7 @@ public class MenuDireccion extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_id, gridBagConstraints);
 
+        txt_id.setEditable(false);
         txt_id.setActionCommand("txtArticuloID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -346,11 +351,15 @@ public class MenuDireccion extends javax.swing.JFrame {
             int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
             String localidad = txt_localidad.getText();
             String departamento = txt_departamento.getText();
-            String combo=cmb_proveedor.getSelectedItem().toString();
+            
+             int cmb_id=cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
             Proveedor nuevoProveedor=new Proveedor();
-            nuevoProveedor.setNombre(combo);
+            nuevoProveedor.setId(cmb_id);
             
+            
+            
+            System.out.println(nuevoProveedor.getId());
             if (calle.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {

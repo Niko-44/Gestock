@@ -42,5 +42,5 @@ public interface IControladorVenta {
     
     public abstract void cancelarProceso();
     
-    public abstract void modificarDatosVentas(Venta dataVenta);
+    public abstract void modificarDatosVentas(Venta venta);
 }

@@ -4,8 +4,17 @@
  */
 package Presentancion.Ingresa;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.Articulo;
+import logica.Clases.Categoria;
+import logica.Clases.Ingresa;
+import logica.Clases.Proveedor;
+import logica.Fabrica;
+import logica.Interfaces.IControladorArticulo;
 import logica.Interfaces.IControladorProveedor;
 
 /**
@@ -15,19 +24,90 @@ import logica.Interfaces.IControladorProveedor;
 public class MenuIngresa extends javax.swing.JPanel {
 
     private IControladorProveedor ICP;
-    private int selectedRow;
+    private IControladorArticulo ICA;
 
-    /**
-     * Creates new form MenuIngresa
-     */
+    private int selectedRow;
+    Fabrica fabrica = Fabrica.getInstance();
+    Proveedor proveedor = new Proveedor();
+    Articulo articulo = new Articulo();
+    ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
+    ArrayList<Integer> proveedor_ingresa_id = new ArrayList<>();
+
     public MenuIngresa() {
         initComponents();
+        this.ICP = fabrica.getIControladorProveedor();
+        this.ICA = fabrica.getIControladorArticulo();
+        cargarDatosEnTabla();
+
+        tbl_Ingresa.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                selectedRow = tbl_Ingresa.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_Ingresa.getValueAt(selectedRow, 0).toString();
+                    String fecha_i = tbl_Ingresa.getValueAt(selectedRow, 1).toString();
+                    String cantidad = tbl_Ingresa.getValueAt(selectedRow, 2).toString();
+                    String lote = tbl_Ingresa.getValueAt(selectedRow, 3).toString();
+                    String precioC = tbl_Ingresa.getValueAt(selectedRow, 4).toString();
+
+                    // Asignar los valores a los JTextField
+                    // Asignar los valores a los JTextField
+                    txt_id.setText(id);
+                    txt_fecha.setText(fecha_i);
+                    txt_cantidad.setText(cantidad);
+                    txt_lote.setText(lote);
+                    txt_precioCompra.setText(precioC);
+
+                }
+            }
+        });
+
+        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+
+        for (Articulo item : dataArticulo) {
+
+            cmb_articulo.addItem(item.getNombre());
+            articulo_ingresa_id.add(item.getId());
+        }
+
+        ArrayList<Proveedor> dataProveedor = ICP.obtenerProveedor();
+
+        for (Proveedor item : dataProveedor) {
+
+            cmb_proveedor.addItem(item.getNombre());
+            proveedor_ingresa_id.add(item.getId());
+        }
+
     }
 
-        
-    
+    private void cargarDatosEnTabla() {
+
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo","ID Proveedor","ID Articulo"};
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+
+        ArrayList<Ingresa> ingresa = ICP.obtenerIngresa();
+        for (Ingresa ingresos : ingresa) {
+
+            Object[] fila = {
+                ingresos.getIdIngresa(),
+                ingresos.getFechaIngreso(),
+                ingresos.getCantidad(),
+                ingresos.getLote(),
+                ingresos.getPrecioCompra(),
+                ingresos.getProveedor().getNombre(),
+                ingresos.getArticulo().getNombre(),
+                ingresos.getProveedor().getId(),
+                ingresos.getArticulo().getId(),
+            };
+
+            modeloTabla.addRow(fila);
+
+        }
+        tbl_Ingresa.setModel(modeloTabla);
+    }
+
     private void eliminarIngresa(int selectedRow) {
-        DefaultTableModel model = (DefaultTableModel) tbl_ingresa.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_Ingresa.getModel();
         model.removeRow(selectedRow);
 
     }
@@ -43,7 +123,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_ingresa = new javax.swing.JTable();
+        tbl_Ingresa = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         lbl_id = new javax.swing.JLabel();
         txt_id = new javax.swing.JTextField();
@@ -67,7 +147,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         lbl_ingresa = new javax.swing.JLabel();
 
-        tbl_ingresa.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Ingresa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -75,19 +155,11 @@ public class MenuIngresa extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Fecha de ingreso", "Cantidad", "Lote", "Precio de compra", "Artículo", "Proveedor"
+                "ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane1.setViewportView(tbl_ingresa);
+        ));
+        tbl_Ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(tbl_Ingresa);
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
@@ -100,6 +172,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_id, gridBagConstraints);
 
+        txt_id.setEditable(false);
         txt_id.setActionCommand("txtArticuloID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
@@ -193,7 +266,6 @@ public class MenuIngresa extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(txt_precioCompra, gridBagConstraints);
 
-        cmb_articulo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -202,7 +274,6 @@ public class MenuIngresa extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(cmb_articulo, gridBagConstraints);
 
-        cmb_proveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
@@ -230,6 +301,11 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_modificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btn_modificar);
 
         btn_buscar.setText("Buscar");
@@ -280,9 +356,9 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
         try {
-            this.selectedRow = tbl_ingresa.getSelectedRow();
+            this.selectedRow = tbl_Ingresa.getSelectedRow();
             if (this.selectedRow != -1) {
-                int idIngresa = (Integer) tbl_ingresa.getValueAt(selectedRow, 0);
+                int idIngresa = (Integer) tbl_Ingresa.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este ingreso?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
@@ -301,6 +377,54 @@ public class MenuIngresa extends javax.swing.JPanel {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btn_eliminarMouseClicked
+
+    private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
+        try {
+
+            int id = Integer.parseInt(txt_id.getText());
+
+            // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date fecha_ingreso = formato.parse(txt_fecha.getText());
+
+            int cantidad = Integer.parseInt(txt_cantidad.getText());
+            int lote = Integer.parseInt(txt_lote.getText());
+            float precioC = Float.parseFloat(txt_precioCompra.getText());
+            
+            int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+            int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
+
+            Articulo nuevoArticulo = new Articulo();
+            nuevoArticulo.setId(articuloCmb_id);
+
+
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setId(proveedorCmb_id);
+
+            if (fecha_ingreso==null) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
+                ICP.modificarDatosIngresa(ingresa);
+
+                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+                txt_id.setText("");
+                txt_fecha.setText("");
+                txt_cantidad.setText("");
+                txt_lote.setText("");
+                txt_precioCompra.setText("");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
+    }//GEN-LAST:event_btn_modificarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,7 +446,7 @@ public class MenuIngresa extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_lote;
     private javax.swing.JLabel lbl_precioCompra;
     private javax.swing.JLabel lbl_proveedor;
-    private javax.swing.JTable tbl_ingresa;
+    private javax.swing.JTable tbl_Ingresa;
     private javax.swing.JTextField txt_cantidad;
     private javax.swing.JTextField txt_fecha;
     private javax.swing.JTextField txt_id;

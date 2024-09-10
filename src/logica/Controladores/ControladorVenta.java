@@ -90,8 +90,9 @@ public class ControladorVenta implements IControladorVenta {
 
     }
 
-    public void modificarDatosVentas(Venta dataVenta) {
-
+    public void modificarDatosVentas(Venta venta) 
+    {
+        ventasServicio.modificaDatosVenta(venta);
     }
 
 }

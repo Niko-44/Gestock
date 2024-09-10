@@ -142,6 +142,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_id, gridBagConstraints);
 
+        txt_id.setEditable(false);
         txt_id.setActionCommand("txtArticuloID");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;

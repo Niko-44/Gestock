@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.Categoria;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
 import logica.servicios.VentasServicios;
@@ -28,6 +29,8 @@ public class MenuVenta extends javax.swing.JPanel {
     private IControladorVenta ICV;
     private IControladorEmpleado ICE;
     private int selectedRow;
+    ArrayList<Integer> empleadoprueba_id=new ArrayList<>();
+    
 
     Fabrica fabrica = Fabrica.getInstance();
 
@@ -38,17 +41,41 @@ public class MenuVenta extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
 
         txtDate.setValue(new Date()); //Establecer fecha actual al txtFormattedField
-
+        
         this.ICV = fabrica.getIControladoreVenta();
         this.ICE = fabrica.getIControladoreEmpleado();
 
         cargarDatosEnTabla();
         cargarDatosCombobox();
+        
+        
+         tbl_venta.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
+                selectedRow = tbl_venta.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtener los valores de la fila seleccionada
+                    String id = tbl_venta.getValueAt(selectedRow, 0).toString();
+                    String date = tbl_venta.getValueAt(selectedRow, 1).toString();
+                    
+                  
+
+                    // Asignar los valores a los JTextField
+                    // Asignar los valores a los JTextField
+                    txtID.setText(id);
+                    txtDate.setText(date);
+                  
+                    
+                    
+                }
+            }
+        });
+        
+        
 
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado","ID Empleado"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Venta> ventas = ICV.obtenerVenta();
@@ -62,7 +89,8 @@ public class MenuVenta extends javax.swing.JPanel {
                 venta.getId(),
                 venta.getFechaVenta(),
                 venta.getEstado(),
-                venta.getEmpleado().getNombre()
+                venta.getEmpleado().getNombre(),
+                venta.getEmpleado().getId(),
 
             };
 
@@ -98,6 +126,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         for (Empleado item : dataEmpleado) {
             cmbEmpleado.addItem(item.getNombre());
+            empleadoprueba_id.add(item.getId());
         }
     }
 
@@ -179,6 +208,11 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btnModificar.setText("Modificar");
         btnModificar.setActionCommand("jButtonModificar");
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnModificarMouseClicked(evt);
+            }
+        });
         jPanel1.add(btnModificar);
 
         btnBuscar.setText("Buscar");
@@ -320,9 +354,12 @@ public class MenuVenta extends javax.swing.JPanel {
             ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
             int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
+           
             Empleado nuevoEmpleado = new Empleado();
+            
             nuevoEmpleado.setId(id_empleado);
-
+            
+            
             Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
 
             if (ICV.agregarVenta(nuevaVenta) == true) {
@@ -358,6 +395,47 @@ public class MenuVenta extends javax.swing.JPanel {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarMouseClicked
+
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
+      try {
+
+            int id = Integer.parseInt(txtID.getText());
+             // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            
+            Date fechaV = formato.parse(txtDate.getText());
+            String comboEstado=cmbEstado.getSelectedItem().toString();
+            
+           //String comboEmpleado=cmbEmpleado.getSelectedItem().toString();
+            int cmb_id=empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
+                    
+            Empleado nuevoEmpleado= new Empleado();
+            
+            nuevoEmpleado.setId(cmb_id);
+            
+            
+
+            if (comboEstado.isBlank()) {
+                throw new Exception("Debe completar todos los datos.");
+            } else {
+
+                Venta venta = new Venta(id, fechaV,Venta.EstadoVenta.valueOf(comboEstado),nuevoEmpleado);
+                ICV.modificarDatosVentas(venta);
+
+                JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                
+                txtID.setText("");
+                txtDate.setText("");
+               
+               
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+      
+    }//GEN-LAST:event_btnModificarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

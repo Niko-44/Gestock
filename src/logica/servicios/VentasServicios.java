@@ -47,6 +47,30 @@ public class VentasServicios {
         return resultado;
     }
     
+    
+      public void modificaDatosVenta(Venta venta) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `venta` SET `fecha_venta` = ?, `estado` = ?, `id_empleado_fk` = ? WHERE `venta`.`id_venta` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, venta.getFechaVenta());
+            status.setObject(2, venta.getEstado().toString());
+            status.setObject(3, venta.getEmpleado().getId());
+            status.setObject(4, venta.getId());
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Venta actualizada exitosamente.");
+            } else {
+                System.out.println("No se encontró La venta con los datos proporcionados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar la venta: " + e.getMessage());
+        }
+    }
+
+    
     public boolean agregarVenta(Venta venta)
     {
         try {   

@@ -145,6 +145,9 @@
             <Property name="text" type="java.lang.String" value="Modificar"/>
             <Property name="actionCommand" type="java.lang.String" value="jButtonModificar"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnModificarMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnBuscar">
           <Properties>
