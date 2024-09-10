@@ -84,7 +84,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     }
 
     private void eliminarEmpleado(int selectedRow) {
-        DefaultTableModel model = (DefaultTableModel) tbl_empleado.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbl_Empleado.getModel();
         model.removeRow(selectedRow);
 
     }
@@ -103,7 +103,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         tbl_Empleado = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btn_Agregar = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
+        jBtnEliminarEmpleado = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -162,16 +162,15 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
         });
         jPanel1.add(btn_Agregar);
-        jBtnEliminarEmpleado.setText("Eliminar Empleado");
+
+        jBtnEliminarEmpleado.setText("Eliminar");
+        jBtnEliminarEmpleado.setActionCommand("jButtonEliminar");
         jBtnEliminarEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnEliminarEmpleadoMouseClicked(evt);
             }
         });
-
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.setActionCommand("jButtonEliminar");
-        jPanel1.add(btn_Eliminar);
+        jPanel1.add(jBtnEliminarEmpleado);
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
@@ -415,7 +414,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     private void jBtnEliminarEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarEmpleadoMouseClicked
         try {
             if (this.selectedRow != -1) {
-                int idEmpleado = (Integer) tbl_empleado.getValueAt(selectedRow, 0);
+                int idEmpleado = (Integer) tbl_Empleado.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar este empleado?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
@@ -439,8 +438,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
     private javax.swing.JButton btn_Buscar;
-    private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Modificar;
+    private javax.swing.JButton jBtnEliminarEmpleado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

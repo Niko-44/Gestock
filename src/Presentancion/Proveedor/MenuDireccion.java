@@ -64,7 +64,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         for (Direccion item : dataDireccion) {
             
-            cmb_proveedor.addItem(String.valueOf(item.getId_proveedor_fk()));
+            cmb_proveedor.addItem(String.valueOf(item.getProveedor().getId()));
         }
     }
 
@@ -346,13 +346,16 @@ public class MenuDireccion extends javax.swing.JFrame {
             int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
             String localidad = txt_localidad.getText();
             String departamento = txt_departamento.getText();
-            int combo=Integer.parseInt(cmb_proveedor.getSelectedItem().toString());
+            String combo=cmb_proveedor.getSelectedItem().toString();
 
+            Proveedor nuevoProveedor=new Proveedor();
+            nuevoProveedor.setNombre(combo);
+            
             if (calle.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 
-                Direccion direccion = new Direccion(id, calle, num_puerta,localidad,departamento,combo);
+                Direccion direccion = new Direccion(id, calle, num_puerta,localidad,departamento,nuevoProveedor);
                 ICP.administradorModificaDireccion(direccion);
 
                 JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
