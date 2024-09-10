@@ -60,19 +60,14 @@ public class ControladorArticulo implements IControladorArticulo {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void ingresarDatosCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void cancelarAgregadoCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void confirmarAgregadoCategoria() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean agregarCategoria(Categoria categoria)
+    {
+        try {
+            return servicioCategoria.agregarCategoria(categoria);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override

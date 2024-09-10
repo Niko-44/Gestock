@@ -32,13 +32,14 @@ public class MenuCategoria extends javax.swing.JFrame {
     Articulo articulo = new Articulo();
     private int selectedRow;
     
-    
+    DefaultTableModel modeloTabla;
+
     public MenuCategoria() {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.ICA = Fabrica.getInstance().getIControladorArticulo();
         cargarDatosEnTabla();
-        
+
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_Articulo.getSelectedRow();
@@ -47,23 +48,21 @@ public class MenuCategoria extends javax.swing.JFrame {
                     String id = tbl_Articulo.getValueAt(selectedRow, 0).toString();
                     String nombre = tbl_Articulo.getValueAt(selectedRow, 1).toString();
                     String descripcion = tbl_Articulo.getValueAt(selectedRow, 2).toString();
-                  
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
                     txt_nombre.setText(nombre);
                     txt_descripcion.setText(descripcion);
-                    
 
                 }
             }
         });
     }
-    
+
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Descripción"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Categoria> categoria = ICA.obtenerCategorias();
         for (Categoria categorias : categoria) {
@@ -78,13 +77,13 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         tbl_Articulo.setModel(modeloTabla);
     }
-    
+
     private void eliminarCategoria(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) tbl_Articulo.getModel();
         model.removeRow(selectedRow);
 
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -192,6 +191,11 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         btn_Agregar.setActionCommand("jButtonAgregar");
         btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar);
 
         btn_Eliminar.setText("Eliminar");
@@ -285,18 +289,17 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     private void btn_VolverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_VolverMouseClicked
 
-        MenuArticulo articulo=new MenuArticulo();
+        MenuArticulo articulo = new MenuArticulo();
         articulo.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_VolverMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-         try {
+        try {
 
             int id = Integer.parseInt(txt_id.getText());
             String nombre = txt_nombre.getText();
             String descripcion = txt_descripcion.getText();
-            
 
             if (nombre.isBlank() || descripcion.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
@@ -306,23 +309,23 @@ public class MenuCategoria extends javax.swing.JFrame {
                 ICA.modificaDatosCategoria(categoria);
 
                 JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 txt_id.setText("");
                 txt_nombre.setText("");
                 txt_descripcion.setText("");
-               
+
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
         }
-      
-      
+
+
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
     private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
-       try {
+        try {
             if (this.selectedRow != -1) {
                 int idCategoria = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
@@ -338,11 +341,35 @@ public class MenuCategoria extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Selecciona una categoría para eliminar.");
+
             }
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btn_EliminarMouseClicked
+
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+            Categoria nuevaCategoria = new Categoria();
+            nuevaCategoria.setNombre(txt_nombre.getText());
+            nuevaCategoria.setDescripcion(txt_descripcion.getText());
+
+            if (ICA.agregarCategoria(nuevaCategoria) == true) {
+                JOptionPane.showMessageDialog(this, "La categoria se agrego correctamente");
+
+                Object[] fila = {
+                    nuevaCategoria.getId(),
+                    nuevaCategoria.getNombre(),
+                    nuevaCategoria.getDescripcion()
+                };
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
 
     /**
      * @param args the command line arguments

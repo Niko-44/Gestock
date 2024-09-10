@@ -19,7 +19,7 @@ public class CategoriasServicios {
     }
     private Connection conexion = new ConexionDB().getConexion();
 
-    public ArrayList<Categoria> getCategorias(){
+    public ArrayList<Categoria> getCategorias() {
         ArrayList<Categoria> categorias = new ArrayList<>();
 
         try {
@@ -60,7 +60,7 @@ public class CategoriasServicios {
             System.out.println("Error al actualizar La categoria: " + e.getMessage());
         }
     }
-    
+
     public boolean eliminarCategoria(int idCategoria) {
         try {
             PreparedStatement status = conexion.prepareStatement("DELETE FROM categoria WHERE id_categoria = ?");
@@ -80,5 +80,49 @@ public class CategoriasServicios {
             System.out.println("Error al eliminar la categoría: " + e.getMessage());
             return false;
         }
+    }
+
+    public boolean agregarCategoria(Categoria categoria) throws Exception {
+        try {
+
+            if (verificarExistencia(categoria)) {
+                throw new Exception("La categoria ya existe");
+            }
+
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `categoria` (`id_categoria`, `nombre_categoria`, `descripcion`) VALUES (?, ?, ?);");
+            status.setObject(1, null);
+            status.setObject(2, categoria.getNombre());
+            status.setObject(3, categoria.getDescripcion());
+            
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean verificarExistencia(Categoria categoria) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `categoria`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                String nombre = rs.getString("nombre_categoria");
+
+                if (categoria.getNombre().equals(nombre)) {
+                    return true;
+                }
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }

@@ -22,11 +22,7 @@ public interface IControladorArticulo {
 
     public abstract void cancelarAgregadoFabricante();
 
-    public abstract void ingresarDatosCategoria();  
-
-    public abstract void cancelarAgregadoCategoria();
-
-    public abstract void confirmarAgregadoCategoria();
+    public abstract boolean agregarCategoria(Categoria categoria);
 
     public abstract ArrayList<Articulo> obtenerArticulos();  
 
