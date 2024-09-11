@@ -104,7 +104,7 @@ public class MenuIngresa extends javax.swing.JPanel {
             };
             modeloTabla.addRow(fila);
         }
-        tbl_ingresa.setModel(modeloTabla);
+        tbl_Ingresa.setModel(modeloTabla);
     }
 
     private void eliminarIngresa(int selectedRow) {
