@@ -53,10 +53,19 @@ public class ControladorProveedor implements IControladorProveedor {
         return false;
     }
 
-    public boolean agregarDireccion(Direccion direccion)
-    {
+    public boolean agregarDireccion(Direccion direccion) {
         try {
             return servicioDirecciones.agregarDireccion(direccion);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean agregarIngreso(Ingresa ingresa) {
+        try {
+            return servicioIngresa.agregarIngreso(ingresa);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);

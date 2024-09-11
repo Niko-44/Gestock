@@ -33,6 +33,8 @@ public class MenuIngresa extends javax.swing.JPanel {
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
     ArrayList<Integer> proveedor_ingresa_id = new ArrayList<>();
 
+    DefaultTableModel modeloTabla;
+
     public MenuIngresa() {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
@@ -82,8 +84,8 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo","ID Proveedor","ID Articulo"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo", "ID Proveedor", "ID Articulo"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Ingresa> ingresa = ICP.obtenerIngresa();
         for (Ingresa ingresos : ingresa) {
@@ -97,8 +99,7 @@ public class MenuIngresa extends javax.swing.JPanel {
                 ingresos.getProveedor().getNombre(),
                 ingresos.getArticulo().getNombre(),
                 ingresos.getProveedor().getId(),
-                ingresos.getArticulo().getId(),
-            };
+                ingresos.getArticulo().getId(),};
 
             modeloTabla.addRow(fila);
 
@@ -396,18 +397,17 @@ public class MenuIngresa extends javax.swing.JPanel {
             int cantidad = Integer.parseInt(txt_cantidad.getText());
             int lote = Integer.parseInt(txt_lote.getText());
             float precioC = Float.parseFloat(txt_precioCompra.getText());
-            
+
             int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
             int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
 
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(articuloCmb_id);
 
-
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(proveedorCmb_id);
 
-            if (fecha_ingreso==null) {
+            if (fecha_ingreso == null) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 
@@ -432,7 +432,54 @@ public class MenuIngresa extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_modificarMouseClicked
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        
+        try {
+            Ingresa nuevoIngreso = new Ingresa();
+
+            // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date fecha_ingreso = formato.parse(txt_fecha.getText());
+
+            nuevoIngreso.setFechaIngreso(fecha_ingreso);
+            nuevoIngreso.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+            nuevoIngreso.setLote(Integer.parseInt(txt_lote.getText()));
+            nuevoIngreso.setPrecioCompra(Float.parseFloat(txt_precioCompra.getText()));
+
+            int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+            int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
+
+            Articulo nuevoArticulo = new Articulo();
+            nuevoArticulo.setId(articuloCmb_id);
+            nuevoArticulo.setNombre(cmb_articulo.getSelectedItem().toString());
+
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setId(proveedorCmb_id);
+            nuevoProveedor.setNombre(cmb_proveedor.getSelectedItem().toString());
+
+            nuevoIngreso.setProveedor(nuevoProveedor);
+            nuevoIngreso.setArticulo(nuevoArticulo);
+
+            if (ICP.agregarIngreso(nuevoIngreso) == true) {
+                JOptionPane.showMessageDialog(this, "El ingreso se agrego correctamente");
+
+                Object[] fila = {
+                    nuevoIngreso.getIdIngresa(),
+                    nuevoIngreso.getFechaIngreso(),
+                    nuevoIngreso.getCantidad(),
+                    nuevoIngreso.getLote(),
+                    nuevoIngreso.getPrecioCompra(),
+                    nuevoIngreso.getProveedor().getNombre(),
+                    nuevoIngreso.getArticulo().getNombre(),
+                    nuevoIngreso.getProveedor().getId(),
+                    nuevoIngreso.getArticulo().getId(),};
+                
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
 

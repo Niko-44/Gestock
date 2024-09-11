@@ -50,5 +50,9 @@ public interface IControladorProveedor {
     public abstract boolean eliminarIngresa(int idIngresa);
 
     public abstract ArrayList<Ingresa> obtenerIngresa();
+    
+    
+    public abstract boolean agregarIngreso(Ingresa ingresa); //Revisar ubicacion
+            
 
 }
