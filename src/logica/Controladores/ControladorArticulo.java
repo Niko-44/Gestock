@@ -7,6 +7,7 @@ package logica.Controladores;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
@@ -39,6 +40,7 @@ public class ControladorArticulo implements IControladorArticulo {
         try {
             return servicioArticulo.agregarArticulo(articulo);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -48,6 +50,7 @@ public class ControladorArticulo implements IControladorArticulo {
         try {
             return servicioFabricante.agregarFabricante(fabricante);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -57,6 +60,7 @@ public class ControladorArticulo implements IControladorArticulo {
         try {
             return servicioCategoria.agregarCategoria(categoria);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;

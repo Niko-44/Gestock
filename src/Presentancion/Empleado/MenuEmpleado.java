@@ -31,8 +31,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
         initComponents();
         this.ICE = fabrica.getIControladoreEmpleado();
         cargarDatosEnTabla();
-        
-          tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Empleado.getSelectedRow();
                 if (selectedRow != -1) {
@@ -54,15 +54,15 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_nombre_usuario.setText(nombre_usuario);
                     txt_email.setText(email);
                     txt_contraseña.setText(contraseña);
-                    txt_rol.setText(rol);
+                    cmb_Role.setSelectedItem(rol);
 
                 }
             }
-        }); 
+        });
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre","Apellido","Cédula","Nombre Usuario","Email", "Contraseña", "Rol"};
+        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Nombre Usuario", "Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
@@ -124,7 +124,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_email = new javax.swing.JTextField();
         txt_contraseña = new javax.swing.JTextField();
         lbl_fecha_actualizada = new javax.swing.JLabel();
-        txt_rol = new javax.swing.JTextField();
+        cmb_Role = new javax.swing.JComboBox<>();
 
         setMaximumSize(getPreferredSize());
 
@@ -161,6 +161,11 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 btn_AgregarMouseClicked(evt);
             }
         });
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar);
 
         jBtnEliminarEmpleado.setText("Eliminar");
@@ -187,7 +192,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        lbl_Articulo.setText("Artículo");
+        lbl_Articulo.setText("Empleado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -240,7 +245,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_descripcion, gridBagConstraints);
 
-        lbl_stock.setText("Nombre_Usuario");
+        lbl_stock.setText("Nombre Usuario");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -325,16 +330,13 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_fecha_actualizada, gridBagConstraints);
 
-        txt_rol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_rolActionPerformed(evt);
-            }
-        });
+        cmb_Role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "vendedor", "admin" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(txt_rol, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(cmb_Role, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -378,15 +380,13 @@ public class MenuEmpleado extends javax.swing.JPanel {
             String nombre_usuario = txt_nombre_usuario.getText();
             String email = txt_email.getText();
             String contraseña = txt_contraseña.getText();
-            String rol=txt_rol.getText();
-
-
+            String rol = cmb_Role.getSelectedItem().toString();
 
             if (nombre.isBlank() || apellido.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 
-                Empleado empleado = new Empleado(id,nombre,apellido,cedula,nombre_usuario,email,contraseña,Empleado.ROLEMPLEADO.valueOf(rol));
+                Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
                 ICE.modificaDatosEmpleado(empleado);
 
                 JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -398,8 +398,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 txt_nombre_usuario.setText("");
                 txt_email.setText("");
                 txt_contraseña.setText("");
-                txt_rol.setText("");
-               
+
             }
 
         } catch (Exception e) {
@@ -409,9 +408,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
-    private void txt_rolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_rolActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_rolActionPerformed
     private void jBtnEliminarEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnEliminarEmpleadoMouseClicked
         try {
             if (this.selectedRow != -1) {
@@ -435,11 +431,48 @@ public class MenuEmpleado extends javax.swing.JPanel {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jBtnEliminarEmpleadoMouseClicked
 
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+            Empleado nuevoEmpleado = new Empleado();
+
+            nuevoEmpleado.setNombre(txt_nombre.getText());
+            nuevoEmpleado.setApellido(txt_apellido.getText());
+            nuevoEmpleado.setCedula(Integer.parseInt(txt_cedula.getText()));
+            nuevoEmpleado.setNombreUsuario(txt_nombre_usuario.getText());
+            nuevoEmpleado.setEmail(txt_email.getText());
+            nuevoEmpleado.setContraseña(txt_contraseña.getText());
+            nuevoEmpleado.setRol(Empleado.ROLEMPLEADO.valueOf(cmb_Role.getSelectedItem().toString()));
+
+            System.out.println(nuevoEmpleado.getRol());
+            
+            if (ICE.agregarEmpleado(nuevoEmpleado) == true) {
+                JOptionPane.showMessageDialog(this, "El empleado se agrego correctamente");
+
+                Object[] fila = {
+                    nuevoEmpleado.getId(),
+                    nuevoEmpleado.getNombre(),
+                    nuevoEmpleado.getApellido(),
+                    nuevoEmpleado.getCedula(),
+                    nuevoEmpleado.getNombreUsuario(),
+                    nuevoEmpleado.getEmail(),
+                    nuevoEmpleado.getContraseña(),
+                    nuevoEmpleado.getRol()
+                };
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
     private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Modificar;
+    private javax.swing.JComboBox<String> cmb_Role;
     private javax.swing.JButton jBtnEliminarEmpleado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -462,6 +495,5 @@ public class MenuEmpleado extends javax.swing.JPanel {
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_nombre_usuario;
-    private javax.swing.JTextField txt_rol;
     // End of variables declaration//GEN-END:variables
 }
