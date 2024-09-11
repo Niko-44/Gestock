@@ -27,7 +27,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     private DefaultTableModel modeloTabla;
-    ArrayList<Integer> cmbProveedor_id=new ArrayList<>();
+    ArrayList<Integer> cmbProveedor_id = new ArrayList<>();
 
     /**
      * Creates new form MenuDirecciones
@@ -36,10 +36,8 @@ public class MenuDireccion extends javax.swing.JFrame {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
-        
-        
-        
-         tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Direccion.getSelectedRow();
                 if (selectedRow != -1) {
@@ -49,7 +47,7 @@ public class MenuDireccion extends javax.swing.JFrame {
                     String num_puerta = tbl_Direccion.getValueAt(selectedRow, 2).toString();
                     String localidad = tbl_Direccion.getValueAt(selectedRow, 3).toString();
                     String departamento = tbl_Direccion.getValueAt(selectedRow, 4).toString();
-                    
+                    String proveedor = tbl_Direccion.getValueAt(selectedRow, 5).toString();
 
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -57,16 +55,16 @@ public class MenuDireccion extends javax.swing.JFrame {
                     txt_numeroPuerta.setText(num_puerta);
                     txt_localidad.setText(localidad);
                     txt_departamento.setText(departamento);
-            
+                    cmb_proveedor.setSelectedItem(proveedor);
 
                 }
             }
         });
-         
-         ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
+
+        ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
 
         for (Direccion item : dataDireccion) {
-            
+
             cmb_proveedor.addItem(String.valueOf(item.getProveedor().getNombre()));
             cmbProveedor_id.add(item.getId());
         }
@@ -79,14 +77,13 @@ public class MenuDireccion extends javax.swing.JFrame {
     }
 
     private void cargarDatosEnTabla() {
-       
-        String[] columnas = {  "ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor" ,"ID Proveedor" };
+
+        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor", "ID Proveedor"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-      
+
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
         for (Direccion direccion : direcciones) {
             Object[] fila = {
-                
                 direccion.getId(),
                 direccion.getCalle(),
                 direccion.getNumeroPuerta(),
@@ -275,6 +272,11 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         btn_agregar.setActionCommand("jButtonAgregar");
         btn_agregar.setLabel("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_agregar);
 
         btn_eliminar.setText("Eliminar");
@@ -344,36 +346,34 @@ public class MenuDireccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
-       try {
+        try {
 
             int id = Integer.parseInt(txt_id.getText());
             String calle = txt_calle.getText();
             int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
             String localidad = txt_localidad.getText();
             String departamento = txt_departamento.getText();
-            
-            int cmb_id=cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
-            Proveedor nuevoProveedor=new Proveedor();
+            int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
+
+            Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
-            
-            
-            
+
             System.out.println(nuevoProveedor.getId());
             if (calle.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");
             } else {
 
-                Direccion direccion = new Direccion(id, calle, num_puerta,localidad,departamento,nuevoProveedor);
+                Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
                 ICP.administradorModificaDireccion(direccion);
 
                 JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
 
-           txt_id.getText();
-           txt_calle.getText();
-           txt_numeroPuerta.getText();
-           txt_localidad.getText();
-           txt_departamento.getText();
+                txt_id.getText();
+                txt_calle.getText();
+                txt_numeroPuerta.getText();
+                txt_localidad.getText();
+                txt_departamento.getText();
             }
 
         } catch (Exception e) {
@@ -383,6 +383,45 @@ public class MenuDireccion extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btn_modificarMouseClicked
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        try {
+            Direccion nuevaDireccion = new Direccion();
+
+            nuevaDireccion.setCalle(txt_calle.getText());
+            nuevaDireccion.setNumeroPuerta(Integer.parseInt(txt_numeroPuerta.getText()));
+            nuevaDireccion.setDepartamento(txt_departamento.getText());
+            nuevaDireccion.setLocalidad(txt_localidad.getText());
+            
+            int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
+
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setId(cmb_id);
+            nuevoProveedor.setNombre(cmb_proveedor.getSelectedItem().toString());
+            
+            nuevaDireccion.setProveedor(nuevoProveedor);
+
+
+            if (ICP.agregarDireccion(nuevaDireccion) == true) {
+                JOptionPane.showMessageDialog(this, "La direccion se agrego correctamente");
+                Object[] fila = {
+                    nuevaDireccion.getId(),
+                    nuevaDireccion.getCalle(),
+                    nuevaDireccion.getNumeroPuerta(),
+                    nuevaDireccion.getLocalidad(),
+                    nuevaDireccion.getDepartamento(),
+                    nuevaDireccion.getProveedor().getNombre(),
+                    nuevaDireccion.getProveedor().getId()
+                };
+
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_eliminarMouseClicked
         try {

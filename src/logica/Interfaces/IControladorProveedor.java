@@ -21,11 +21,7 @@ public interface IControladorProveedor {
 
     public abstract boolean agregarProveedor(Proveedor proveedor);
 
-    public abstract void ingresarDatosDireccion(Direccion datos);
-
-    public abstract void cancelarAgregadoDireccion();
-
-    public abstract void confirmarAgregadoDireccion();
+    public abstract boolean agregarDireccion(Direccion direccion);
 
     public abstract boolean eliminarProveedor(int idProveedor);
 

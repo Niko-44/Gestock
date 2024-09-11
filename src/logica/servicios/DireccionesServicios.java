@@ -20,9 +20,10 @@ import logica.Clases.Proveedor;
  * @author n1c0l
  */
 public class DireccionesServicios {
-        private Connection conexion = new ConexionDB().getConexion();
-        
-         public DireccionesServicios() {
+
+    private Connection conexion = new ConexionDB().getConexion();
+
+    public DireccionesServicios() {
     }
 
     public boolean eliminarDireccion(int idDireccion) {
@@ -46,7 +47,6 @@ public class DireccionesServicios {
         }
     }
 
-
     public ArrayList<Direccion> getDirecciones() throws SQLException {
         ArrayList<Direccion> direcciones = new ArrayList<>();
 
@@ -54,17 +54,16 @@ public class DireccionesServicios {
             PreparedStatement ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 Proveedor proveedor = new Proveedor();
                 proveedor.setId(rs.getInt("id_proveedor_fk"));
                 proveedor.setNombre(rs.getString("nombre_proveedor"));
-                
+
                 int idDireccion = rs.getInt("id_direccion");
                 String calle = rs.getString("calle");
                 int nuemroPuerta = rs.getInt("numero_direccion");
                 String localidad = rs.getString("localidad");
                 String departamento = rs.getString("departamento");
-                
 
                 Direccion direccion = new Direccion(idDireccion, calle, nuemroPuerta, localidad, departamento, proveedor);
                 direcciones.add(direccion);
@@ -75,9 +74,8 @@ public class DireccionesServicios {
         }
         return direcciones;
     }
-    
-    
-      public void administradorModificaDireccion(Direccion direccion) {
+
+    public void administradorModificaDireccion(Direccion direccion) {
         try {
             PreparedStatement status = conexion.prepareStatement("UPDATE `direccion` SET `calle` = ?, `numero_direccion` = ?, `departamento` = ?, `localidad` = ?, `id_proveedor_fk` = ? WHERE `direccion`.`id_direccion` = ?;");
 
@@ -100,4 +98,54 @@ public class DireccionesServicios {
             System.out.println("Error al actualizar la direccion: " + e.getMessage());
         }
     }
+
+    public boolean agregarDireccion(Direccion direccion) throws Exception {
+        try {
+
+            if (verificarExistencia(direccion)) {
+                throw new Exception("Ya existe el proveedor con la direccion y localidad ingresada");
+            }
+
+            PreparedStatement status = conexion.prepareStatement(
+                    "INSERT INTO `direccion` (`id_direccion`, `calle`, `numero_direccion`, `departamento`, `localidad`, `id_proveedor_fk`) VALUES (?, ?, ?, ?, ?, ?); ");
+            status.setObject(1, null);
+            status.setObject(2, direccion.getCalle());
+            status.setObject(3, direccion.getNumeroPuerta());
+            status.setObject(4, direccion.getDepartamento());
+            status.setObject(5, direccion.getLocalidad());
+            status.setObject(6, direccion.getProveedor().getId());
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean verificarExistencia(Direccion direccion) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `direccion`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id_proveedor = rs.getInt("id_proveedor_fk");
+                String departamento = rs.getString("departamento");
+                String localidad = rs.getString("localidad");
+
+                if (direccion.getDepartamento().trim().equals(departamento) && direccion.getLocalidad().trim().equals(localidad) && direccion.getProveedor().getId() == id_proveedor) {
+                    return true;
+                }
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }
