@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Categoria;
 import logica.Clases.Empleado;
@@ -39,6 +40,8 @@ public class MenuVenta extends javax.swing.JPanel {
     public MenuVenta() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
         txtDate.setValue(new Date()); //Establecer fecha actual al txtFormattedField
         
@@ -375,6 +378,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try {
+            this.selectedRow = tbl_venta.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación

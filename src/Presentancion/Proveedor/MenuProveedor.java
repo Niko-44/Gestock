@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Fabricante;
 
@@ -41,6 +42,8 @@ public class MenuProveedor extends javax.swing.JPanel {
         
        
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
         tbl_Proveedor.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección

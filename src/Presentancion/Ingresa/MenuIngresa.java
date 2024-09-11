@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Fabrica;
 import logica.Clases.Ingresa;
+import logica.Fabrica;
 import logica.Interfaces.IControladorProveedor;
 
 /**
@@ -105,6 +107,9 @@ public class MenuIngresa extends javax.swing.JPanel {
             modeloTabla.addRow(fila);
         }
         tbl_Ingresa.setModel(modeloTabla);
+        this.ICP = Fabrica.getInstance().getIControladorProveedor();
+        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
     }
 
     private void eliminarIngresa(int selectedRow) {
