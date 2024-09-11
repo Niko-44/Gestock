@@ -56,6 +56,8 @@ public interface IControladorProveedor {
     public abstract ArrayList<Proveedor> listarProveedores();
 
     public abstract boolean eliminarIngresa(int idIngresa);
+    
+    public abstract  ArrayList<Ingresa> obtenerIngresosMercaderia();
 
     public abstract ArrayList<Ingresa> obtenerIngresa();
 

@@ -4,23 +4,12 @@
  */
 package Presentancion.Articulo;
 
-import Persistencia.ConexionDB;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Controladores.ControladorArticulo;
 import logica.Interfaces.IControladorArticulo;
-import logica.servicios.ArticulosServicios;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 import logica.Clases.Direccion;
@@ -32,7 +21,6 @@ public class MenuArticulo extends javax.swing.JPanel {
      * Creates new form Listar_Articulo
      */
     IControladorArticulo ICA;
-    Articulo articulo = new Articulo();
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     

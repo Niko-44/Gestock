@@ -32,7 +32,7 @@ public class ControladorProveedor implements IControladorProveedor {
     private ControladorProveedor() {
         this.servicioProveedores = new ProveedoresServicio();
         this.servicioDirecciones = new DireccionesServicios();
-        this.servicioIngresa= new IngresaServicio();
+        this.servicioIngresa = new IngresaServicio();
     }
 
     public static ControladorProveedor getInstance() {
@@ -147,5 +147,10 @@ public class ControladorProveedor implements IControladorProveedor {
 
     public boolean eliminarIngresa(int idIngresa) {
         return this.servicioIngresa.eliminarIngresa(idIngresa);
+    }
+    
+    public ArrayList<Ingresa> obtenerIngresosMercaderia(){
+        
+        return servicioIngresa.getIngresa();
     }
 }
