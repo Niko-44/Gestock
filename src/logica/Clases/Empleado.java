@@ -32,8 +32,8 @@ public class Empleado {
         this.apellido = apellido;
         this.cedula=cedula;
         this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
         this.email = email;
+        this.contraseña = contraseña;
         this.rol = rol;
         
     }

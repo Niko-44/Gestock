@@ -4,26 +4,26 @@
  */
 package Presentancion.Articulo;
 
-import Persistencia.ConexionDB;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+
+
+
+
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
+
+
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Controladores.ControladorArticulo;
+
 import logica.Interfaces.IControladorArticulo;
-import logica.servicios.ArticulosServicios;
+
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
-import logica.Clases.Direccion;
+
 import logica.Fabrica;
 
 public class MenuArticulo extends javax.swing.JPanel {
@@ -32,12 +32,13 @@ public class MenuArticulo extends javax.swing.JPanel {
      * Creates new form Listar_Articulo
      */
     IControladorArticulo ICA;
-    Articulo articulo = new Articulo();
+
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     
     MenuFabricante fabricante = new MenuFabricante();
     MenuCategoria categoria = new MenuCategoria();
+    ArrayList<Integer> cmbCategoria_id=new ArrayList<>();
     
     public MenuArticulo() {
         initComponents();
@@ -93,6 +94,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         for (Articulo item : dataArticulo) {
             
             cmb_id_categoria.addItem(String.valueOf(item.getCategoria().getNombre()));
+            cmbCategoria_id.add(item.getId());
         }
     }
     
@@ -508,10 +510,11 @@ public class MenuArticulo extends javax.swing.JPanel {
             
             Date create_date = formato.parse(txt_fecha_creada.getText());
 
-            String combo=cmb_id_categoria.getSelectedItem().toString();
+           // String combo=cmb_id_categoria.getSelectedItem().toString();
+            int Cmb_id = cmbCategoria_id.get(cmb_id_categoria.getSelectedIndex());
             
             Categoria nuevaCategoria = new Categoria();
-            nuevaCategoria.setNombre(combo);
+            nuevaCategoria.setId(Cmb_id);
 
             if (nombre.isBlank() || descripcion.isBlank()) {
                 throw new Exception("Debe completar todos los datos.");

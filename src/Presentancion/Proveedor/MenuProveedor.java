@@ -4,15 +4,11 @@
  */
 package Presentancion.Proveedor;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Fabricante;
-
 import logica.Fabrica;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;

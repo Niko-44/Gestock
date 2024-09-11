@@ -4,7 +4,6 @@
  */
 package Presentancion.Venta;
 
-import Presentancion.Articulo.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Fabrica;

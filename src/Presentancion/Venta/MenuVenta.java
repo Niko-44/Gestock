@@ -4,21 +4,17 @@
  */
 package Presentancion.Venta;
 
-import Presentancion.Articulo.*;
 import java.text.SimpleDateFormat;
 import logica.Fabrica;
 import logica.Clases.Venta;
 import logica.Interfaces.IControladorVenta;
-
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Categoria;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
-import logica.servicios.VentasServicios;
+
 
 public class MenuVenta extends javax.swing.JPanel {
 

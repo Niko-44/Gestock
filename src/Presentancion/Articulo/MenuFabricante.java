@@ -4,24 +4,16 @@
  */
 package Presentancion.Articulo;
 
-import Persistencia.ConexionDB;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
-import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
-import logica.Controladores.ControladorArticulo;
 import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
-import logica.servicios.FabricantesServicios;
+
 
 /**
  *
@@ -30,7 +22,6 @@ import logica.servicios.FabricantesServicios;
 public class MenuFabricante extends javax.swing.JFrame {
 
     IControladorArticulo ICA;
-    Articulo articulo = new Articulo();
     private int selectedRow;
 
     public MenuFabricante() {

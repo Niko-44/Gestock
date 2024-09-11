@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
-import logica.Clases.Categoria;
 import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Fabrica;
@@ -28,8 +27,6 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private int selectedRow;
     Fabrica fabrica = Fabrica.getInstance();
-    Proveedor proveedor = new Proveedor();
-    Articulo articulo = new Articulo();
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
     ArrayList<Integer> proveedor_ingresa_id = new ArrayList<>();
 

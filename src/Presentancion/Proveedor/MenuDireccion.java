@@ -4,16 +4,12 @@
  */
 package Presentancion.Proveedor;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Articulo;
-
 import logica.Fabrica;
 import logica.Clases.Direccion;
-import logica.Clases.Empleado;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
