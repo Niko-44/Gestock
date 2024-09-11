@@ -235,6 +235,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="txt_fecha_actualizada">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_fecha_actualizadaActionPerformed"/>
           </Events>
@@ -1326,6 +1329,9 @@
             <Property name="actionCommand" type="java.lang.String" value="jButtonAgregar"/>
             <Property name="label" type="java.lang.String" value="Agregar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_eliminar">
           <Properties>

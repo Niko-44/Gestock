@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import logica.Clases.Direccion;
 import logica.Clases.Ingresa;
@@ -42,16 +43,15 @@ public class ControladorProveedor implements IControladorProveedor {
         return instancia;
     }
 
-    public void ingresarDatosProveedor(Proveedor datos) {
-
-    }
-
-    public void confirmarAgregadoProveedor() {
-
-    }
-
-    public void cancelarAgregadoProveedor() {
-
+    public boolean agregarProveedor(Proveedor proveedor)
+    {
+        try {
+            return servicioProveedores.agregarProveedor(proveedor);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     public void ingresarDatosDireccion(Direccion datos) {

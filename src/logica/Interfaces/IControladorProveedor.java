@@ -19,11 +19,7 @@ import logica.Clases.Ingresa;
  */
 public interface IControladorProveedor {
 
-    public abstract void ingresarDatosProveedor(Proveedor datos);
-
-    public abstract void confirmarAgregadoProveedor();
-
-    public abstract void cancelarAgregadoProveedor();
+    public abstract boolean agregarProveedor(Proveedor proveedor);
 
     public abstract void ingresarDatosDireccion(Direccion datos);
 
