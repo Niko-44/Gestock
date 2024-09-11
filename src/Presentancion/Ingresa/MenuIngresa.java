@@ -462,18 +462,7 @@ public class MenuIngresa extends javax.swing.JPanel {
             if (ICP.agregarIngreso(nuevoIngreso) == true) {
                 JOptionPane.showMessageDialog(this, "El ingreso se agrego correctamente");
 
-                Object[] fila = {
-                    nuevoIngreso.getIdIngresa(),
-                    nuevoIngreso.getFechaIngreso(),
-                    nuevoIngreso.getCantidad(),
-                    nuevoIngreso.getLote(),
-                    nuevoIngreso.getPrecioCompra(),
-                    nuevoIngreso.getProveedor().getNombre(),
-                    nuevoIngreso.getArticulo().getNombre(),
-                    nuevoIngreso.getProveedor().getId(),
-                    nuevoIngreso.getArticulo().getId(),};
-                
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {

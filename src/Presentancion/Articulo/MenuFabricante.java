@@ -481,15 +481,7 @@ public class MenuFabricante extends javax.swing.JFrame {
             if (ICA.agregarFabricante(nuevoFabricante) == true) {
                 JOptionPane.showMessageDialog(this, "El fabricante se agrego correctamente");
 
-                Object[] fila = {
-                    nuevoFabricante.getId(),
-                    nuevoFabricante.getNombre(),
-                    nuevoFabricante.getCorreo(),
-                    nuevoFabricante.getTelefono(),
-                    nuevoFabricante.getUpdateDate(),
-                    nuevoFabricante.getCreateDate()
-                };
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {

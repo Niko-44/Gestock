@@ -448,17 +448,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (ICE.agregarEmpleado(nuevoEmpleado) == true) {
                 JOptionPane.showMessageDialog(this, "El empleado se agrego correctamente");
 
-                Object[] fila = {
-                    nuevoEmpleado.getId(),
-                    nuevoEmpleado.getNombre(),
-                    nuevoEmpleado.getApellido(),
-                    nuevoEmpleado.getCedula(),
-                    nuevoEmpleado.getNombreUsuario(),
-                    nuevoEmpleado.getEmail(),
-                    nuevoEmpleado.getContraseña(),
-                    nuevoEmpleado.getRol()
-                };
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {

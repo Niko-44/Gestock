@@ -596,20 +596,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (ICA.agregarArticulo(nuevoArticulo) == true) {
                 JOptionPane.showMessageDialog(this, "El articulo se agrego correctamente");
 
-                Object[] fila = {
-                    nuevoArticulo.getId(),
-                    nuevoArticulo.getSku(),
-                    nuevoArticulo.getNombre(),
-                    nuevoArticulo.getDescripcion(),
-                    nuevoArticulo.getStock(),
-                    nuevoArticulo.getPrecio(),
-                    nuevoArticulo.getPeso(),
-                    nuevoArticulo.getUpdateDate(),
-                    nuevoArticulo.getCreateDate(),
-                    nuevoArticulo.getCategoria().getNombre(),
-                    nuevoArticulo.getCategoria().getId()
-                };
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {

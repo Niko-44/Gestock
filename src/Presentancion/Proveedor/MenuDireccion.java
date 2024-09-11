@@ -404,17 +404,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
             if (ICP.agregarDireccion(nuevaDireccion) == true) {
                 JOptionPane.showMessageDialog(this, "La direccion se agrego correctamente");
-                Object[] fila = {
-                    nuevaDireccion.getId(),
-                    nuevaDireccion.getCalle(),
-                    nuevaDireccion.getNumeroPuerta(),
-                    nuevaDireccion.getLocalidad(),
-                    nuevaDireccion.getDepartamento(),
-                    nuevaDireccion.getProveedor().getNombre(),
-                    nuevaDireccion.getProveedor().getId()
-                };
-
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {

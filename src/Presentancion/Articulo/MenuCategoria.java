@@ -357,12 +357,7 @@ public class MenuCategoria extends javax.swing.JFrame {
             if (ICA.agregarCategoria(nuevaCategoria) == true) {
                 JOptionPane.showMessageDialog(this, "La categoria se agrego correctamente");
 
-                Object[] fila = {
-                    nuevaCategoria.getId(),
-                    nuevaCategoria.getNombre(),
-                    nuevaCategoria.getDescripcion()
-                };
-                modeloTabla.addRow(fila);
+                cargarDatosEnTabla();
             }
 
         } catch (Exception e) {
