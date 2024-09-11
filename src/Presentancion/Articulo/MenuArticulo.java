@@ -4,17 +4,11 @@
  */
 package Presentancion.Articulo;
 
-
-
-
-
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,25 +29,22 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
-    
+
     MenuFabricante fabricante = new MenuFabricante();
     MenuCategoria categoria = new MenuCategoria();
-    ArrayList<Integer> cmbCategoria_id=new ArrayList<>();
-    
+    ArrayList<Integer> cmbCategoria_id = new ArrayList<>();
+
     public MenuArticulo() {
         initComponents();
-        
-        Date fechaactual=new Date();
+
+        Date fechaactual = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada=formatoFecha.format(fechaactual);
-        
-       
+        String fechaFormateada = formatoFecha.format(fechaactual);
+
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
-        
-        
-        
+
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_Articulo.getSelectedRow();
@@ -68,7 +59,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                     String peso = tbl_Articulo.getValueAt(selectedRow, 6).toString();
                     String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 7).toString();
                     String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 8).toString();
-              
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
@@ -81,28 +71,24 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_peso.setText(peso);
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creada.setText(fecha_creada);
-                  
-                    
+
                 }
             }
         });
-        
-        
-        
-           ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+
+        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
         for (Articulo item : dataArticulo) {
-            
+
             cmb_id_categoria.addItem(String.valueOf(item.getCategoria().getNombre()));
             cmbCategoria_id.add(item.getId());
         }
     }
-    
-    
+
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria","ID_Categoria"};
+        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria", "ID_Categoria"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
-        
+
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
         for (Articulo articulos : articulo) {
             Object[] fila = {
@@ -119,17 +105,13 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getCategoria().getId()
             };
             modeloTabla.addRow(fila);
-            
+
         }
-        
+
         tbl_Articulo.setModel(modeloTabla);
     }
-    
-    
-    
-    
-    
-      private void eliminarArticulo(int selectedRow) {
+
+    private void eliminarArticulo(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) tbl_Articulo.getModel();
         model.removeRow(selectedRow);
 
@@ -483,70 +465,162 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_categoriaActionPerformed
 
     private void btn_categoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_categoriaMouseClicked
-        
+
         categoria.setVisible(true);
     }//GEN-LAST:event_btn_categoriaMouseClicked
 
     private void btn_FabricanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_FabricanteMouseClicked
-        
+
     }//GEN-LAST:event_btn_FabricanteMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-        
         try {
-            
-            int id = Integer.parseInt(txt_id.getText());
-            int sku = Integer.parseInt(txt_sku.getText());
+
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
+            }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            String skuText = txt_sku.getText();
+            if (skuText.isBlank()) {
+                throw new Exception("El SKU no puede estar vacío.");
+            }
+            int sku;
+            try {
+                sku = Integer.parseInt(skuText);
+                if (sku <= 0) {
+                    throw new Exception("El SKU debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El SKU debe ser un número entero válido.");
+            }
+
             String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
             String descripcion = txt_descripcion.getText();
-            int stock = Integer.parseInt(txt_stock.getText());
-            float precio = Float.parseFloat(txt_precio.getText());
-            float peso = Float.parseFloat(txt_peso.getText());
+            if (descripcion.isBlank()) {
+                throw new Exception("La descripción no puede estar vacía.");
+            }
+            if (descripcion.length() > 100) {
+                throw new Exception("La descripción no puede exceder los 100 caracteres.");
+            }
+            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La descripción contiene caracteres inválidos.");
+            }
 
-            // Definir el formato que esperas en el campo de texto
+            String stockText = txt_stock.getText();
+            if (stockText.isBlank()) {
+                throw new Exception("El stock no puede estar vacío.");
+            }
+            int stock;
+            try {
+                stock = Integer.parseInt(stockText);
+                if (stock < 0) {
+                    throw new Exception("El stock no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El stock debe ser un número entero válido.");
+            }
+
+            String precioText = txt_precio.getText();
+            if (precioText.isBlank()) {
+                throw new Exception("El precio no puede estar vacío.");
+            }
+            float precio;
+            try {
+                precio = Float.parseFloat(precioText);
+                if (precio < 0) {
+                    throw new Exception("El precio no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El precio debe ser un número decimal válido.");
+            }
+
+            String pesoText = txt_peso.getText();
+            if (pesoText.isBlank()) {
+                throw new Exception("El peso no puede estar vacío.");
+            }
+            float peso;
+            try {
+                peso = Float.parseFloat(pesoText);
+                if (peso < 0) {
+                    throw new Exception("El peso no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El peso debe ser un número decimal válido.");
+            }
+
+            // Verificación de la fecha de actualización
+            String fechaActualizadaText = txt_fecha_actualizada.getText();
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
-            Date update_date = formato.parse(txt_fecha_actualizada.getText());
-            
-            Date create_date = formato.parse(txt_fecha_creada.getText());
+            Date update_date;
+            try {
+                update_date = formato.parse(fechaActualizadaText);
+            } catch (ParseException  e) {
+                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
+            }
 
-           // String combo=cmb_id_categoria.getSelectedItem().toString();
-            int Cmb_id = cmbCategoria_id.get(cmb_id_categoria.getSelectedIndex());
             
+            String fechaCreadaText = txt_fecha_creada.getText();
+            Date create_date;
+            try {
+                create_date = formato.parse(fechaCreadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de creación debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+          
+            int selectedIndex = cmb_id_categoria.getSelectedIndex();
+            if (selectedIndex < 0) {
+                throw new Exception("Debe seleccionar una categoría.");
+            }
+            int Cmb_id = cmbCategoria_id.get(selectedIndex);
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setId(Cmb_id);
 
-            if (nombre.isBlank() || descripcion.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
-                ICA.modificaDatosArticulo(articulo);
-                
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                
-                txt_id.setText("");
-                txt_sku.setText("");
-                txt_nombre.setText("");
-                txt_descripcion.setText("");
-                txt_stock.setText("");
-                txt_precio.setText("");
-                txt_peso.setText("");
-                txt_fecha_actualizada.setText("");
-                txt_fecha_creada.setText("");
-               
-            }
             
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
+            ICA.modificaDatosArticulo(articulo);
+
+            JOptionPane.showMessageDialog(this, "El artículo se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            
+            txt_id.setText("");
+            txt_sku.setText("");
+            txt_nombre.setText("");
+            txt_descripcion.setText("");
+            txt_stock.setText("");
+            txt_precio.setText("");
+            txt_peso.setText("");
+            txt_fecha_actualizada.setText("");
+            txt_fecha_creada.setText("");
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            
         }
-        
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
     private void btn_FabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FabricanteActionPerformed
-        
+
         fabricante.setVisible(true);
     }//GEN-LAST:event_btn_FabricanteActionPerformed
 

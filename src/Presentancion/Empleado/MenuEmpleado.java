@@ -26,8 +26,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
         initComponents();
         this.ICE = fabrica.getIControladoreEmpleado();
         cargarDatosEnTabla();
-        
-          tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Empleado.getSelectedRow();
                 if (selectedRow != -1) {
@@ -39,7 +39,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     String nombre_usuario = tbl_Empleado.getValueAt(selectedRow, 4).toString();
                     String email = tbl_Empleado.getValueAt(selectedRow, 5).toString();
                     String contraseña = tbl_Empleado.getValueAt(selectedRow, 6).toString();
-                    
 
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -50,16 +49,14 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_email.setText(email);
                     txt_contraseña.setText(contraseña);
 
-
                 }
             }
-        }); 
-          
-     
+        });
+
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre","Apellido","Cédula","Nombre Usuario","Email", "Contraseña", "Rol"};
+        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Nombre Usuario", "Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
@@ -363,41 +360,113 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String apellido = txt_apellido.getText();
-            int cedula = Integer.parseInt(txt_cedula.getText());
-            String nombre_usuario = txt_nombre_usuario.getText();
-            String email = txt_email.getText();
-            String contraseña = txt_contraseña.getText();
-            String rol=cmb_Empleado.getSelectedItem().toString();
-
-               
-
-            if (nombre.isBlank() || apellido.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-              
-                Empleado empleado = new Empleado(id,nombre,apellido,cedula,nombre_usuario,email,contraseña,Empleado.ROLEMPLEADO.valueOf(rol));
-                ICE.modificaDatosEmpleado(empleado);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_apellido.setText("");
-                txt_cedula.setText("");
-                txt_nombre_usuario.setText("");
-                txt_email.setText("");
-                txt_contraseña.setText("");
-               
-               
+            
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+           
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+           
+            String apellido = txt_apellido.getText();
+            if (apellido.isBlank()) {
+                throw new Exception("El apellido no puede estar vacío.");
+            }
+            if (apellido.length() > 50) {
+                throw new Exception("El apellido no puede exceder los 50 caracteres.");
+            }
+            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El apellido solo puede contener letras y espacios.");
+            }
+
+        
+            String cedulaText = txt_cedula.getText();
+            if (cedulaText.isBlank()) {
+                throw new Exception("La cédula no puede estar vacía.");
+            }
+            int cedula;
+            try {
+                cedula = Integer.parseInt(cedulaText);
+                if (cedula <= 0) {
+                    throw new Exception("La cédula debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("La cédula debe ser un número entero válido.");
+            }
+
+            
+            String nombre_usuario = txt_nombre_usuario.getText();
+            if (nombre_usuario.isBlank()) {
+                throw new Exception("El nombre de usuario no puede estar vacío.");
+            }
+            if (nombre_usuario.length() > 50) {
+                throw new Exception("El nombre de usuario no puede exceder los 50 caracteres.");
+            }
+
+         
+            String email = txt_email.getText();
+            if (email.isBlank()) {
+                throw new Exception("El email no puede estar vacío.");
+            }
+            if (email.length() > 100) {
+                throw new Exception("El email no puede exceder los 100 caracteres.");
+            }
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                throw new Exception("El formato del email es inválido.");
+            }
+
+           
+            String contraseña = txt_contraseña.getText();
+            if (contraseña.isBlank()) {
+                throw new Exception("La contraseña no puede estar vacía.");
+            }
+            if (contraseña.length() < 8 || contraseña.length() > 20) {
+                throw new Exception("La contraseña debe tener entre 8 y 20 caracteres.");
+            }
+
+          
+            String rol = cmb_Empleado.getSelectedItem().toString();
+            if (rol.isBlank()) {
+                throw new Exception("Debe seleccionar un rol.");
+            }
+
+           
+            Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
+            ICE.modificaDatosEmpleado(empleado);
+
+            JOptionPane.showMessageDialog(this, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+           
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_apellido.setText("");
+            txt_cedula.setText("");
+            txt_nombre_usuario.setText("");
+            txt_email.setText("");
+            txt_contraseña.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
     }//GEN-LAST:event_btn_ModificarMouseClicked

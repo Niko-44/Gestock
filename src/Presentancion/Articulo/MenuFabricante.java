@@ -4,6 +4,7 @@
  */
 package Presentancion.Articulo;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,6 @@ import logica.Clases.Articulo;
 import logica.Clases.Fabricante;
 import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
-
 
 /**
  *
@@ -389,40 +389,88 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String telefono = txt_telefono.getText();
-            String correo = txt_correo.getText();
-
-            // Definir el formato que esperas en el campo de texto
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date update_date = formato.parse(txt_fecha_actualizada.getText());
-
-            Date create_date = formato.parse(txt_fecha_creada.getText());
-
-            if (nombre.isBlank() || correo.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Fabricante fabricante = new Fabricante(id, nombre, telefono, correo, update_date, create_date);
-                ICA.modificaDatosFabricante(fabricante);
-
-                JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_telefono.setText("");
-                txt_correo.setText("");
-                txt_fecha_actualizada.setText("");
-                txt_fecha_creada.setText("");
-
+            
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+          
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+   
+            String telefono = txt_telefono.getText();
+            if (!telefono.isBlank()) {
+                if (!telefono.matches("\\d{7,15}")) {
+                    throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
+                }
+            }
+
+            
+            String correo = txt_correo.getText();
+            if (correo.isBlank()) {
+                throw new Exception("El correo no puede estar vacío.");
+            }
+            if (correo.length() > 100) {
+                throw new Exception("El correo no puede exceder los 100 caracteres.");
+            }
+            if (!correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                throw new Exception("El formato del correo es inválido.");
+            }
+
+           
+            String fechaActualizadaText = txt_fecha_actualizada.getText();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date update_date;
+            try {
+                update_date = formato.parse(fechaActualizadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+           
+            String fechaCreadaText = txt_fecha_creada.getText();
+            Date create_date;
+            try {
+                create_date = formato.parse(fechaCreadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de creación debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+            
+            Fabricante fabricante = new Fabricante(id, nombre, telefono, correo, update_date, create_date);
+            ICA.modificaDatosFabricante(fabricante);
+
+            JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_telefono.setText("");
+            txt_correo.setText("");
+            txt_fecha_actualizada.setText("");
+            txt_fecha_creada.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
 

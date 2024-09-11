@@ -278,32 +278,59 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String descripcion = txt_descripcion.getText();
-
-            if (nombre.isBlank() || descripcion.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Categoria categoria = new Categoria(id, nombre, descripcion);
-                ICA.modificaDatosCategoria(categoria);
-
-                JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_descripcion.setText("");
-
+           
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+         
+            String descripcion = txt_descripcion.getText();
+            if (descripcion.isBlank()) {
+                throw new Exception("La descripción no puede estar vacía.");
+            }
+            if (descripcion.length() > 100) {
+                throw new Exception("La descripción no puede exceder los 100 caracteres.");
+            }
+            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La descripción contiene caracteres inválidos.");
+            }
+
+            Categoria categoria = new Categoria(id, nombre, descripcion);
+            ICA.modificaDatosCategoria(categoria);
+
+            JOptionPane.showMessageDialog(this, "La categoría se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_descripcion.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-
-
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
     private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked

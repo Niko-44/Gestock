@@ -4,6 +4,7 @@
  */
 package Presentancion.Ingresa;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +80,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo","ID Proveedor","ID Articulo"};
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo", "ID Proveedor", "ID Articulo"};
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Ingresa> ingresa = ICP.obtenerIngresa();
@@ -94,8 +95,7 @@ public class MenuIngresa extends javax.swing.JPanel {
                 ingresos.getProveedor().getNombre(),
                 ingresos.getArticulo().getNombre(),
                 ingresos.getProveedor().getId(),
-                ingresos.getArticulo().getId(),
-            };
+                ingresos.getArticulo().getId(),};
 
             modeloTabla.addRow(fila);
 
@@ -377,49 +377,115 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-
-            // Definir el formato que esperas en el campo de texto
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date fecha_ingreso = formato.parse(txt_fecha.getText());
-
-            int cantidad = Integer.parseInt(txt_cantidad.getText());
-            int lote = Integer.parseInt(txt_lote.getText());
-            float precioC = Float.parseFloat(txt_precioCompra.getText());
             
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
+            }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            
+            String fechaText = txt_fecha.getText();
+            if (fechaText.isBlank()) {
+                throw new Exception("La fecha de ingreso no puede estar vacía.");
+            }
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha_ingreso;
+            try {
+                fecha_ingreso = formato.parse(fechaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de ingreso debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+           
+            String cantidadText = txt_cantidad.getText();
+            if (cantidadText.isBlank()) {
+                throw new Exception("La cantidad no puede estar vacía.");
+            }
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(cantidadText);
+                if (cantidad <= 0) {
+                    throw new Exception("La cantidad debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("La cantidad debe ser un número entero válido.");
+            }
+
+           
+            String loteText = txt_lote.getText();
+            if (loteText.isBlank()) {
+                throw new Exception("El lote no puede estar vacío.");
+            }
+            int lote;
+            try {
+                lote = Integer.parseInt(loteText);
+                if (lote <= 0) {
+                    throw new Exception("El lote debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El lote debe ser un número entero válido.");
+            }
+
+            
+            String precioCText = txt_precioCompra.getText();
+            if (precioCText.isBlank()) {
+                throw new Exception("El precio de compra no puede estar vacío.");
+            }
+            float precioC;
+            try {
+                precioC = Float.parseFloat(precioCText);
+                if (precioC <= 0) {
+                    throw new Exception("El precio de compra debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El precio de compra debe ser un número decimal válido.");
+            }
+
+            
+            if (cmb_articulo.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un artículo.");
+            }
             int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+
+            // Verificación del proveedor seleccionado
+            if (cmb_proveedor.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un proveedor.");
+            }
             int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
 
+           
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(articuloCmb_id);
-
 
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(proveedorCmb_id);
 
-            if (fecha_ingreso==null) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
+            
+            Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
+            ICP.modificarDatosIngresa(ingresa);
 
-                Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
-                ICP.modificarDatosIngresa(ingresa);
+            JOptionPane.showMessageDialog(this, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_fecha.setText("");
-                txt_cantidad.setText("");
-                txt_lote.setText("");
-                txt_precioCompra.setText("");
-
-            }
+     
+            txt_id.setText("");
+            txt_fecha.setText("");
+            txt_cantidad.setText("");
+            txt_lote.setText("");
+            txt_precioCompra.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
+
 
     }//GEN-LAST:event_btn_modificarMouseClicked
 

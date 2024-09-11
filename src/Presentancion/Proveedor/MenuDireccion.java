@@ -4,7 +4,6 @@
  */
 package Presentancion.Proveedor;
 
-
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +22,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
     private DefaultTableModel modeloTabla;
-    ArrayList<Integer> cmbProveedor_id=new ArrayList<>();
+    ArrayList<Integer> cmbProveedor_id = new ArrayList<>();
 
     /**
      * Creates new form MenuDirecciones
@@ -32,10 +31,8 @@ public class MenuDireccion extends javax.swing.JFrame {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
-        
-        
-        
-         tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Direccion.getSelectedRow();
                 if (selectedRow != -1) {
@@ -45,7 +42,6 @@ public class MenuDireccion extends javax.swing.JFrame {
                     String num_puerta = tbl_Direccion.getValueAt(selectedRow, 2).toString();
                     String localidad = tbl_Direccion.getValueAt(selectedRow, 3).toString();
                     String departamento = tbl_Direccion.getValueAt(selectedRow, 4).toString();
-                    
 
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -53,16 +49,15 @@ public class MenuDireccion extends javax.swing.JFrame {
                     txt_numeroPuerta.setText(num_puerta);
                     txt_localidad.setText(localidad);
                     txt_departamento.setText(departamento);
-            
 
                 }
             }
         });
-         
-         ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
+
+        ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
 
         for (Direccion item : dataDireccion) {
-            
+
             cmb_proveedor.addItem(String.valueOf(item.getProveedor().getNombre()));
             cmbProveedor_id.add(item.getId());
         }
@@ -75,14 +70,13 @@ public class MenuDireccion extends javax.swing.JFrame {
     }
 
     private void cargarDatosEnTabla() {
-       
-        String[] columnas = {  "ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor" ,"ID Proveedor" };
+
+        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor", "ID Proveedor"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-      
+
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
         for (Direccion direccion : direcciones) {
             Object[] fila = {
-                
                 direccion.getId(),
                 direccion.getCalle(),
                 direccion.getNumeroPuerta(),
@@ -340,43 +334,99 @@ public class MenuDireccion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
-       try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String calle = txt_calle.getText();
-            int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
-            String localidad = txt_localidad.getText();
-            String departamento = txt_departamento.getText();
+        try {
             
-             int cmb_id=cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
-
-            Proveedor nuevoProveedor=new Proveedor();
-            nuevoProveedor.setId(cmb_id);
-            
-            
-            
-            System.out.println(nuevoProveedor.getId());
-            if (calle.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Direccion direccion = new Direccion(id, calle, num_puerta,localidad,departamento,nuevoProveedor);
-                ICP.administradorModificaDireccion(direccion);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-           txt_id.getText();
-           txt_calle.getText();
-           txt_numeroPuerta.getText();
-           txt_localidad.getText();
-           txt_departamento.getText();
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+       
+             String calle = txt_calle.getText();
+            if (calle.isBlank()) {
+                throw new Exception("La calle no puede estar vacía.");
+            }
+            if (calle.length() > 100) {
+                throw new Exception("La calle no puede exceder los 100 caracteres.");
+            }
+            if (!calle.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La calle contiene caracteres inválidos.");
+            }
+
+            
+            String numPuertaText = txt_numeroPuerta.getText();
+            if (numPuertaText.isBlank()) {
+                throw new Exception("El número de puerta no puede estar vacío.");
+            }
+            int num_puerta;
+            try {
+                num_puerta = Integer.parseInt(numPuertaText);
+                if (num_puerta <= 0) {
+                    throw new Exception("El número de puerta debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El número de puerta debe ser un número entero válido.");
+            }
+
+            
+            String localidad = txt_localidad.getText();
+            if (localidad.isBlank()) {
+                throw new Exception("La localidad no puede estar vacía.");
+            }
+            if (localidad.length() > 100) {
+                throw new Exception("La localidad no puede exceder los 100 caracteres.");
+            }
+            if (!localidad.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La localidad contiene caracteres inválidos.");
+            }
+
+          String departamento = txt_departamento.getText();
+            if (departamento.isBlank()) {
+                throw new Exception("La departamento no puede estar vacía.");
+            }
+            if (departamento.length() > 100) {
+                throw new Exception("La departamento no puede exceder los 100 caracteres.");
+            }
+            if (!departamento.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La departamento contiene caracteres inválidos.");
+            }
+           
+
+            
+            if (cmb_proveedor.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un proveedor.");
+            }
+            int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
+
+           
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setId(cmb_id);
+
+          
+            Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
+            ICP.administradorModificaDireccion(direccion);
+
+            JOptionPane.showMessageDialog(this, "La dirección se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+         
+            txt_id.setText("");
+            txt_calle.setText("");
+            txt_numeroPuerta.setText("");
+            txt_localidad.setText("");
+            txt_departamento.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-
 
     }//GEN-LAST:event_btn_modificarMouseClicked
 
