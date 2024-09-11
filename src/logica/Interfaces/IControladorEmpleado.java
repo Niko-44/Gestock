@@ -11,12 +11,12 @@ public interface IControladorEmpleado {
 
     
     public abstract Empleado iniciarSesion(String nombreUsuario, String contraseña);
-    public abstract void ingresarDatosEmpleado(Empleado datos);
     public abstract void modificaDatosEmpleado(Empleado empleado);
     public abstract ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda);
     public abstract ArrayList<Empleado> listarEmpleado();
-    public abstract void confirmarAlta();
-    public abstract void cancelarAlta();
+    
+    public abstract boolean agregarEmpleado(Empleado empleado);
+    
     public abstract ArrayList<Empleado> obtenerEmpleado();
     public abstract void seleccionarEmpleado(Empleado empleado);
     public abstract boolean eliminarEmpleado(int idEmpleado);

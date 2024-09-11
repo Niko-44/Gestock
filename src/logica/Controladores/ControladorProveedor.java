@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import logica.Clases.Direccion;
 import logica.Clases.Ingresa;
@@ -42,27 +43,34 @@ public class ControladorProveedor implements IControladorProveedor {
         return instancia;
     }
 
-    public void ingresarDatosProveedor(Proveedor datos) {
-
+    public boolean agregarProveedor(Proveedor proveedor) {
+        try {
+            return servicioProveedores.agregarProveedor(proveedor);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
-    public void confirmarAgregadoProveedor() {
-
+    public boolean agregarDireccion(Direccion direccion) {
+        try {
+            return servicioDirecciones.agregarDireccion(direccion);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
-    public void cancelarAgregadoProveedor() {
-
-    }
-
-    public void ingresarDatosDireccion(Direccion datos) {
-
-    }
-
-    public void cancelarAgregadoDireccion() {
-    }
-
-    public void confirmarAgregadoDireccion() {
-
+    public boolean agregarIngreso(Ingresa ingresa) {
+        try {
+            return servicioIngresa.agregarIngreso(ingresa);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorProveedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     public boolean eliminarProveedor(int idProveedor) {
@@ -89,23 +97,21 @@ public class ControladorProveedor implements IControladorProveedor {
     }
 
     public ArrayList<Ingresa> obtenerIngresa() {
-        
-         ArrayList<Ingresa> ingresa = null;
+
+        ArrayList<Ingresa> ingresa = null;
         try {
-           
+
             ingresa = servicioIngresa.getIngresa();
-           
+
         } catch (Exception e) {
             throw e;
         }
         return ingresa;
     }
-    
-    
-        public void modificarDatosIngresa(Ingresa ingresa)
-        {
-            servicioIngresa.modificaDatosIngresa(ingresa);
-        }
+
+    public void modificarDatosIngresa(Ingresa ingresa) {
+        servicioIngresa.modificaDatosIngresa(ingresa);
+    }
 
     public void modificarDatosProveedor(Proveedor proveedor) {
         servicioProveedores.modificaDatosproveedor(proveedor);

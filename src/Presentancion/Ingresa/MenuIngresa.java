@@ -41,6 +41,8 @@ public class MenuIngresa extends javax.swing.JPanel {
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
     ArrayList<Integer> proveedor_ingresa_id = new ArrayList<>();
 
+    DefaultTableModel modeloTabla;
+
     public MenuIngresa() {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
@@ -89,9 +91,9 @@ public class MenuIngresa extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = { "ID", "Fecha de ingreso", "Cantidad", "Lote", "Precio de compra", "Artículo",
-                "Proveedor" };
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo", "ID Proveedor", "ID Articulo"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
         for (Ingresa ingreso : ingresos) {
@@ -294,6 +296,11 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         btn_agregar.setActionCommand("btn_agregar");
         btn_agregar.setLabel("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_agregar);
 
         btn_eliminar.setText("Eliminar");
@@ -444,7 +451,48 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         }
 
-    }// GEN-LAST:event_btn_modificarMouseClicked
+    }//GEN-LAST:event_btn_modificarMouseClicked
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        try {
+            Ingresa nuevoIngreso = new Ingresa();
+
+            // Definir el formato que esperas en el campo de texto
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date fecha_ingreso = formato.parse(txt_fecha.getText());
+
+            nuevoIngreso.setFechaIngreso(fecha_ingreso);
+            nuevoIngreso.setCantidad(Integer.parseInt(txt_cantidad.getText()));
+            nuevoIngreso.setLote(Integer.parseInt(txt_lote.getText()));
+            nuevoIngreso.setPrecioCompra(Float.parseFloat(txt_precioCompra.getText()));
+
+            int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+            int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
+
+            Articulo nuevoArticulo = new Articulo();
+            nuevoArticulo.setId(articuloCmb_id);
+            nuevoArticulo.setNombre(cmb_articulo.getSelectedItem().toString());
+
+            Proveedor nuevoProveedor = new Proveedor();
+            nuevoProveedor.setId(proveedorCmb_id);
+            nuevoProveedor.setNombre(cmb_proveedor.getSelectedItem().toString());
+
+            nuevoIngreso.setProveedor(nuevoProveedor);
+            nuevoIngreso.setArticulo(nuevoArticulo);
+
+            if (ICP.agregarIngreso(nuevoIngreso) == true) {
+                JOptionPane.showMessageDialog(this, "El ingreso se agrego correctamente");
+
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_agregarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;

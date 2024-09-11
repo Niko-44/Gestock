@@ -76,7 +76,7 @@ public class VentasServicios {
         try {   
             
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `venta` (`id_venta`, `fecha_venta`, `estado`, `id_empleado_fk`) VALUES (?, ?, ?, ?)");
-            status.setObject(1, 0);
+            status.setObject(1, null);
             status.setObject(2, venta.getFechaVenta());
             status.setObject(3, venta.getEstado().name());
             status.setObject(4, venta.getEmpleado().getId());

@@ -147,7 +147,6 @@ public class MenuVenta extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_venta = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
@@ -190,15 +189,6 @@ public class MenuVenta extends javax.swing.JPanel {
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
-
-        btnAgregar.setActionCommand("jButtonAgregar");
-        btnAgregar.setLabel("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnAgregar);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.setActionCommand("jButtonEliminar");
@@ -347,35 +337,6 @@ public class MenuVenta extends javax.swing.JPanel {
         menuLineaVenta.setVisible(true);
     }//GEN-LAST:event_btnVerLineaVentaActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        try {
-            String estadoVenta = (String) cmbEstado.getSelectedItem();
-            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
-            String fechaTexto = txtDate.getText();
-
-            Date fecha = formatoFecha.parse(fechaTexto);
-            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
-
-            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
-           
-            Empleado nuevoEmpleado = new Empleado();
-            
-            nuevoEmpleado.setId(id_empleado);
-            
-            
-            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
-
-            if (ICV.agregarVenta(nuevaVenta) == true) {
-                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al intentar agregar la venta");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         try {
             this.selectedRow = tbl_venta.getSelectedRow();
@@ -443,7 +404,6 @@ public class MenuVenta extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;

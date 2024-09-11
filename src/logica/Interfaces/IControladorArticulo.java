@@ -14,23 +14,11 @@ import logica.Clases.Fabricante;
 public interface IControladorArticulo {
 
 
-    public abstract void ingresarDatosArticulo(Articulo articulo);
+    public abstract boolean agregarArticulo(Articulo articulo);
 
-    public abstract void confirmarAgregadoArticulo();
+    public abstract boolean agregarFabricante(Fabricante fabricante);
 
-    public abstract void cancelarAgregadoArticulo();
-
-    public abstract void ingresarDatosFabricante();
-
-    public abstract void confirmarAgregadoFabricante();
-
-    public abstract void cancelarAgregadoFabricante();
-
-    public abstract void ingresarDatosCategoria();  
-
-    public abstract void cancelarAgregadoCategoria();
-
-    public abstract void confirmarAgregadoCategoria();
+    public abstract boolean agregarCategoria(Categoria categoria);
 
     public abstract ArrayList<Articulo> obtenerArticulos();  
 

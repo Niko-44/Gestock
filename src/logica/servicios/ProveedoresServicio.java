@@ -15,8 +15,6 @@ import logica.Clases.Empleado;
 import logica.Clases.Fabricante;
 import logica.Clases.Proveedor;
 
-
-
 public class ProveedoresServicio {
 
     private Connection conexion = new ConexionDB().getConexion();
@@ -45,11 +43,9 @@ public class ProveedoresServicio {
         }
     }
 
-
     public ArrayList<Proveedor> getProveedor() throws SQLException {
         ArrayList<Proveedor> proveedores = new ArrayList<>();
-        
-        
+
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor");
             ResultSet rs = ps.executeQuery();
@@ -60,7 +56,7 @@ public class ProveedoresServicio {
                 String telefono = rs.getString("telefono");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
-                
+
                 Proveedor proveedor = new Proveedor(idProveedor, nombre, telefono, email, updateDate, createDate);
                 proveedores.add(proveedor);
             }
@@ -70,9 +66,8 @@ public class ProveedoresServicio {
         }
         return proveedores;
     }
-    
-    
-     public void modificaDatosproveedor(Proveedor proveedor) {
+
+    public void modificaDatosproveedor(Proveedor proveedor) {
         try {
             PreparedStatement status = conexion.prepareStatement("UPDATE `proveedor` SET `nombre_proveedor` = ?, `email` = ?, `telefono` = ?, `update_date` = ?, `create_date` = ? WHERE `proveedor`.`id_proveedor` = ?;");
 
@@ -95,4 +90,52 @@ public class ProveedoresServicio {
             System.out.println("Error al actualizar el fabricante: " + e.getMessage());
         }
     }
+
+    public boolean agregarProveedor(Proveedor proveedor) throws Exception {
+        try {
+
+            if (verificarExistencia(proveedor)) {
+                throw new Exception("El proveedor ya existe");
+            }
+
+            PreparedStatement status = conexion.prepareStatement(
+                    "INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `email`, `telefono`, `update_date`, `create_date`) VALUES (?, ?, ?, ?, ?, ?); ");
+            status.setObject(1, null);
+            status.setObject(2, proveedor.getNombre());
+            status.setObject(3, proveedor.getEmail());
+            status.setObject(4, proveedor.getTelefonos());
+            status.setObject(5, proveedor.getUpdateDate());
+            status.setObject(6, proveedor.getCreateDate());
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean verificarExistencia(Proveedor proveedor) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `proveedor`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                String nombre = rs.getString("nombre_proveedor");
+
+                if (proveedor.getNombre().equals(nombre)) {
+                    return true;
+                }
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }

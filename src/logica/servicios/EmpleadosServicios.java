@@ -91,4 +91,52 @@ public class EmpleadosServicios {
             return false;
         }
     }
+
+    public boolean agregarEmpleado(Empleado empleado) throws Exception {
+        try {
+
+            if (verificarExistencia(empleado)) {
+                throw new Exception("La cedula coincide con la de otro empleado ya existente");
+            }
+
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `cedula`, `nombre_usuario`, `email`, `contraseña`, `rol`) VALUES (?, ?, ?, ?, ?, ?, ?, ?); ");
+            status.setObject(1, null);
+            status.setObject(2, empleado.getNombre());
+            status.setObject(3, empleado.getApellido());
+            status.setObject(4, empleado.getCedula());
+            status.setObject(5, empleado.getNombreUsuario());
+            status.setObject(6, empleado.getEmail());
+            status.setObject(7, empleado.getContraseña());
+            status.setObject(8, empleado.getRol().toString());
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean verificarExistencia(Empleado empleado) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `empleado`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int cedula = rs.getInt("cedula");
+
+                if (empleado.getCedula() == cedula) {
+                    return true;
+                }
+
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

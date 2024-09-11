@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
 import logica.servicios.EmpleadosServicios;
@@ -32,9 +33,7 @@ public class ControladorEmpleado implements IControladorEmpleado{
         return null;
         
     }
-    public void ingresarDatosEmpleado(Empleado datos){
-
-    }
+    
     public void modificaDatosEmpleado(Empleado empleado){
         servicioEmpleado.modificaDatosEmpleado(empleado);
     }
@@ -48,12 +47,18 @@ public class ControladorEmpleado implements IControladorEmpleado{
         return null;
 
     }
-    public void confirmarAlta(){
-
+    
+    public boolean agregarEmpleado(Empleado empleado)
+    {
+        try {
+            return servicioEmpleado.agregarEmpleado(empleado);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
-    public void cancelarAlta(){
-
-    }
+    
     public ArrayList<Empleado> obtenerEmpleado(){
 
         ArrayList<Empleado> Empleados = null;

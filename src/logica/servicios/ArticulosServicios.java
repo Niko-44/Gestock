@@ -46,7 +46,56 @@ public class ArticulosServicios {
         }
     }
 
+    public boolean agregarArticulo(Articulo articulo) throws Exception {
+        try {
+            
+            if (verificarExistencia(articulo))
+            {
+                throw new Exception("El articulo ya existe");
+            }
 
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `articulo` (`id_articulo`, `sku`, `nombre`, `descripcion`, `stock`, `precio`, `peso`, `update_date`, `create_date`, `id_categoria_fk`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            status.setObject(1, null);
+            status.setObject(2, articulo.getSku());
+            status.setObject(3, articulo.getNombre());
+            status.setObject(4, articulo.getDescripcion());
+            status.setObject(5, articulo.getStock());
+            status.setObject(6, articulo.getPrecio());
+            status.setObject(7, articulo.getPeso());
+            status.setObject(8, articulo.getUpdateDate());
+            status.setObject(9, articulo.getCreateDate());
+            status.setObject(10, articulo.getCategoria().getId());
+
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+            
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean verificarExistencia(Articulo articulo) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `articulo`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                int sku = rs.getInt("sku");
+                String nombre = rs.getString("nombre");
+                
+                if (articulo.getNombre().equals(nombre) || articulo.getSku() == sku)
+                    return true;
+                
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> articulos = new ArrayList<>();
@@ -58,7 +107,7 @@ public class ArticulosServicios {
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
-                
+
                 int idArticulo = rs.getInt("id_articulo");
                 int sku = rs.getInt("sku");
                 String nombre = rs.getString("nombre");
@@ -78,8 +127,8 @@ public class ArticulosServicios {
         }
         return articulos;
     }
-    
-        public boolean eliminarArticulo(int idArticulo) {
+
+    public boolean eliminarArticulo(int idArticulo) {
         try {
             PreparedStatement status = conexion.prepareStatement("DELETE FROM articulo WHERE id_articulo = ?");
 

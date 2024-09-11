@@ -24,18 +24,22 @@ public class MenuArticulo extends javax.swing.JPanel {
     IControladorArticulo ICA;
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
-    
+
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    DefaultTableModel modeloTabla;
+
+    ArrayList<Integer> id_categoria = new ArrayList<>();
+
     MenuFabricante fabricante = new MenuFabricante();
     MenuCategoria categoria = new MenuCategoria();
-    
+
     public MenuArticulo() {
         initComponents();
-        
-        Date fechaactual=new Date();
+
+        Date fechaactual = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada=formatoFecha.format(fechaactual);
-        
-       
+        String fechaFormateada = formatoFecha.format(fechaactual);
+
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
@@ -44,6 +48,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         
         
         
+
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_Articulo.getSelectedRow();
@@ -58,7 +63,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                     String peso = tbl_Articulo.getValueAt(selectedRow, 6).toString();
                     String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 7).toString();
                     String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 8).toString();
-              
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
@@ -71,27 +75,24 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_peso.setText(peso);
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creada.setText(fecha_creada);
-                  
-                    
+
                 }
             }
         });
-        
-        
-        
-           ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+
+        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
         for (Articulo item : dataArticulo) {
-            
+
             cmb_id_categoria.addItem(String.valueOf(item.getCategoria().getNombre()));
+            id_categoria.add(item.getId());
         }
     }
-    
-    
+
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria","ID_Categoria"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
-        
+        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria", "ID_Categoria"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
         for (Articulo articulos : articulo) {
             Object[] fila = {
@@ -108,17 +109,13 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getCategoria().getId()
             };
             modeloTabla.addRow(fila);
-            
+
         }
-        
+
         tbl_Articulo.setModel(modeloTabla);
     }
-    
-    
-    
-    
-    
-      private void eliminarArticulo(int selectedRow) {
+
+    private void eliminarArticulo(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) tbl_Articulo.getModel();
         model.removeRow(selectedRow);
 
@@ -203,6 +200,11 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_AgregarMouseClicked(evt);
+            }
+        });
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
             }
         });
         jPanel1.add(btn_Agregar);
@@ -386,7 +388,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txt_fecha_creada, gridBagConstraints);
 
-        jLabel1.setText("ID categoria");
+        jLabel1.setText("Categoria");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 18;
@@ -398,6 +400,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.gridy = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(cmb_id_categoria, gridBagConstraints);
+
+        txt_fecha_actualizada.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
@@ -472,18 +476,18 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_categoriaActionPerformed
 
     private void btn_categoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_categoriaMouseClicked
-        
+
         categoria.setVisible(true);
     }//GEN-LAST:event_btn_categoriaMouseClicked
 
     private void btn_FabricanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_FabricanteMouseClicked
-        
+
     }//GEN-LAST:event_btn_FabricanteMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-        
+
         try {
-            
+
             int id = Integer.parseInt(txt_id.getText());
             int sku = Integer.parseInt(txt_sku.getText());
             String nombre = txt_nombre.getText();
@@ -494,13 +498,13 @@ public class MenuArticulo extends javax.swing.JPanel {
 
             // Definir el formato que esperas en el campo de texto
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             Date update_date = formato.parse(txt_fecha_actualizada.getText());
-            
+
             Date create_date = formato.parse(txt_fecha_creada.getText());
 
-            String combo=cmb_id_categoria.getSelectedItem().toString();
-            
+            String combo = cmb_id_categoria.getSelectedItem().toString();
+
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setNombre(combo);
 
@@ -510,9 +514,9 @@ public class MenuArticulo extends javax.swing.JPanel {
 
                 Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
                 ICA.modificaDatosArticulo(articulo);
-                
+
                 JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 txt_id.setText("");
                 txt_sku.setText("");
                 txt_nombre.setText("");
@@ -522,19 +526,19 @@ public class MenuArticulo extends javax.swing.JPanel {
                 txt_peso.setText("");
                 txt_fecha_actualizada.setText("");
                 txt_fecha_creada.setText("");
-               
+
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            
+
         }
-        
+
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
     private void btn_FabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_FabricanteActionPerformed
-        
+
         fabricante.setVisible(true);
     }//GEN-LAST:event_btn_FabricanteActionPerformed
 
@@ -560,6 +564,40 @@ public class MenuArticulo extends javax.swing.JPanel {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
     }//GEN-LAST:event_btn_EliminarMouseClicked
+
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+            String categoria = (String) cmb_id_categoria.getSelectedItem();
+
+            int categoriaID = id_categoria.get(cmb_id_categoria.getSelectedIndex());
+
+            Categoria nuevaCategoria = new Categoria();
+            nuevaCategoria.setId(categoriaID);
+            nuevaCategoria.setNombre(cmb_id_categoria.getSelectedItem().toString());
+
+            Articulo nuevoArticulo = new Articulo();
+
+            nuevoArticulo.setCategoria(nuevaCategoria);
+            nuevoArticulo.setNombre(txt_nombre.getText());
+            nuevoArticulo.setDescripcion(txt_descripcion.getText());
+            nuevoArticulo.setSku(Integer.parseInt(txt_sku.getText()));
+            nuevoArticulo.setStock(Integer.parseInt(txt_stock.getText()));
+            nuevoArticulo.setPrecio(Float.parseFloat(txt_precio.getText()));
+            nuevoArticulo.setPeso(Float.parseFloat(txt_peso.getText()));
+            nuevoArticulo.setUpdateDate(new Date());
+            nuevoArticulo.setCreateDate(new Date());
+
+            if (ICA.agregarArticulo(nuevoArticulo) == true) {
+                JOptionPane.showMessageDialog(this, "El articulo se agrego correctamente");
+
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

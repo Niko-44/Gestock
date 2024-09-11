@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import logica.Clases.Fabricante;
 
 import logica.Fabrica;
@@ -35,12 +36,11 @@ public class MenuProveedor extends javax.swing.JPanel {
         initComponents();
         this.ICP = fabrica.getIControladorProveedor();
         cargarDatosEnTabla();
-        
-         Date fechaactual=new Date();
+
+        Date fechaactual = new Date();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada=formatoFecha.format(fechaactual);
-        
-       
+        String fechaFormateada = formatoFecha.format(fechaactual);
+
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
@@ -70,19 +70,19 @@ public class MenuProveedor extends javax.swing.JPanel {
         });
     }
 
-     private void cargarDatosEnTabla() {
-        String[] columnas = { "ID", "Nombre","Correo", "Telefono" , "Fecha Actualización", "Fecha Creación"};
+    private void cargarDatosEnTabla() {
+        String[] columnas = {"ID", "Nombre", "Correo", "Telefono", "Fecha Actualización", "Fecha Creación"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
         for (Proveedor proveedor : proveedores) {
             Object[] fila = {
-                    proveedor.getId(),
-                    proveedor.getNombre(),
-                    proveedor.getTelefonos(),
-                    proveedor.getEmail(),
-                    proveedor.getUpdateDate(),
-                    proveedor.getCreateDate()
+                proveedor.getId(),
+                proveedor.getNombre(),
+                proveedor.getTelefonos(),
+                proveedor.getEmail(),
+                proveedor.getUpdateDate(),
+                proveedor.getCreateDate()
             };
             modeloTabla.addRow(fila);
         }
@@ -251,6 +251,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(txt_fecha_creada, gridBagConstraints);
 
+        txt_fecha_actualizada.setEditable(false);
         txt_fecha_actualizada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_fecha_actualizadaActionPerformed(evt);
@@ -268,6 +269,11 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         btn_agregar.setActionCommand("jButtonAgregar");
         btn_agregar.setLabel("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_agregar);
 
         btn_eliminar.setText("Eliminar");
@@ -366,11 +372,11 @@ public class MenuProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_direccionesActionPerformed
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
-         try {
+        try {
 
             int id = Integer.parseInt(txt_id.getText());
             String nombre = txt_nombre.getText();
-            String telefono=txt_telefono.getText();
+            String telefono = txt_telefono.getText();
             String correo = txt_email.getText();
 
             // Definir el formato que esperas en el campo de texto
@@ -409,6 +415,28 @@ public class MenuProveedor extends javax.swing.JPanel {
     private void txt_fecha_actualizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fecha_actualizadaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_fecha_actualizadaActionPerformed
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        try {
+            Proveedor nuevoProveedor = new Proveedor();
+
+            nuevoProveedor.setNombre(txt_nombre.getText());
+            nuevoProveedor.setEmail(txt_email.getText());
+            nuevoProveedor.setTelefonos(txt_telefono.getText());
+            nuevoProveedor.setUpdateDate(new Date());
+            nuevoProveedor.setCreateDate(new Date());
+
+            if (ICP.agregarProveedor(nuevoProveedor) == true) {
+                JOptionPane.showMessageDialog(this, "El proveedor se agrego correctamente");
+
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
