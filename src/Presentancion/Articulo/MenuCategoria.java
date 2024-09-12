@@ -4,22 +4,12 @@
  */
 package Presentancion.Articulo;
 
-import Persistencia.ConexionDB;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
-import logica.Controladores.ControladorArticulo;
 import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
 
@@ -30,7 +20,6 @@ import logica.Interfaces.IControladorArticulo;
 public class MenuCategoria extends javax.swing.JFrame {
 
     IControladorArticulo ICA;
-    Articulo articulo = new Articulo();
     private int selectedRow;
     
     DefaultTableModel modeloTabla;
@@ -106,7 +95,6 @@ public class MenuCategoria extends javax.swing.JFrame {
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
-        btn_Buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Categoria = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -220,10 +208,6 @@ public class MenuCategoria extends javax.swing.JFrame {
         });
         jPanel1.add(btn_Modificar);
 
-        btn_Buscar.setText("Buscar");
-        btn_Buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_Buscar);
-
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_Categoria.setText("Categoria");
@@ -300,29 +284,58 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String descripcion = txt_descripcion.getText();
-
-            if (nombre.isBlank() || descripcion.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Categoria categoria = new Categoria(id, nombre, descripcion);
-                ICA.modificaDatosCategoria(categoria);
-
-                JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_descripcion.setText("");
-
+           
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+         
+            String descripcion = txt_descripcion.getText();
+            if (descripcion.isBlank()) {
+                throw new Exception("La descripción no puede estar vacía.");
+            }
+            if (descripcion.length() > 100) {
+                throw new Exception("La descripción no puede exceder los 100 caracteres.");
+            }
+            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La descripción contiene caracteres inválidos.");
+            }
+
+            Categoria categoria = new Categoria(id, nombre, descripcion);
+            ICA.modificaDatosCategoria(categoria);
+
+            JOptionPane.showMessageDialog(this, "La categoría se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+            
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_descripcion.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
 
@@ -407,7 +420,6 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
-    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_Volver;

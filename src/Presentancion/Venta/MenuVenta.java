@@ -4,22 +4,18 @@
  */
 package Presentancion.Venta;
 
-import Presentancion.Articulo.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import logica.Fabrica;
 import logica.Clases.Venta;
 import logica.Interfaces.IControladorVenta;
-
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Categoria;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
-import logica.servicios.VentasServicios;
 
 public class MenuVenta extends javax.swing.JPanel {
 
@@ -30,29 +26,29 @@ public class MenuVenta extends javax.swing.JPanel {
     private IControladorVenta ICV;
     private IControladorEmpleado ICE;
     private int selectedRow;
-    ArrayList<Integer> empleadoprueba_id=new ArrayList<>();
-    
+    ArrayList<Integer> empleadoprueba_id = new ArrayList<>();
 
     Fabrica fabrica = Fabrica.getInstance();
 
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
+    private int id_venta; 
+    
     public MenuVenta() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
-        UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
-        UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
+        UIManager.put("OptionPane.yesButtonText", "Sí");// poner el botón yes de la confirmaión en español
+        UIManager.put("OptionPane.noButtonText", "No");// poner el botón no de la confirmaión en español
 
-        txtDate.setValue(new Date()); //Establecer fecha actual al txtFormattedField
-        
+        txtDate.setValue(new Date()); // Establecer fecha actual al txtFormattedField
+
         this.ICV = fabrica.getIControladoreVenta();
         this.ICE = fabrica.getIControladoreEmpleado();
 
         cargarDatosEnTabla();
         cargarDatosCombobox();
-        
-        
-         tbl_venta.getSelectionModel().addListSelectionListener(event -> {
+
+        tbl_venta.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_venta.getSelectedRow();
                 if (selectedRow != -1) {
@@ -60,25 +56,21 @@ public class MenuVenta extends javax.swing.JPanel {
                     String id = tbl_venta.getValueAt(selectedRow, 0).toString();
                     String date = tbl_venta.getValueAt(selectedRow, 1).toString();
                     
-                  
-
+                    id_venta = Integer.parseInt(id);
+                    
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
                     txtID.setText(id);
                     txtDate.setText(date);
-                  
-                    
-                    
+
                 }
             }
         });
-        
-        
 
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado","ID Empleado"};
+        String[] columnas = { "ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado" };
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Venta> ventas = ICV.obtenerVenta();
@@ -86,31 +78,18 @@ public class MenuVenta extends javax.swing.JPanel {
 
         for (Venta venta : ventas) {
 
-            //Obtener el nombre del empleado que realizo la venta
-
+            // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
-                venta.getId(),
-                venta.getFechaVenta(),
-                venta.getEstado(),
-                venta.getEmpleado().getNombre(),
-                venta.getEmpleado().getId(),
-
-            };
+                    venta.getId(),
+                    venta.getFechaVenta(),
+                    venta.getEstado(),
+                    venta.getEmpleado().getNombre(),
+                    venta.getEmpleado().getId(), };
 
             modeloTabla.addRow(fila);
         }
 
         tbl_venta.setModel(modeloTabla);
-    }
-
-    private String buscarEmpleado(int id_empleado, ArrayList<Empleado> dataEmleado) {
-        for (Empleado empleado : dataEmleado) {
-            if (empleado.getId() == id_empleado) {
-                return empleado.getNombre();
-            }
-        }
-
-        return "Desconocido";
     }
 
     private int buscarEmpleadoID(String nombreEmpleado, ArrayList<Empleado> dataEmleado) {
@@ -140,6 +119,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }
 
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -148,8 +128,6 @@ public class MenuVenta extends javax.swing.JPanel {
         tbl_venta = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btnVerLineaVenta = new javax.swing.JButton();
@@ -198,19 +176,6 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         });
         jPanel1.add(btnEliminar);
-
-        btnModificar.setText("Modificar");
-        btnModificar.setActionCommand("jButtonModificar");
-        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnModificarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(btnModificar);
-
-        btnBuscar.setText("Buscar");
-        btnBuscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btnBuscar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -333,17 +298,49 @@ public class MenuVenta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLineaVentaActionPerformed
+    private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
+        menuLineaVenta.id_venta = id_venta;
+        menuLineaVenta.cargarDatosEnTabla();
         menuLineaVenta.setVisible(true);
-    }//GEN-LAST:event_btnVerLineaVentaActionPerformed
+    }// GEN-LAST:event_btnVerLineaVentaActionPerformed
 
-    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAgregarActionPerformed
+        try {
+            String estadoVenta = (String) cmbEstado.getSelectedItem();
+            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
+            String fechaTexto = txtDate.getText();
+
+            Date fecha = formatoFecha.parse(fechaTexto);
+            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
+
+            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
+
+            Empleado nuevoEmpleado = new Empleado();
+
+            nuevoEmpleado.setId(id_empleado);
+
+            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
+
+            if (ICV.agregarVenta(nuevaVenta) == true) {
+                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al intentar agregar la venta");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }// GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnEliminarMouseClicked
         try {
             this.selectedRow = tbl_venta.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar esta venta?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+                int confirmacion = JOptionPane.showConfirmDialog(this,
+                        "¿Estás seguro de que deseas eliminar esta venta?", "Confirmar Eliminación",
+                        JOptionPane.YES_NO_OPTION);
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICV.eliminarVenta(idVenta) == true) {
                         eliminarVenta(this.selectedRow);
@@ -358,55 +355,68 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarMouseClicked
+        } // TODO add your handling code here:
+    }// GEN-LAST:event_btnEliminarMouseClicked
 
-    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-      try {
+    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnModificarMouseClicked
+        try {
 
-            int id = Integer.parseInt(txtID.getText());
-             // Definir el formato que esperas en el campo de texto
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
-            Date fechaV = formato.parse(txtDate.getText());
-            String comboEstado=cmbEstado.getSelectedItem().toString();
-            
-           //String comboEmpleado=cmbEmpleado.getSelectedItem().toString();
-            int cmb_id=empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
-                    
-            Empleado nuevoEmpleado= new Empleado();
-            
-            nuevoEmpleado.setId(cmb_id);
-            
-            
-
-            if (comboEstado.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Venta venta = new Venta(id, fechaV,Venta.EstadoVenta.valueOf(comboEstado),nuevoEmpleado);
-                ICV.modificarDatosVentas(venta);
-
-                JOptionPane.showMessageDialog(this, "La categoria se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-                
-                txtID.setText("");
-                txtDate.setText("");
-               
-               
+            String idText = txtID.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            String fechaText = txtDate.getText();
+            if (fechaText.isBlank()) {
+                throw new Exception("La fecha no puede estar vacía.");
+            }
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaV;
+            try {
+                fechaV = formato.parse(fechaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+            String comboEstado = cmbEstado.getSelectedItem().toString();
+            if (comboEstado.isBlank()) {
+                throw new Exception("Debe seleccionar un estado.");
+            }
+
+            if (cmbEmpleado.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un empleado.");
+            }
+            int cmb_id = empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
+            Empleado nuevoEmpleado = new Empleado();
+            nuevoEmpleado.setId(cmb_id);
+
+            Venta venta = new Venta(id, fechaV, Venta.EstadoVenta.valueOf(comboEstado), nuevoEmpleado);
+            ICV.modificarDatosVentas(venta);
+
+            JOptionPane.showMessageDialog(this, "La venta se ha actualizado correctamente.", "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+
+            txtID.setText("");
+            txtDate.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-      
-    }//GEN-LAST:event_btnModificarMouseClicked
 
+    }// GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVerLineaVenta;
     private javax.swing.JComboBox<String> cmbEmpleado;
     private javax.swing.JComboBox<String> cmbEstado;

@@ -7,13 +7,21 @@ package Presentancion.Articulo;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+
 import logica.Interfaces.IControladorArticulo;
+
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
-import logica.Clases.Direccion;
+
 import logica.Fabrica;
 
 public class MenuArticulo extends javax.swing.JPanel {
@@ -28,16 +36,18 @@ public class MenuArticulo extends javax.swing.JPanel {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
     DefaultTableModel modeloTabla;
 
-    ArrayList<Integer> id_categoria = new ArrayList<>();
+    
 
     MenuFabricante fabricante = new MenuFabricante();
     MenuCategoria categoria = new MenuCategoria();
+
+    ArrayList<Integer> id_categoria = new ArrayList<>();
+    //ArrayList<Integer> cmbCategoria_id = new ArrayList<>();
 
     public MenuArticulo() {
         initComponents();
 
         Date fechaactual = new Date();
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         String fechaFormateada = formatoFecha.format(fechaactual);
 
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
@@ -46,9 +56,6 @@ public class MenuArticulo extends javax.swing.JPanel {
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
         
-        
-        
-
         tbl_Articulo.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_Articulo.getSelectedRow();
@@ -137,7 +144,6 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
-        btn_Buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Articulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -225,11 +231,12 @@ public class MenuArticulo extends javax.swing.JPanel {
                 btn_ModificarMouseClicked(evt);
             }
         });
+        btn_Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Modificar);
-
-        btn_Buscar.setText("Buscar");
-        btn_Buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_Buscar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -485,55 +492,148 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_FabricanteMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-
         try {
 
-            int id = Integer.parseInt(txt_id.getText());
-            int sku = Integer.parseInt(txt_sku.getText());
-            String nombre = txt_nombre.getText();
-            String descripcion = txt_descripcion.getText();
-            int stock = Integer.parseInt(txt_stock.getText());
-            float precio = Float.parseFloat(txt_precio.getText());
-            float peso = Float.parseFloat(txt_peso.getText());
-
-            // Definir el formato que esperas en el campo de texto
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date update_date = formato.parse(txt_fecha_actualizada.getText());
-
-            Date create_date = formato.parse(txt_fecha_creada.getText());
-
-            String combo = cmb_id_categoria.getSelectedItem().toString();
-
-            Categoria nuevaCategoria = new Categoria();
-            nuevaCategoria.setNombre(combo);
-
-            if (nombre.isBlank() || descripcion.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
-                ICA.modificaDatosArticulo(articulo);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_sku.setText("");
-                txt_nombre.setText("");
-                txt_descripcion.setText("");
-                txt_stock.setText("");
-                txt_precio.setText("");
-                txt_peso.setText("");
-                txt_fecha_actualizada.setText("");
-                txt_fecha_creada.setText("");
-
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            String skuText = txt_sku.getText();
+            if (skuText.isBlank()) {
+                throw new Exception("El SKU no puede estar vacío.");
+            }
+            int sku;
+            try {
+                sku = Integer.parseInt(skuText);
+                if (sku <= 0) {
+                    throw new Exception("El SKU debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El SKU debe ser un número entero válido.");
+            }
+
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+            String descripcion = txt_descripcion.getText();
+            if (descripcion.isBlank()) {
+                throw new Exception("La descripción no puede estar vacía.");
+            }
+            if (descripcion.length() > 100) {
+                throw new Exception("La descripción no puede exceder los 100 caracteres.");
+            }
+            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La descripción contiene caracteres inválidos.");
+            }
+
+            String stockText = txt_stock.getText();
+            if (stockText.isBlank()) {
+                throw new Exception("El stock no puede estar vacío.");
+            }
+            int stock;
+            try {
+                stock = Integer.parseInt(stockText);
+                if (stock < 0) {
+                    throw new Exception("El stock no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El stock debe ser un número entero válido.");
+            }
+
+            String precioText = txt_precio.getText();
+            if (precioText.isBlank()) {
+                throw new Exception("El precio no puede estar vacío.");
+            }
+            float precio;
+            try {
+                precio = Float.parseFloat(precioText);
+                if (precio < 0) {
+                    throw new Exception("El precio no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El precio debe ser un número decimal válido.");
+            }
+
+            String pesoText = txt_peso.getText();
+            if (pesoText.isBlank()) {
+                throw new Exception("El peso no puede estar vacío.");
+            }
+            float peso;
+            try {
+                peso = Float.parseFloat(pesoText);
+                if (peso < 0) {
+                    throw new Exception("El peso no puede ser negativo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El peso debe ser un número decimal válido.");
+            }
+
+            // Verificación de la fecha de actualización
+            String fechaActualizadaText = txt_fecha_actualizada.getText();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date update_date;
+            try {
+                update_date = formato.parse(fechaActualizadaText);
+            } catch (ParseException  e) {
+                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+            
+            String fechaCreadaText = txt_fecha_creada.getText();
+            Date create_date;
+            try {
+                create_date = formato.parse(fechaCreadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de creación debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+          
+            int selectedIndex = cmb_id_categoria.getSelectedIndex();
+            if (selectedIndex < 0) {
+                throw new Exception("Debe seleccionar una categoría.");
+            }
+            int Cmb_id = id_categoria.get(selectedIndex);
+            Categoria nuevaCategoria = new Categoria();
+            nuevaCategoria.setId(Cmb_id);
+
+            
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
+            ICA.modificaDatosArticulo(articulo);
+
+            JOptionPane.showMessageDialog(this, "El artículo se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+            
+            txt_id.setText("");
+            txt_sku.setText("");
+            txt_nombre.setText("");
+            txt_descripcion.setText("");
+            txt_stock.setText("");
+            txt_precio.setText("");
+            txt_peso.setText("");
+            txt_fecha_actualizada.setText("");
+            txt_fecha_creada.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
@@ -589,7 +689,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
             if (ICA.agregarArticulo(nuevoArticulo) == true) {
                 JOptionPane.showMessageDialog(this, "El articulo se agrego correctamente");
-
+                
                 cargarDatosEnTabla();
             }
 
@@ -598,6 +698,10 @@ public class MenuArticulo extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btn_AgregarActionPerformed
+
+    private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_ModificarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -633,7 +737,6 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
-    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Fabricante;
     private javax.swing.JButton btn_Modificar;

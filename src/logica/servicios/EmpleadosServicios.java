@@ -65,6 +65,13 @@ public class EmpleadosServicios {
             status.setObject(7, empleado.getRol().toString());
             status.setObject(8, empleado.getId());
 
+             int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Direccion actualizada exitosamente.");
+            } else {
+                System.out.println("No se encontró la Direccion con los datos proporcionados.");
+            }
         } catch (SQLException e) {
             System.out.println("Error al eliminar el empleado: " + e.getMessage());
 

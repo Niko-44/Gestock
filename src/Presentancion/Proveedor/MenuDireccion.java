@@ -4,17 +4,12 @@
  */
 package Presentancion.Proveedor;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Articulo;
-
 import logica.Fabrica;
 import logica.Clases.Direccion;
-import logica.Clases.Empleado;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
@@ -133,7 +128,6 @@ public class MenuDireccion extends javax.swing.JFrame {
         btn_agregar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
-        btn_buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_direccion = new javax.swing.JLabel();
 
@@ -301,10 +295,6 @@ public class MenuDireccion extends javax.swing.JFrame {
         });
         jPanel1.add(btn_modificar);
 
-        btn_buscar.setText("Buscar");
-        btn_buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_buscar);
-
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_direccion.setText("Dirección");
@@ -351,40 +341,98 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
+            
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
+            }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
 
-            int id = Integer.parseInt(txt_id.getText());
-            String calle = txt_calle.getText();
-            int num_puerta = Integer.parseInt(txt_numeroPuerta.getText());
+       
+             String calle = txt_calle.getText();
+            if (calle.isBlank()) {
+                throw new Exception("La calle no puede estar vacía.");
+            }
+            if (calle.length() > 100) {
+                throw new Exception("La calle no puede exceder los 100 caracteres.");
+            }
+            if (!calle.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La calle contiene caracteres inválidos.");
+            }
+
+            
+            String numPuertaText = txt_numeroPuerta.getText();
+            if (numPuertaText.isBlank()) {
+                throw new Exception("El número de puerta no puede estar vacío.");
+            }
+            int num_puerta;
+            try {
+                num_puerta = Integer.parseInt(numPuertaText);
+                if (num_puerta <= 0) {
+                    throw new Exception("El número de puerta debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El número de puerta debe ser un número entero válido.");
+            }
+
+            
             String localidad = txt_localidad.getText();
-            String departamento = txt_departamento.getText();
+            if (localidad.isBlank()) {
+                throw new Exception("La localidad no puede estar vacía.");
+            }
+            if (localidad.length() > 100) {
+                throw new Exception("La localidad no puede exceder los 100 caracteres.");
+            }
+            if (!localidad.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La localidad contiene caracteres inválidos.");
+            }
 
+          String departamento = txt_departamento.getText();
+            if (departamento.isBlank()) {
+                throw new Exception("La departamento no puede estar vacía.");
+            }
+            if (departamento.length() > 100) {
+                throw new Exception("La departamento no puede exceder los 100 caracteres.");
+            }
+            if (!departamento.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
+                throw new Exception("La departamento contiene caracteres inválidos.");
+            }
+           
+
+            
+            if (cmb_proveedor.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un proveedor.");
+            }
             int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
+           
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
 
-            System.out.println(nuevoProveedor.getId());
-            if (calle.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
+          
+            Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
+            ICP.administradorModificaDireccion(direccion);
 
-                Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
-                ICP.administradorModificaDireccion(direccion);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.getText();
-                txt_calle.getText();
-                txt_numeroPuerta.getText();
-                txt_localidad.getText();
-                txt_departamento.getText();
-            }
+            JOptionPane.showMessageDialog(this, "La dirección se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+         
+            txt_id.setText("");
+            txt_calle.setText("");
+            txt_numeroPuerta.setText("");
+            txt_localidad.setText("");
+            txt_departamento.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-
 
     }//GEN-LAST:event_btn_modificarMouseClicked
 
@@ -489,7 +537,6 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox<String> cmb_proveedor;

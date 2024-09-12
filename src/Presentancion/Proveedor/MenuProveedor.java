@@ -4,11 +4,10 @@
  */
 package Presentancion.Proveedor;
 
-import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -121,7 +120,6 @@ public class MenuProveedor extends javax.swing.JPanel {
         btn_agregar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
-        btn_buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_proveedor = new javax.swing.JLabel();
 
@@ -294,10 +292,6 @@ public class MenuProveedor extends javax.swing.JPanel {
         });
         jPanel1.add(btn_modificar);
 
-        btn_buscar.setText("Buscar");
-        btn_buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_buscar);
-
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_proveedor.setText("Proveedor");
@@ -373,40 +367,95 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String telefono = txt_telefono.getText();
-            String correo = txt_email.getText();
-
-            // Definir el formato que esperas en el campo de texto
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date update_date = formato.parse(txt_fecha_actualizada.getText());
-
-            Date create_date = formato.parse(txt_fecha_creada.getText());
-
-            if (nombre.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, update_date, create_date);
-                ICP.modificarDatosProveedor(proveedor);
-
-                JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_telefono.setText("");
-                txt_email.setText("");
-                txt_fecha_actualizada.setText("");
-                txt_fecha_creada.setText("");
-
+         
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+          
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+           
+            String telefono = txt_telefono.getText();
+            if (telefono.isBlank()) {
+                throw new Exception("El teléfono no puede estar vacío.");
+            }
+           if (!telefono.isBlank()) {
+                if (!telefono.matches("\\d{7,15}")) {
+                    throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
+                }
+            }
+
+            
+            String correo = txt_email.getText();
+            if (correo.isBlank()) {
+                throw new Exception("El correo electrónico no puede estar vacío.");
+            }
+            if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                throw new Exception("El correo electrónico no tiene un formato válido.");
+            }
+
+            // Verificación de la fecha de actualización
+            String fechaActualizadaText = txt_fecha_actualizada.getText();
+            if (fechaActualizadaText.isBlank()) {
+                throw new Exception("La fecha de actualización no puede estar vacía.");
+            }
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date update_date;
+            try {
+                update_date = formato.parse(fechaActualizadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+            // Verificación de la fecha de creación
+            String fechaCreadaText = txt_fecha_creada.getText();
+            if (fechaCreadaText.isBlank()) {
+                throw new Exception("La fecha de creación no puede estar vacía.");
+            }
+            Date create_date;
+            try {
+                create_date = formato.parse(fechaCreadaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de creación debe tener el formato 'yyyy-MM-dd'.");
+            }
+
+            // Creación del objeto Proveedor y actualización de datos
+            Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, update_date, create_date);
+            ICP.modificarDatosProveedor(proveedor);
+
+            JOptionPane.showMessageDialog(this, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+            
+            // Limpieza de campos
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_telefono.setText("");
+            txt_email.setText("");
+            txt_fecha_actualizada.setText("");
+            txt_fecha_creada.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
 
@@ -441,7 +490,6 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_direcciones;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;

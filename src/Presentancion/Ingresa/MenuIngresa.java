@@ -4,6 +4,7 @@
  */
 package Presentancion.Ingresa;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
-import logica.Clases.Categoria;
 import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Fabrica;
@@ -36,8 +36,6 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private int selectedRow;
     Fabrica fabrica = Fabrica.getInstance();
-    Proveedor proveedor = new Proveedor();
-    Articulo articulo = new Articulo();
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
     ArrayList<Integer> proveedor_ingresa_id = new ArrayList<>();
 
@@ -92,7 +90,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo", "ID Proveedor", "ID Articulo"};
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
@@ -127,7 +125,7 @@ public class MenuIngresa extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -152,20 +150,20 @@ public class MenuIngresa extends javax.swing.JPanel {
         btn_agregar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
-        btn_buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_ingresa = new javax.swing.JLabel();
 
         tbl_Ingresa.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null }
-                },
-                new String[] {
-                        "ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor"
-                }));
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor"
+            }
+        ));
         tbl_Ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Ingresa);
 
@@ -321,10 +319,6 @@ public class MenuIngresa extends javax.swing.JPanel {
         });
         jPanel1.add(btn_modificar);
 
-        btn_buscar.setText("Buscar");
-        btn_buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_buscar);
-
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_ingresa.setText("Ingresar mercadería");
@@ -338,44 +332,33 @@ public class MenuIngresa extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 764, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jScrollPane1)
-                                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addContainerGap())));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 764, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 598, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 598, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_eliminarMouseClicked
@@ -406,52 +389,116 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_modificarMouseClicked
         try {
+            
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
+            }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
 
-            int id = Integer.parseInt(txt_id.getText());
-
-            // Definir el formato que esperas en el campo de texto
+            
+            String fechaText = txt_fecha.getText();
+            if (fechaText.isBlank()) {
+                throw new Exception("La fecha de ingreso no puede estar vacía.");
+            }
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha_ingreso;
+            try {
+                fecha_ingreso = formato.parse(fechaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de ingreso debe tener el formato 'yyyy-MM-dd'.");
+            }
 
-            Date fecha_ingreso = formato.parse(txt_fecha.getText());
+           
+            String cantidadText = txt_cantidad.getText();
+            if (cantidadText.isBlank()) {
+                throw new Exception("La cantidad no puede estar vacía.");
+            }
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(cantidadText);
+                if (cantidad <= 0) {
+                    throw new Exception("La cantidad debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("La cantidad debe ser un número entero válido.");
+            }
 
-            int cantidad = Integer.parseInt(txt_cantidad.getText());
-            int lote = Integer.parseInt(txt_lote.getText());
-            float precioC = Float.parseFloat(txt_precioCompra.getText());
+           
+            String loteText = txt_lote.getText();
+            if (loteText.isBlank()) {
+                throw new Exception("El lote no puede estar vacío.");
+            }
+            int lote;
+            try {
+                lote = Integer.parseInt(loteText);
+                if (lote <= 0) {
+                    throw new Exception("El lote debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El lote debe ser un número entero válido.");
+            }
 
+            
+            String precioCText = txt_precioCompra.getText();
+            if (precioCText.isBlank()) {
+                throw new Exception("El precio de compra no puede estar vacío.");
+            }
+            float precioC;
+            try {
+                precioC = Float.parseFloat(precioCText);
+                if (precioC <= 0) {
+                    throw new Exception("El precio de compra debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El precio de compra debe ser un número decimal válido.");
+            }
+
+            
+            if (cmb_articulo.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un artículo.");
+            }
             int articuloCmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+
+            // Verificación del proveedor seleccionado
+            if (cmb_proveedor.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un proveedor.");
+            }
             int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
 
+           
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(articuloCmb_id);
 
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(proveedorCmb_id);
 
-            if (fecha_ingreso == null) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
+            Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
+            ICP.modificarDatosIngresa(ingresa);
 
-                Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor,
-                        nuevoArticulo);
-                ICP.modificarDatosIngresa(ingresa);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_fecha.setText("");
-                txt_cantidad.setText("");
-                txt_lote.setText("");
-                txt_precioCompra.setText("");
-
-            }
+            JOptionPane.showMessageDialog(this, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+     
+            txt_id.setText("");
+            txt_fecha.setText("");
+            txt_cantidad.setText("");
+            txt_lote.setText("");
+            txt_precioCompra.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
-    }//GEN-LAST:event_btn_modificarMouseClicked
+
+    }                                          
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
@@ -496,7 +543,6 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
-    private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox<String> cmb_articulo;

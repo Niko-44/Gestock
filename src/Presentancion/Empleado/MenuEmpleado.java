@@ -4,15 +4,11 @@
  */
 package Presentancion.Empleado;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import javax.swing.table.DefaultTableModel;
-
 import logica.Fabrica;
 import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
@@ -35,6 +31,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
         
+
         tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 int selectedRow = tbl_Empleado.getSelectedRow();
@@ -57,11 +54,12 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_nombre_usuario.setText(nombre_usuario);
                     txt_email.setText(email);
                     txt_contraseña.setText(contraseña);
-                    cmb_Role.setSelectedItem(rol);
+                    cmb_Empleado.setSelectedItem(rol);
 
                 }
             }
         });
+
     }
 
     private void cargarDatosEnTabla() {
@@ -108,7 +106,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
         btn_Agregar = new javax.swing.JButton();
         jBtnEliminarEmpleado = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
-        btn_Buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Articulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -127,7 +124,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_email = new javax.swing.JTextField();
         txt_contraseña = new javax.swing.JTextField();
         lbl_fecha_actualizada = new javax.swing.JLabel();
-        cmb_Role = new javax.swing.JComboBox<>();
+        cmb_Empleado = new javax.swing.JComboBox<>();
 
         setMaximumSize(getPreferredSize());
 
@@ -188,10 +185,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
         });
         jPanel1.add(btn_Modificar);
-
-        btn_Buscar.setText("Buscar");
-        btn_Buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_Buscar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -333,13 +326,13 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_fecha_actualizada, gridBagConstraints);
 
-        cmb_Role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "vendedor", "admin" }));
+        cmb_Empleado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "vendedor" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(cmb_Role, gridBagConstraints);
+        jPanel4.add(cmb_Empleado, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -375,38 +368,113 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-
-            int id = Integer.parseInt(txt_id.getText());
-            String nombre = txt_nombre.getText();
-            String apellido = txt_apellido.getText();
-            int cedula = Integer.parseInt(txt_cedula.getText());
-            String nombre_usuario = txt_nombre_usuario.getText();
-            String email = txt_email.getText();
-            String contraseña = txt_contraseña.getText();
-            String rol = cmb_Role.getSelectedItem().toString();
-
-            if (nombre.isBlank() || apellido.isBlank()) {
-                throw new Exception("Debe completar todos los datos.");
-            } else {
-
-                Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
-                ICE.modificaDatosEmpleado(empleado);
-
-                JOptionPane.showMessageDialog(this, "El articulo se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
-
-                txt_id.setText("");
-                txt_nombre.setText("");
-                txt_apellido.setText("");
-                txt_cedula.setText("");
-                txt_nombre_usuario.setText("");
-                txt_email.setText("");
-                txt_contraseña.setText("");
-
+            
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
             }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+           
+            String nombre = txt_nombre.getText();
+            if (nombre.isBlank()) {
+                throw new Exception("El nombre no puede estar vacío.");
+            }
+            if (nombre.length() > 50) {
+                throw new Exception("El nombre no puede exceder los 50 caracteres.");
+            }
+            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El nombre solo puede contener letras y espacios.");
+            }
+
+           
+            String apellido = txt_apellido.getText();
+            if (apellido.isBlank()) {
+                throw new Exception("El apellido no puede estar vacío.");
+            }
+            if (apellido.length() > 50) {
+                throw new Exception("El apellido no puede exceder los 50 caracteres.");
+            }
+            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                throw new Exception("El apellido solo puede contener letras y espacios.");
+            }
+
+        
+            String cedulaText = txt_cedula.getText();
+            if (cedulaText.isBlank()) {
+                throw new Exception("La cédula no puede estar vacía.");
+            }
+            int cedula;
+            try {
+                cedula = Integer.parseInt(cedulaText);
+                if (cedula <= 0) {
+                    throw new Exception("La cédula debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("La cédula debe ser un número entero válido.");
+            }
+
+            
+            String nombre_usuario = txt_nombre_usuario.getText();
+            if (nombre_usuario.isBlank()) {
+                throw new Exception("El nombre de usuario no puede estar vacío.");
+            }
+            if (nombre_usuario.length() > 50) {
+                throw new Exception("El nombre de usuario no puede exceder los 50 caracteres.");
+            }
+
+         
+            String email = txt_email.getText();
+            if (email.isBlank()) {
+                throw new Exception("El email no puede estar vacío.");
+            }
+            if (email.length() > 100) {
+                throw new Exception("El email no puede exceder los 100 caracteres.");
+            }
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                throw new Exception("El formato del email es inválido.");
+            }
+
+           
+            String contraseña = txt_contraseña.getText();
+            if (contraseña.isBlank()) {
+                throw new Exception("La contraseña no puede estar vacía.");
+            }
+            if (contraseña.length() < 8 || contraseña.length() > 20) {
+                throw new Exception("La contraseña debe tener entre 8 y 20 caracteres.");
+            }
+
+          
+            String rol = cmb_Empleado.getSelectedItem().toString();
+            if (rol.isBlank()) {
+                throw new Exception("Debe seleccionar un rol.");
+            }
+
+           
+            Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
+            ICE.modificaDatosEmpleado(empleado);
+
+            JOptionPane.showMessageDialog(this, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+           
+            txt_id.setText("");
+            txt_nombre.setText("");
+            txt_apellido.setText("");
+            txt_cedula.setText("");
+            txt_nombre_usuario.setText("");
+            txt_email.setText("");
+            txt_contraseña.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
         }
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
@@ -445,7 +513,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             nuevoEmpleado.setNombreUsuario(txt_nombre_usuario.getText());
             nuevoEmpleado.setEmail(txt_email.getText());
             nuevoEmpleado.setContraseña(txt_contraseña.getText());
-            nuevoEmpleado.setRol(Empleado.ROLEMPLEADO.valueOf(cmb_Role.getSelectedItem().toString()));
+            nuevoEmpleado.setRol(Empleado.ROLEMPLEADO.valueOf(cmb_Empleado.getSelectedItem().toString()));
 
             System.out.println(nuevoEmpleado.getRol());
             
@@ -464,9 +532,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
-    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Modificar;
-    private javax.swing.JComboBox<String> cmb_Role;
+    private javax.swing.JComboBox<String> cmb_Empleado;
     private javax.swing.JButton jBtnEliminarEmpleado;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
