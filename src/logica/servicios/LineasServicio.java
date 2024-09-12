@@ -7,7 +7,11 @@ package logica.servicios;
 import Persistencia.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import logica.Clases.Articulo;
+import logica.Clases.Linea;
 
 public class LineasServicio {
 
@@ -35,5 +39,40 @@ public class LineasServicio {
             System.out.println("Error al eliminar la linea de venta: " + e.getMessage());
             return false;
         }
+    }
+
+    public ArrayList<Linea> getLineasVenta(int id_venta) {
+        ArrayList<Linea> resultado = new ArrayList<Linea>();
+        try {
+            PreparedStatement status = conexion.prepareStatement("SELECT L.id_linea, A.nombre, L.cantidad_vendida, L.precio_venta\n"
+                    + "FROM linea AS L\n"
+                    + "INNER JOIN articulo AS A ON L.id_articulo_fk = A.id_articulo\n"
+                    + "INNER JOIN venta AS V ON L.id_venta_fk = V.id_venta\n"
+                    + "WHERE V.id_venta = ?;");
+            
+            status.setObject(1, id_venta);
+            
+            ResultSet rs = status.executeQuery();
+            while (rs.next()) {
+                
+                Articulo articulo = new Articulo();
+                articulo.setNombre(rs.getString("nombre"));
+                
+                Linea linea = new Linea();
+
+                linea.setCantidad(rs.getInt("cantidad_vendida"));
+                linea.setPrecioVenta(rs.getInt("precio_venta"));
+                linea.setArticulo(articulo);
+                linea.setIdLinea(rs.getInt("id_linea"));
+                
+                
+                resultado.add(linea);
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+        return resultado;
     }
 }

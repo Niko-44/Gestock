@@ -187,13 +187,8 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ModificarMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ModificarActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btn_Buscar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
-            <Property name="actionCommand" type="java.lang.String" value="jButtonBuscar"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

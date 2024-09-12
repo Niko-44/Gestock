@@ -4,9 +4,11 @@
  */
 package Presentancion.Venta;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.Linea;
 import logica.Fabrica;
 import logica.Interfaces.IControladorVenta;
 
@@ -21,6 +23,8 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     private int selectedRow;
     Fabrica fabrica = Fabrica.getInstance();
 
+    public int id_venta;
+
     /**
      * Creates new form MenuCategoria
      */
@@ -29,6 +33,28 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         this.ICV = fabrica.getIControladoreVenta();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
+    }
+
+    public void cargarDatosEnTabla() {
+        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        ArrayList<Linea> lineaVenta = ICV.obtenerLineasVenta(id_venta);
+
+        for (Linea linea : lineaVenta) {
+
+            // Obtener el nombre del empleado que realizo la venta
+            Object[] fila = {
+                linea.getIdLinea(),
+                linea.getArticulo().getNombre(),
+                linea.getCantidad(),
+                linea.getPrecioVenta()
+            };
+
+            modeloTabla.addRow(fila);
+        }
+
+        tbl_lineaVenta.setModel(modeloTabla);
     }
 
     private void eliminarLineaVenta(int selectedRow) {
@@ -52,21 +78,19 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         tbl_lineaVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Articulo", "Cantidad", "Precio"
+                "ID", "Articulo", "Cantidad", "Precio"
             }
         ));
         tbl_lineaVenta.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -130,22 +154,19 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
 
-        jButton2.setText("Eliminar");
-        jButton2.setActionCommand("jButtonEliminar");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                btn_eliminarMouseClicked(evt);
             }
         });
-        jPanel1.add(jButton2);
-
-        jButton3.setText("Modificar");
-        jButton3.setActionCommand("jButtonModificar");
-        jPanel1.add(jButton3);
-
-        jButton4.setText("Buscar");
-        jButton4.setActionCommand("jButtonBuscar");
-        jPanel1.add(jButton4);
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_eliminar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -191,7 +212,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
         try {
             if (this.selectedRow != -1) {
                 int idLineaVenta = (Integer) tbl_lineaVenta.getValueAt(selectedRow, 0);
@@ -212,7 +233,11 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_btn_eliminarMouseClicked
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,9 +276,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btn_eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -109,7 +109,6 @@ public class MenuFabricante extends javax.swing.JFrame {
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
-        btn_Buscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Fabricante = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -184,10 +183,6 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_Modificar);
-
-        btn_Buscar.setText("Buscar");
-        btn_Buscar.setActionCommand("jButtonBuscar");
-        jPanel1.add(btn_Buscar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -469,7 +464,7 @@ public class MenuFabricante extends javax.swing.JFrame {
             ICA.modificaDatosFabricante(fabricante);
 
             JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+            cargarDatosEnTabla();
             
             txt_id.setText("");
             txt_nombre.setText("");
@@ -569,7 +564,6 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
-    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_volver;

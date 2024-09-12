@@ -320,12 +320,6 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_modificarMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_buscar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
-            <Property name="actionCommand" type="java.lang.String" value="jButtonBuscar"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel2">

@@ -6,6 +6,7 @@ package logica.Controladores;
 
 import java.util.ArrayList;
 import logica.Clases.Articulo;
+import logica.Clases.Linea;
 import logica.Clases.Venta;
 import logica.Interfaces.IControladorVenta;
 import logica.servicios.LineasServicio;
@@ -23,6 +24,7 @@ public class ControladorVenta implements IControladorVenta {
 
     private ControladorVenta() {
         this.ventasServicio = new VentasServicios();
+        this.servicioLinea = new LineasServicio();
     }
 
     public static ControladorVenta getInstance() {
@@ -93,6 +95,12 @@ public class ControladorVenta implements IControladorVenta {
     public void modificarDatosVentas(Venta venta) 
     {
         ventasServicio.modificaDatosVenta(venta);
+    }
+    
+    
+    public ArrayList<Linea> obtenerLineasVenta(int id_venta)
+    {
+        return servicioLinea.getLineasVenta(id_venta);
     }
 
 }

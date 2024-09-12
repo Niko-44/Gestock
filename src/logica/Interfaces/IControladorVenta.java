@@ -7,6 +7,7 @@ package logica.Interfaces;
 import java.util.ArrayList;
 import java.util.Date;
 import logica.Clases.Articulo;
+import logica.Clases.Linea;
 import logica.Clases.Venta;
 
 /**
@@ -43,4 +44,6 @@ public interface IControladorVenta {
     public abstract void cancelarProceso();
     
     public abstract void modificarDatosVentas(Venta venta);
+    
+    public abstract ArrayList<Linea> obtenerLineasVenta(int id_venta);
 }
