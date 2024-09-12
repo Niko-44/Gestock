@@ -4,10 +4,12 @@
  */
 package Presentancion.Proveedor;
 
+import java.awt.Image;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -266,8 +268,13 @@ public class MenuProveedor extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
 
+        btn_agregar.setText("");
         btn_agregar.setActionCommand("jButtonAgregar");
-        btn_agregar.setLabel("Agregar");
+        btn_agregar.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                btn_agregarComponentResized(evt);
+            }
+        });
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_agregarActionPerformed(evt);
@@ -275,11 +282,15 @@ public class MenuProveedor extends javax.swing.JPanel {
         });
         jPanel1.add(btn_agregar);
 
-        btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
         btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_eliminarMouseClicked(evt);
+            }
+        });
+        btn_eliminar.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                btn_eliminarComponentResized(evt);
             }
         });
         jPanel1.add(btn_eliminar);
@@ -289,6 +300,11 @@ public class MenuProveedor extends javax.swing.JPanel {
         btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_modificarMouseClicked(evt);
+            }
+        });
+        btn_modificar.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                btn_modificarComponentResized(evt);
             }
         });
         jPanel1.add(btn_modificar);
@@ -317,7 +333,7 @@ public class MenuProveedor extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btn_direcciones)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -371,7 +387,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-         
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -386,7 +402,6 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-          
             String nombre = txt_nombre.getText();
             if (nombre.isBlank()) {
                 throw new Exception("El nombre no puede estar vacío.");
@@ -398,18 +413,16 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El nombre solo puede contener letras y espacios.");
             }
 
-           
             String telefono = txt_telefono.getText();
             if (telefono.isBlank()) {
                 throw new Exception("El teléfono no puede estar vacío.");
             }
-           if (!telefono.isBlank()) {
+            if (!telefono.isBlank()) {
                 if (!telefono.matches("\\d{7,15}")) {
                     throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
                 }
             }
 
-            
             String correo = txt_email.getText();
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
@@ -418,9 +431,7 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El correo electrónico no tiene un formato válido.");
             }
 
-            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
 
             // Verificación de la fecha de creación
             String fechaCreadaText = txt_fecha_creada.getText();
@@ -440,7 +451,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-            
+
             // Limpieza de campos
             txt_id.setText("");
             txt_nombre.setText("");
@@ -481,6 +492,51 @@ public class MenuProveedor extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_agregarComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_btn_agregarComponentResized
+        int anchoBoton = btn_agregar.getWidth();
+        int altoBoton = btn_agregar.getHeight();
+
+        // Cargar la imagen original
+        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/Iconos/agregar.png"));
+
+        // Redimensionar la imagen al tamaño del botón
+        Image imagenRedimensionada = iconoOriginal.getImage().getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
+        ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+
+        // Establecer la imagen redimensionada en el botón
+        btn_agregar.setIcon(iconoRedimensionado);
+    }//GEN-LAST:event_btn_agregarComponentResized
+
+    private void btn_eliminarComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_btn_eliminarComponentResized
+        int anchoBoton = btn_eliminar.getWidth();
+        int altoBoton = btn_eliminar.getHeight();
+
+        // Cargar la imagen original
+        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/Iconos/eliminar.png"));
+
+        // Redimensionar la imagen al tamaño del botón
+        Image imagenRedimensionada = iconoOriginal.getImage().getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
+        ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+
+        // Establecer la imagen redimensionada en el botón
+        btn_eliminar.setIcon(iconoRedimensionado);
+    }//GEN-LAST:event_btn_eliminarComponentResized
+
+    private void btn_modificarComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_btn_modificarComponentResized
+        int anchoBoton = btn_modificar.getWidth();
+        int altoBoton = btn_modificar.getHeight();
+
+        // Cargar la imagen original
+        ImageIcon iconoOriginal = new ImageIcon(getClass().getResource("/Iconos/editar.png"));
+
+        // Redimensionar la imagen al tamaño del botón
+        Image imagenRedimensionada = iconoOriginal.getImage().getScaledInstance(anchoBoton, altoBoton, Image.SCALE_SMOOTH);
+        ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+
+        // Establecer la imagen redimensionada en el botón
+        btn_modificar.setIcon(iconoRedimensionado);
+    }//GEN-LAST:event_btn_modificarComponentResized
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

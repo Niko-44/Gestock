@@ -20,7 +20,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jPanel2" alignment="0" pref="764" max="32767" attributes="0"/>
+                  <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btn_direcciones" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -275,20 +275,21 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="btn_agregar">
               <Properties>
+                <Property name="text" type="java.lang.String" value=""/>
                 <Property name="actionCommand" type="java.lang.String" value="jButtonAgregar"/>
-                <Property name="label" type="java.lang.String" value="Agregar"/>
               </Properties>
               <Events>
+                <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="btn_agregarComponentResized"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_agregarActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_eliminar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Eliminar"/>
                 <Property name="actionCommand" type="java.lang.String" value="jButtonEliminar"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_eliminarMouseClicked"/>
+                <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="btn_eliminarComponentResized"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_modificar">
@@ -298,6 +299,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_modificarMouseClicked"/>
+                <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="btn_modificarComponentResized"/>
               </Events>
             </Component>
           </SubComponents>
