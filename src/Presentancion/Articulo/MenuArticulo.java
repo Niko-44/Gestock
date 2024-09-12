@@ -82,7 +82,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_peso.setText(peso);
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creada.setText(fecha_creada);
-
                 }
             }
         });
@@ -97,7 +96,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Nombre Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Nombre Categoria", "ID_Categoria"};
+        String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
@@ -112,8 +111,7 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getPeso(),
                 articulos.getUpdateDate(),
                 articulos.getCreateDate(),
-                articulos.getCategoria().getNombre(),
-                articulos.getCategoria().getId()
+                articulos.getCategoria().getNombre()
             };
             modeloTabla.addRow(fila);
 
@@ -140,10 +138,6 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Articulo = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        btn_Agregar = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
-        btn_Modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Articulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -167,6 +161,10 @@ public class MenuArticulo extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         cmb_id_categoria = new javax.swing.JComboBox<>();
         txt_fecha_actualizada = new javax.swing.JFormattedTextField();
+        jPanel1 = new javax.swing.JPanel();
+        btn_Agregar = new javax.swing.JButton();
+        btn_Eliminar = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btn_categoria = new javax.swing.JButton();
         btn_Fabricante = new javax.swing.JButton();
@@ -196,48 +194,6 @@ public class MenuArticulo extends javax.swing.JPanel {
         tbl_Articulo.setMaximumSize(getPreferredSize());
         jScrollPane1.setViewportView(tbl_Articulo);
 
-        jPanel1.setMaximumSize(getPreferredSize());
-        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
-        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
-        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
-
-        btn_Agregar.setActionCommand("jButtonAgregar");
-        btn_Agregar.setLabel("Agregar");
-        btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_AgregarMouseClicked(evt);
-            }
-        });
-        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_AgregarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Agregar);
-
-        btn_Eliminar.setText("Eliminar");
-        btn_Eliminar.setActionCommand("jButtonEliminar");
-        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_EliminarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(btn_Eliminar);
-
-        btn_Modificar.setText("Modificar");
-        btn_Modificar.setActionCommand("jButtonModificar");
-        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ModificarMouseClicked(evt);
-            }
-        });
-        btn_Modificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ModificarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Modificar);
-
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_Articulo.setText("Artículo");
@@ -248,9 +204,10 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_Articulo, gridBagConstraints);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo articulo"));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -415,6 +372,53 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
 
+        jPanel1.setMaximumSize(getPreferredSize());
+        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
+        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
+
+        btn_Agregar.setActionCommand("jButtonAgregar");
+        btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_AgregarMouseClicked(evt);
+            }
+        });
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_Agregar);
+
+        btn_Eliminar.setText("Eliminar");
+        btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EliminarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Eliminar);
+
+        btn_Modificar.setText("Modificar");
+        btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
+        btn_Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ModificarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_Modificar);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 20;
+        jPanel4.add(jPanel1, gridBagConstraints);
+
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 200, 0));
 
         btn_categoria.setText("Categorías");
@@ -452,8 +456,7 @@ public class MenuArticulo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -464,13 +467,11 @@ public class MenuArticulo extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(61, 61, 61)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

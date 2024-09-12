@@ -167,6 +167,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         tbl_Ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Ingresa);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo ingreso"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         lbl_id.setText("ID");

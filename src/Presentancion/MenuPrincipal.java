@@ -30,10 +30,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     public MenuPrincipal() {
         initComponents();
-        menuArticulo.setLocation(0, 0);
+        menuVenta.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
-        jPanelContenido.add(menuArticulo, BorderLayout.CENTER);
+        jPanelContenido.add(menuVenta, BorderLayout.CENTER);
         jPanelContenido.revalidate();
         jPanelContenido.repaint();
 
@@ -52,8 +52,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanelContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(0, 0));
+        setMinimumSize(new java.awt.Dimension(1000, 850));
+        setResizable(false);
 
-        jPanelMenu.setBackground(new java.awt.Color(0, 255, 204));
+        jPanelMenu.setBackground(new java.awt.Color(17, 24, 41));
         jPanelMenu.setMaximumSize(getPreferredSize());
 
         btnVenta.setText("Ventas");

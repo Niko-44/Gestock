@@ -28,7 +28,6 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     public MenuFabricante() {
         initComponents();
-        this.setExtendedState(this.MAXIMIZED_BOTH);
         this.ICA = Fabrica.getInstance().getIControladorArticulo();
         cargarDatosEnTabla();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
@@ -129,6 +128,7 @@ public class MenuFabricante extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
 
+        setResizable(false);
         setSize(new java.awt.Dimension(1920, 1080));
 
         tbl_Fabricante.setModel(new javax.swing.table.DefaultTableModel(
@@ -194,6 +194,7 @@ public class MenuFabricante extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_Fabricante, gridBagConstraints);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo fabricante"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         lbl_id.setText("ID");
@@ -352,11 +353,10 @@ public class MenuFabricante extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                    .addComponent(jScrollPane1)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

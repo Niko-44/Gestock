@@ -26,7 +26,6 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     public MenuCategoria() {
         initComponents();
-        this.setExtendedState(this.MAXIMIZED_BOTH);
         this.ICA = Fabrica.getInstance().getIControladorArticulo();
         cargarDatosEnTabla();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
@@ -100,6 +99,8 @@ public class MenuCategoria extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btn_Volver = new javax.swing.JButton();
 
+        setResizable(false);
+
         tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -122,6 +123,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         tbl_Articulo.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Articulo);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva categoria"));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         lbl_id.setText("ID");
@@ -264,7 +266,7 @@ public class MenuCategoria extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(444, Short.MAX_VALUE)))
+                    .addContainerGap(421, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(210, 210, 210)

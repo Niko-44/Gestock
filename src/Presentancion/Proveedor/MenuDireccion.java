@@ -133,6 +133,8 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        setResizable(false);
+
         tbl_Direccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -155,6 +157,7 @@ public class MenuDireccion extends javax.swing.JFrame {
         tbl_Direccion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Direccion);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva dirección"));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 10, 0};
         jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
