@@ -414,18 +414,9 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El correo electrónico no tiene un formato válido.");
             }
 
-            // Verificación de la fecha de actualización
-            String fechaActualizadaText = txt_fecha_actualizada.getText();
-            if (fechaActualizadaText.isBlank()) {
-                throw new Exception("La fecha de actualización no puede estar vacía.");
-            }
+            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date update_date;
-            try {
-                update_date = formato.parse(fechaActualizadaText);
-            } catch (ParseException e) {
-                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
-            }
+            
 
             // Verificación de la fecha de creación
             String fechaCreadaText = txt_fecha_creada.getText();
@@ -440,7 +431,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             }
 
             // Creación del objeto Proveedor y actualización de datos
-            Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, update_date, create_date);
+            Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, new Date(), create_date);
             ICP.modificarDatosProveedor(proveedor);
 
             JOptionPane.showMessageDialog(this, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);

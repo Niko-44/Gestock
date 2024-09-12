@@ -586,16 +586,9 @@ public class MenuArticulo extends javax.swing.JPanel {
                 throw new Exception("El peso debe ser un número decimal válido.");
             }
 
-            // Verificación de la fecha de actualización
-            String fechaActualizadaText = txt_fecha_actualizada.getText();
+            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date update_date;
-            try {
-                update_date = formato.parse(fechaActualizadaText);
-            } catch (ParseException  e) {
-                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
-            }
-
+            
             
             String fechaCreadaText = txt_fecha_creada.getText();
             Date create_date;
@@ -615,7 +608,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             nuevaCategoria.setId(Cmb_id);
 
             
-            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, update_date, create_date, nuevaCategoria);
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria);
             ICA.modificaDatosArticulo(articulo);
 
             JOptionPane.showMessageDialog(this, "El artículo se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);

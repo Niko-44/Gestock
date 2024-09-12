@@ -441,14 +441,9 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
 
            
-            String fechaActualizadaText = txt_fecha_actualizada.getText();
+            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date update_date;
-            try {
-                update_date = formato.parse(fechaActualizadaText);
-            } catch (ParseException e) {
-                throw new Exception("La fecha de actualización debe tener el formato 'yyyy-MM-dd'.");
-            }
+           
 
            
             String fechaCreadaText = txt_fecha_creada.getText();
@@ -460,7 +455,7 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
 
             
-            Fabricante fabricante = new Fabricante(id, nombre, telefono, correo, update_date, create_date);
+            Fabricante fabricante = new Fabricante(id, nombre, telefono, correo, new Date(), create_date);
             ICA.modificaDatosFabricante(fabricante);
 
             JOptionPane.showMessageDialog(this, "El fabricante se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
