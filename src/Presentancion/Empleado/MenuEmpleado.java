@@ -102,10 +102,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Empleado = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        btn_Agregar = new javax.swing.JButton();
-        jBtnEliminarEmpleado = new javax.swing.JButton();
-        btn_Modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Articulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -125,6 +121,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_contraseña = new javax.swing.JTextField();
         lbl_fecha_actualizada = new javax.swing.JLabel();
         cmb_Empleado = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        btn_Agregar = new javax.swing.JButton();
+        jBtnEliminarEmpleado = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
 
         setMaximumSize(getPreferredSize());
 
@@ -149,42 +149,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
         });
         tbl_Empleado.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Empleado);
-
-        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
-        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
-        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
-
-        btn_Agregar.setActionCommand("jButtonAgregar");
-        btn_Agregar.setLabel("Agregar");
-        btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_AgregarMouseClicked(evt);
-            }
-        });
-        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_AgregarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_Agregar);
-
-        jBtnEliminarEmpleado.setText("Eliminar");
-        jBtnEliminarEmpleado.setActionCommand("jButtonEliminar");
-        jBtnEliminarEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jBtnEliminarEmpleadoMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jBtnEliminarEmpleado);
-
-        btn_Modificar.setText("Modificar");
-        btn_Modificar.setActionCommand("jButtonModificar");
-        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ModificarMouseClicked(evt);
-            }
-        });
-        jPanel1.add(btn_Modificar);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -214,8 +178,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_id, gridBagConstraints);
 
         lbl_nombre.setText("Nombre");
@@ -271,8 +237,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_nombre, gridBagConstraints);
 
         txt_apellido.setActionCommand("txtArticuloDesc");
@@ -280,8 +248,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_apellido, gridBagConstraints);
 
         txt_cedula.setActionCommand("txtArticuloStock");
@@ -289,8 +259,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_cedula, gridBagConstraints);
 
         txt_nombre_usuario.setActionCommand("txtArticuloPrecio");
@@ -298,8 +270,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_nombre_usuario, gridBagConstraints);
 
         txt_email.setActionCommand("txtArticuloPeso");
@@ -307,8 +281,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_email, gridBagConstraints);
 
         txt_contraseña.setActionCommand("txtArticuloSku");
@@ -316,8 +292,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(txt_contraseña, gridBagConstraints);
 
         lbl_fecha_actualizada.setText("Rol");
@@ -332,8 +310,56 @@ public class MenuEmpleado extends javax.swing.JPanel {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
         jPanel4.add(cmb_Empleado, gridBagConstraints);
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
+        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
+
+        btn_Agregar.setActionCommand("jButtonAgregar");
+        btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_AgregarMouseClicked(evt);
+            }
+        });
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_Agregar);
+
+        jBtnEliminarEmpleado.setText("Eliminar");
+        jBtnEliminarEmpleado.setActionCommand("jButtonEliminar");
+        jBtnEliminarEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jBtnEliminarEmpleadoMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jBtnEliminarEmpleado);
+
+        btn_Modificar.setText("Modificar");
+        btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Modificar);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 15;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.weightx = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(6, 2, 2, 2);
+        jPanel4.add(jPanel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -344,8 +370,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -355,11 +380,9 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(61, 61, 61)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

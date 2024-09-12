@@ -104,10 +104,6 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Fabricante = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        btn_Agregar = new javax.swing.JButton();
-        btn_Eliminar = new javax.swing.JButton();
-        btn_Modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_Fabricante = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -123,6 +119,10 @@ public class MenuFabricante extends javax.swing.JFrame {
         lbl_fecha_creado = new javax.swing.JLabel();
         txt_fecha_creada = new javax.swing.JTextField();
         txt_fecha_actualizada = new javax.swing.JFormattedTextField();
+        jPanel1 = new javax.swing.JPanel();
+        btn_Agregar = new javax.swing.JButton();
+        btn_Eliminar = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btn_volver = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -152,6 +152,121 @@ public class MenuFabricante extends javax.swing.JFrame {
         });
         tbl_Fabricante.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Fabricante);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lbl_Fabricante.setText("Fabricante");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
+        jPanel2.add(lbl_Fabricante, gridBagConstraints);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo fabricante"));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        lbl_id.setText("ID");
+        lbl_id.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_id, gridBagConstraints);
+
+        txt_id.setEditable(false);
+        txt_id.setActionCommand("txtArticuloID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_id, gridBagConstraints);
+
+        lbl_nombre.setText("Nombre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_nombre, gridBagConstraints);
+
+        lbl_telefono.setText("Telefono");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_telefono, gridBagConstraints);
+
+        lbl_correo.setText("Correo");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_correo, gridBagConstraints);
+
+        txt_nombre.setActionCommand("txtArticuloNombre");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_nombre, gridBagConstraints);
+
+        txt_telefono.setActionCommand("txtArticuloDesc");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_telefono, gridBagConstraints);
+
+        txt_correo.setActionCommand("txtArticuloStock");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_correo, gridBagConstraints);
+
+        lbl_fecha_actualizado.setText("Fecha actualizado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_actualizado, gridBagConstraints);
+
+        lbl_fecha_creado.setText("Fecha creado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_creado, gridBagConstraints);
+
+        txt_fecha_creada.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_fecha_creada, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
 
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
@@ -184,114 +299,12 @@ public class MenuFabricante extends javax.swing.JFrame {
         });
         jPanel1.add(btn_Modificar);
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        lbl_Fabricante.setText("Fabricante");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipady = 5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
-        jPanel2.add(lbl_Fabricante, gridBagConstraints);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nuevo fabricante"));
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        lbl_id.setText("ID");
-        lbl_id.setToolTipText("");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_id, gridBagConstraints);
-
-        txt_id.setEditable(false);
-        txt_id.setActionCommand("txtArticuloID");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_id, gridBagConstraints);
-
-        lbl_nombre.setText("Nombre");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_nombre, gridBagConstraints);
-
-        lbl_telefono.setText("Telefono");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_telefono, gridBagConstraints);
-
-        lbl_correo.setText("Correo");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_correo, gridBagConstraints);
-
-        txt_nombre.setActionCommand("txtArticuloNombre");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_nombre, gridBagConstraints);
-
-        txt_telefono.setActionCommand("txtArticuloDesc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_telefono, gridBagConstraints);
-
-        txt_correo.setActionCommand("txtArticuloStock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel4.add(txt_correo, gridBagConstraints);
-
-        lbl_fecha_actualizado.setText("Fecha actualizado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_fecha_actualizado, gridBagConstraints);
-
-        lbl_fecha_creado.setText("Fecha creado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_fecha_creado, gridBagConstraints);
-
-        txt_fecha_creada.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(txt_fecha_creada, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(jPanel1, gridBagConstraints);
 
         btn_volver.setText("Volver");
         btn_volver.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -354,8 +367,7 @@ public class MenuFabricante extends javax.swing.JFrame {
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)))
         );
         layout.setVerticalGroup(
@@ -365,9 +377,7 @@ public class MenuFabricante extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(77, 77, 77)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
