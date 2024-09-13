@@ -266,7 +266,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelMenuLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelMenuLayout.setVerticalGroup(
