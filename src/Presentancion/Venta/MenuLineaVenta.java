@@ -75,6 +75,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_eliminar = new javax.swing.JButton();
 
+        setTitle("Linea venta");
         setResizable(false);
 
         tbl_lineaVenta.setModel(new javax.swing.table.DefaultTableModel(

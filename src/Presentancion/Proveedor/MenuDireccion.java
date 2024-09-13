@@ -133,6 +133,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        setTitle("Direccion");
         setResizable(false);
 
         tbl_Direccion.setModel(new javax.swing.table.DefaultTableModel(

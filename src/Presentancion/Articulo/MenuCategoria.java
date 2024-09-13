@@ -99,6 +99,7 @@ public class MenuCategoria extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btn_Volver = new javax.swing.JButton();
 
+        setTitle("Categoria");
         setResizable(false);
 
         tbl_Articulo.setModel(new javax.swing.table.DefaultTableModel(
