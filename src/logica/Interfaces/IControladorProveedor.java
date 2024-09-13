@@ -48,13 +48,17 @@ public interface IControladorProveedor {
     public abstract ArrayList<Proveedor> listarProveedores();
 
     public abstract boolean eliminarIngresa(int idIngresa);
-    
-    public abstract  ArrayList<Ingresa> obtenerIngresosMercaderia();
+
+    public abstract ArrayList<Ingresa> obtenerIngresosMercaderia();
 
     public abstract ArrayList<Ingresa> obtenerIngresa();
-    
-    
+
     public abstract boolean agregarIngreso(Ingresa ingresa); //Revisar ubicacion
-            
+
+    public abstract ArrayList<Proveedor> buscarProveedor(String nombre, String dato);
+
+    public abstract ArrayList<Direccion> buscarDireccion(String nombre, String dato);
+
+    public abstract ArrayList<Ingresa> buscarIngresa(String nombre, String dato);
 
 }

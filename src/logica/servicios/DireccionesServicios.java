@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import logica.Clases.Empleado;
 import logica.Clases.Proveedor;
 
@@ -146,6 +147,45 @@ public class DireccionesServicios {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Direccion> buscarDireccion(String atributo, String dato) {
+        ArrayList<Direccion> direcciones = new ArrayList<>();
+
+        if (atributo == "Número de puerta") {
+            atributo = "numero_direccion";
+        }
+
+        try {
+            PreparedStatement ps = null;
+            if (atributo == "Proveedor") {
+                atributo = "nombre_proveedor";
+                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE PROVEEDOR." + atributo + " like '%" + dato + "%';");
+            } else {
+                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE direccion." + atributo + " like '%" + dato + "%';");
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Proveedor proveedor = new Proveedor();
+                proveedor.setId(rs.getInt("id_proveedor_fk"));
+                proveedor.setNombre(rs.getString("nombre_proveedor"));
+
+                int idDireccion = rs.getInt("id_direccion");
+                String calle = rs.getString("calle");
+                int nuemroPuerta = rs.getInt("numero_direccion");
+                String localidad = rs.getString("localidad");
+                String departamento = rs.getString("departamento");
+
+                Direccion direccion = new Direccion(idDireccion, calle, nuemroPuerta, localidad, departamento, proveedor);
+                direcciones.add(direccion);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return direcciones;
+
     }
 
 }
