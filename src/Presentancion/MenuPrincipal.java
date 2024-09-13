@@ -341,6 +341,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(selectedColor);
         
+        menuArticulo.cargarDatosCategoria();
+        
         menuArticulo.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
@@ -359,6 +361,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelArticulo.setBackground(unSelectedColor);
         
         menuIngresa.setLocation(0, 0);
+        menuIngresa.cargarDatosCombobox();
+        
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuIngresa, BorderLayout.CENTER);

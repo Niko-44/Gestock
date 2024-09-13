@@ -114,7 +114,7 @@ public class MenuCategoria extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -318,10 +318,6 @@ public class MenuCategoria extends javax.swing.JFrame {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
-
          
             String descripcion = txt_descripcion.getText();
             if (descripcion.isBlank()) {
@@ -329,9 +325,6 @@ public class MenuCategoria extends javax.swing.JFrame {
             }
             if (descripcion.length() > 100) {
                 throw new Exception("La descripción no puede exceder los 100 caracteres.");
-            }
-            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La descripción contiene caracteres inválidos.");
             }
 
             Categoria categoria = new Categoria(id, nombre, descripcion);

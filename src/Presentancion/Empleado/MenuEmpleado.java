@@ -63,7 +63,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Nombre Usuario", "Email", "Contraseña", "Rol"};
+        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
@@ -140,7 +140,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -415,9 +415,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
 
            
             String apellido = txt_apellido.getText();
@@ -426,9 +423,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
             if (apellido.length() > 50) {
                 throw new Exception("El apellido no puede exceder los 50 caracteres.");
-            }
-            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El apellido solo puede contener letras y espacios.");
             }
 
         
@@ -462,9 +456,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
             if (email.length() > 100) {
                 throw new Exception("El email no puede exceder los 100 caracteres.");
-            }
-            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new Exception("El formato del email es inválido.");
             }
 
            

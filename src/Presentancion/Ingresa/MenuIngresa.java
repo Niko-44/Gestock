@@ -46,6 +46,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         this.ICP = fabrica.getIControladorProveedor();
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
+        cargarDatosCombobox();
 
         tbl_Ingresa.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -69,7 +70,14 @@ public class MenuIngresa extends javax.swing.JPanel {
                 }
             }
         });
+        
+        
+    }
 
+    public void cargarDatosCombobox() {
+        cmb_articulo.removeAllItems();
+        cmb_proveedor.removeAllItems();
+        
         ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
         for (Articulo item : dataArticulo) {
@@ -85,24 +93,23 @@ public class MenuIngresa extends javax.swing.JPanel {
             cmb_proveedor.addItem(item.getNombre());
             proveedor_ingresa_id.add(item.getId());
         }
-
     }
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo"};
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Proveedor", "Articulo"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
         for (Ingresa ingreso : ingresos) {
             Object[] fila = {
-                    ingreso.getIdIngresa(),
-                    ingreso.getFechaIngreso(),
-                    ingreso.getCantidad(),
-                    ingreso.getLote(),
-                    ingreso.getPrecioCompra(),
-                    ingreso.getArticulo().getNombre(),
-                    ingreso.getProveedor().getNombre()
+                ingreso.getIdIngresa(),
+                ingreso.getFechaIngreso(),
+                ingreso.getCantidad(),
+                ingreso.getLote(),
+                ingreso.getPrecioCompra(),
+                ingreso.getArticulo().getNombre(),
+                ingreso.getProveedor().getNombre()
             };
             modeloTabla.addRow(fila);
         }
@@ -163,7 +170,15 @@ public class MenuIngresa extends javax.swing.JPanel {
             new String [] {
                 "ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbl_Ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Ingresa);
 
@@ -401,7 +416,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -416,7 +431,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-            
             String fechaText = txt_fecha.getText();
             if (fechaText.isBlank()) {
                 throw new Exception("La fecha de ingreso no puede estar vacía.");
@@ -429,7 +443,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("La fecha de ingreso debe tener el formato 'yyyy-MM-dd'.");
             }
 
-           
             String cantidadText = txt_cantidad.getText();
             if (cantidadText.isBlank()) {
                 throw new Exception("La cantidad no puede estar vacía.");
@@ -444,7 +457,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("La cantidad debe ser un número entero válido.");
             }
 
-           
             String loteText = txt_lote.getText();
             if (loteText.isBlank()) {
                 throw new Exception("El lote no puede estar vacío.");
@@ -459,7 +471,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El lote debe ser un número entero válido.");
             }
 
-            
             String precioCText = txt_precioCompra.getText();
             if (precioCText.isBlank()) {
                 throw new Exception("El precio de compra no puede estar vacío.");
@@ -474,7 +485,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El precio de compra debe ser un número decimal válido.");
             }
 
-            
             if (cmb_articulo.getSelectedIndex() < 0) {
                 throw new Exception("Debe seleccionar un artículo.");
             }
@@ -486,7 +496,6 @@ public class MenuIngresa extends javax.swing.JPanel {
             }
             int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
 
-           
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(articuloCmb_id);
 
@@ -498,7 +507,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-     
+
             txt_id.setText("");
             txt_fecha.setText("");
             txt_cantidad.setText("");
@@ -509,8 +518,7 @@ public class MenuIngresa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-
-    }                                          
+    }
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {

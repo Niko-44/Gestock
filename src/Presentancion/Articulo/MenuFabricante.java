@@ -144,7 +144,7 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -427,9 +427,6 @@ public class MenuFabricante extends javax.swing.JFrame {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
 
    
             String telefono = txt_telefono.getText();
@@ -446,9 +443,6 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
             if (correo.length() > 100) {
                 throw new Exception("El correo no puede exceder los 100 caracteres.");
-            }
-            if (!correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new Exception("El formato del correo es inválido.");
             }
 
            

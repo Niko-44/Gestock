@@ -34,7 +34,6 @@ public class MenuDireccion extends javax.swing.JFrame {
         cargarDatosEnTabla();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
-        
 
         tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -60,11 +59,15 @@ public class MenuDireccion extends javax.swing.JFrame {
             }
         });
 
-        ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
+    }
 
-        for (Direccion item : dataDireccion) {
+    public void cargarDatosCombobox() {
+        cmb_proveedor.removeAllItems();
+        ArrayList<Proveedor> dataProveedor = ICP.obtenerProveedor();
 
-            cmb_proveedor.addItem(String.valueOf(item.getProveedor().getNombre()));
+        for (Proveedor item : dataProveedor) {
+
+            cmb_proveedor.addItem(String.valueOf(item.getNombre()));
             cmbProveedor_id.add(item.getId());
         }
     }
@@ -148,7 +151,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -345,7 +348,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -360,19 +363,14 @@ public class MenuDireccion extends javax.swing.JFrame {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-       
-             String calle = txt_calle.getText();
+            String calle = txt_calle.getText();
             if (calle.isBlank()) {
                 throw new Exception("La calle no puede estar vacía.");
             }
             if (calle.length() > 100) {
                 throw new Exception("La calle no puede exceder los 100 caracteres.");
             }
-            if (!calle.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La calle contiene caracteres inválidos.");
-            }
 
-            
             String numPuertaText = txt_numeroPuerta.getText();
             if (numPuertaText.isBlank()) {
                 throw new Exception("El número de puerta no puede estar vacío.");
@@ -387,7 +385,6 @@ public class MenuDireccion extends javax.swing.JFrame {
                 throw new Exception("El número de puerta debe ser un número entero válido.");
             }
 
-            
             String localidad = txt_localidad.getText();
             if (localidad.isBlank()) {
                 throw new Exception("La localidad no puede estar vacía.");
@@ -395,39 +392,29 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (localidad.length() > 100) {
                 throw new Exception("La localidad no puede exceder los 100 caracteres.");
             }
-            if (!localidad.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La localidad contiene caracteres inválidos.");
-            }
 
-          String departamento = txt_departamento.getText();
+            String departamento = txt_departamento.getText();
             if (departamento.isBlank()) {
                 throw new Exception("La departamento no puede estar vacía.");
             }
             if (departamento.length() > 100) {
                 throw new Exception("La departamento no puede exceder los 100 caracteres.");
             }
-            if (!departamento.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La departamento contiene caracteres inválidos.");
-            }
-           
 
-            
             if (cmb_proveedor.getSelectedIndex() < 0) {
                 throw new Exception("Debe seleccionar un proveedor.");
             }
             int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
-           
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
 
-          
             Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
             ICP.administradorModificaDireccion(direccion);
 
             JOptionPane.showMessageDialog(this, "La dirección se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-         
+
             txt_id.setText("");
             txt_calle.setText("");
             txt_numeroPuerta.setText("");
@@ -448,15 +435,14 @@ public class MenuDireccion extends javax.swing.JFrame {
             nuevaDireccion.setNumeroPuerta(Integer.parseInt(txt_numeroPuerta.getText()));
             nuevaDireccion.setDepartamento(txt_departamento.getText());
             nuevaDireccion.setLocalidad(txt_localidad.getText());
-            
+
             int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
             nuevoProveedor.setNombre(cmb_proveedor.getSelectedItem().toString());
-            
-            nuevaDireccion.setProveedor(nuevoProveedor);
 
+            nuevaDireccion.setProveedor(nuevoProveedor);
 
             if (ICP.agregarDireccion(nuevaDireccion) == true) {
                 JOptionPane.showMessageDialog(this, "La direccion se agrego correctamente");

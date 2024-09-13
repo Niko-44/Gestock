@@ -135,7 +135,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -366,12 +366,14 @@ public class MenuProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_eliminarMouseClicked
 
     private void btn_direccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_direccionesActionPerformed
+        menuDireccion.cargarDatosCombobox();
         menuDireccion.setVisible(true);
+
     }//GEN-LAST:event_btn_direccionesActionPerformed
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-         
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -386,7 +388,6 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-          
             String nombre = txt_nombre.getText();
             if (nombre.isBlank()) {
                 throw new Exception("El nombre no puede estar vacío.");
@@ -394,33 +395,23 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
 
-           
             String telefono = txt_telefono.getText();
             if (telefono.isBlank()) {
                 throw new Exception("El teléfono no puede estar vacío.");
             }
-           if (!telefono.isBlank()) {
+            if (!telefono.isBlank()) {
                 if (!telefono.matches("\\d{7,15}")) {
                     throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
                 }
             }
 
-            
             String correo = txt_email.getText();
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
             }
-            if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                throw new Exception("El correo electrónico no tiene un formato válido.");
-            }
 
-            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
 
             // Verificación de la fecha de creación
             String fechaCreadaText = txt_fecha_creada.getText();
@@ -440,7 +431,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-            
+
             // Limpieza de campos
             txt_id.setText("");
             txt_nombre.setText("");

@@ -132,7 +132,7 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
