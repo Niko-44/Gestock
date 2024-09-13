@@ -162,14 +162,21 @@ public class ControladorArticulo implements IControladorArticulo {
     }
 
     @Override
-    public ArrayList<Categoria> buscar(String nombre, String dato) {
+    public ArrayList<Categoria> buscarCategoria(String nombre, String dato) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
 
-    @Override
-    public ArrayList<Articulo> buscarPorNombre(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ArrayList<Articulo> buscarArticulo(String nombre, String dato){
+        return servicioArticulo.BuscarArticulo(nombre, dato);
+        
+    }  
+    
+    public ArrayList<Fabricante> buscarFabricante(String nombre, String dato){
+        ArrayList<Fabricante> fabricantes = null;
+        return null;
     }
+   
 
     @Override
     public ArrayList<Articulo> listarArticulos() {

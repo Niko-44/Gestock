@@ -50,10 +50,13 @@ public interface IControladorArticulo {
 
     public abstract void modificaDatosCategoria(Categoria categoria); 
 
-    public abstract ArrayList<Categoria> buscar(String nombre, String dato);  
+    public abstract ArrayList<Categoria> buscarCategoria(String nombre, String dato);  
 
-    public abstract ArrayList<Articulo> buscarPorNombre(String nombre);  
-
+    public abstract ArrayList<Articulo> buscarArticulo(String nombre, String dato);  
+    
+    public abstract ArrayList<Fabricante> buscarFabricante(String nombre, String dato);  
+    
+    
     public abstract ArrayList<Articulo> listarArticulos();  
 
     public abstract ArrayList<Categoria> listarCategorias(); 

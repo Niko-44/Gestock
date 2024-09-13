@@ -96,12 +96,13 @@ public class MenuArticulo extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
+        String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
         for (Articulo articulos : articulo) {
             Object[] fila = {
+                articulos.getId(),
                 articulos.getSku(),
                 articulos.getNombre(),
                 articulos.getDescripcion(),
@@ -167,6 +168,12 @@ public class MenuArticulo extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         btn_categoria = new javax.swing.JButton();
         btn_Fabricante = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
 
         setMaximumSize(getPreferredSize());
 
@@ -457,17 +464,56 @@ public class MenuArticulo extends javax.swing.JPanel {
         });
         jPanel3.add(btn_Fabricante);
 
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion", "SKU" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(btn_Buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Refrescar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Limpiar)
+                        .addGap(15, 15, 15)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -477,7 +523,15 @@ public class MenuArticulo extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,9 +594,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
+            
 
             String descripcion = txt_descripcion.getText();
             if (descripcion.isBlank()) {
@@ -551,9 +603,9 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (descripcion.length() > 100) {
                 throw new Exception("La descripción no puede exceder los 100 caracteres.");
             }
-            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La descripción contiene caracteres inválidos.");
-            }
+            
+                
+            
 
             String stockText = txt_stock.getText();
             if (stockText.isBlank()) {
@@ -716,6 +768,56 @@ public class MenuArticulo extends javax.swing.JPanel {
     private void btn_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ModificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_ModificarActionPerformed
+
+    private void cargarDatosBuscados(ArrayList<Articulo> DatosBuscados) {
+        String[] columnas = {"SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        for (Articulo articulos : DatosBuscados) {
+            Object[] fila = {
+                articulos.getSku(),
+                articulos.getDescripcion(),
+                articulos.getNombre(),
+                
+                articulos.getStock(),
+                articulos.getPrecio(),
+                articulos.getPeso(),
+                articulos.getUpdateDate(),
+                articulos.getCreateDate(),
+                articulos.getCategoria().getNombre()
+            };
+            modeloTabla.addRow(fila);
+
+        }
+
+        tbl_Articulo.setModel(modeloTabla);
+    }
+    
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if(datoBuscado == ""){
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        }
+        else
+            cargarDatosBuscados(ICA.buscarArticulo(datoBuscado, atributo));
+          
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+       cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_descripcion.setText("");
+        txt_id.setText("");
+        txt_nombre.setText("");
+        txt_peso.setText("");
+        txt_peso.setText("");
+        txt_precio.setText("");
+        txt_sku.setText("");
+        txt_stock.setText("");
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -751,10 +853,14 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
+    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
     private javax.swing.JButton btn_Fabricante;
+    private javax.swing.JButton btn_Limpiar;
     private javax.swing.JButton btn_Modificar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_categoria;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JComboBox<String> cmb_id_categoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -762,6 +868,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_Articulo;
     private javax.swing.JLabel lbl_descripcion;
     private javax.swing.JLabel lbl_fecha_actualizada;
@@ -773,6 +880,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_sku;
     private javax.swing.JLabel lbl_stock;
     private javax.swing.JTable tbl_Articulo;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_descripcion;
     private javax.swing.JFormattedTextField txt_fecha_actualizada;
     private javax.swing.JTextField txt_fecha_creada;

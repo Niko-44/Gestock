@@ -11,8 +11,8 @@ public class Articulo {
 
     private int id;
     private int sku;
-    private String descripcion;
     private String nombre;
+    private String descripcion;
     private int stock;
     private float precio;
     private float peso;
@@ -27,8 +27,8 @@ public class Articulo {
     public Articulo(int id, int sku, String nombre, String descripcion, int stock, float precio, float peso, Date createDate, Date updateDate,Categoria categoria) {
         this.id = id;
         this.sku = sku;
-        this.descripcion = nombre;
-        this.nombre = descripcion;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
         this.stock = stock;
         this.precio = precio;
         this.peso = peso;
