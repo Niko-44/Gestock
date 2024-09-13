@@ -368,9 +368,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (calle.length() > 100) {
                 throw new Exception("La calle no puede exceder los 100 caracteres.");
             }
-            if (!calle.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La calle contiene caracteres inválidos.");
-            }
+           
 
             
             String numPuertaText = txt_numeroPuerta.getText();
@@ -395,9 +393,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (localidad.length() > 100) {
                 throw new Exception("La localidad no puede exceder los 100 caracteres.");
             }
-            if (!localidad.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La localidad contiene caracteres inválidos.");
-            }
+            
 
           String departamento = txt_departamento.getText();
             if (departamento.isBlank()) {
@@ -406,9 +402,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (departamento.length() > 100) {
                 throw new Exception("La departamento no puede exceder los 100 caracteres.");
             }
-            if (!departamento.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La departamento contiene caracteres inválidos.");
-            }
+           
            
 
             

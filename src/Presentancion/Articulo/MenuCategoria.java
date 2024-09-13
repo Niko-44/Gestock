@@ -75,6 +75,24 @@ public class MenuCategoria extends javax.swing.JFrame {
         model.removeRow(selectedRow);
 
     }
+    
+        private void cargarDatosBuscados(ArrayList<Categoria> DatosBuscados) {
+        String[] columnas = {"ID","Nombre","Descripcion"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        for (Categoria categorias : DatosBuscados) {
+            Object[] fila = {
+                categorias.getId(),
+                categorias.getNombre(),
+                categorias.getDescripcion(),
+        
+            };
+            modeloTabla.addRow(fila);
+
+        }
+
+        tbl_Articulo.setModel(modeloTabla);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -98,6 +116,12 @@ public class MenuCategoria extends javax.swing.JFrame {
         lbl_Categoria = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btn_Volver = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
 
         setTitle("Categoria");
         setResizable(false);
@@ -241,13 +265,50 @@ public class MenuCategoria extends javax.swing.JFrame {
         });
         jPanel3.add(btn_Volver);
 
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btn_Buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Refrescar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Limpiar)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -256,16 +317,21 @@ public class MenuCategoria extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE))
                     .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(531, Short.MAX_VALUE)
+                .addContainerGap(212, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,11 +341,6 @@ public class MenuCategoria extends javax.swing.JFrame {
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(417, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(210, 210, 210)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(130, Short.MAX_VALUE)))
         );
 
         pack();
@@ -318,9 +379,7 @@ public class MenuCategoria extends javax.swing.JFrame {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
+           
 
          
             String descripcion = txt_descripcion.getText();
@@ -330,9 +389,7 @@ public class MenuCategoria extends javax.swing.JFrame {
             if (descripcion.length() > 100) {
                 throw new Exception("La descripción no puede exceder los 100 caracteres.");
             }
-            if (!descripcion.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La descripción contiene caracteres inválidos.");
-            }
+          
 
             Categoria categoria = new Categoria(id, nombre, descripcion);
             ICA.modificaDatosCategoria(categoria);
@@ -396,6 +453,33 @@ public class MenuCategoria extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_AgregarActionPerformed
 
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if(atributo == "Nombre")
+        {
+            atributo = "nombre_categoria";
+        }
+        
+        if(datoBuscado == ""){
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        }
+        else
+        cargarDatosBuscados(ICA.buscarCategoria(datoBuscado, atributo));
+
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_descripcion.setText("");
+        txt_id.setText("");
+        txt_nombre.setText("");
+        
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -433,19 +517,25 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Agregar;
+    private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
+    private javax.swing.JButton btn_Limpiar;
     private javax.swing.JButton btn_Modificar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_Volver;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_Categoria;
     private javax.swing.JLabel lbl_descripcion;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JTable tbl_Articulo;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_descripcion;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;

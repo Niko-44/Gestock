@@ -415,9 +415,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
+            
 
            
             String apellido = txt_apellido.getText();
@@ -427,9 +425,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (apellido.length() > 50) {
                 throw new Exception("El apellido no puede exceder los 50 caracteres.");
             }
-            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El apellido solo puede contener letras y espacios.");
-            }
+            
 
         
             String cedulaText = txt_cedula.getText();
@@ -463,9 +459,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (email.length() > 100) {
                 throw new Exception("El email no puede exceder los 100 caracteres.");
             }
-            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new Exception("El formato del email es inválido.");
-            }
+            
 
            
             String contraseña = txt_contraseña.getText();

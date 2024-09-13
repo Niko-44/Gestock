@@ -394,9 +394,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
+           
 
            
             String telefono = txt_telefono.getText();
@@ -414,9 +412,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
             }
-            if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                throw new Exception("El correo electrónico no tiene un formato válido.");
-            }
+            
 
             
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");

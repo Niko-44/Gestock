@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
 
 public class FabricantesServicios {
@@ -134,5 +135,32 @@ public class FabricantesServicios {
             ex.printStackTrace();
         }
         return false;
+    }
+    
+    
+        public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
+          ArrayList<Fabricante> fabricantes = new ArrayList<>();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where FABRICANTE." + datoABuscar + " like '%" + nombre + "%';");
+//            ps.setObject(1,atributo);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                int idFabricante = rs.getInt("id_fabricante");
+                String nombre_fabricante= rs.getString("nombre_fabricante");
+                String telefono = rs.getString("telefono");
+                String email = rs.getString("email");
+                Date update_date=rs.getDate("update_date");
+                Date create_date=rs.getDate("create_date");
+
+                Fabricante fabricante = new Fabricante(idFabricante,nombre_fabricante,telefono,email,update_date,create_date);
+                fabricantes.add(fabricante);
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return fabricantes;
     }
 }
