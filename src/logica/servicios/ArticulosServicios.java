@@ -148,4 +148,40 @@ public class ArticulosServicios {
             return false;
         }
     }
+    
+    public ArrayList<Articulo> BuscarArticulo(String datoABuscar, String atributo){
+        ArrayList<Articulo> articulos = new ArrayList<>();
+        
+        
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO."+atributo+" like '%" +datoABuscar+"%';");
+//            ps.setObject(1,atributo);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Categoria categoria = new Categoria();
+                categoria.setId(rs.getInt("id_categoria_fk"));
+                categoria.setNombre(rs.getString("nombre_categoria"));
+
+                int idArticulo = rs.getInt("id_articulo");
+                int sku = rs.getInt("sku");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int stock = rs.getInt("stock");
+                float precio = rs.getFloat("precio");
+                float peso = rs.getFloat("peso");
+                Date updateDate = rs.getDate("update_date");
+                Date createDate = rs.getDate("create_date");
+
+                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
+                articulos.add(articulo);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return articulos;
+    }
 }
