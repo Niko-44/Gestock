@@ -58,6 +58,8 @@ public class MenuIngresa extends javax.swing.JPanel {
                     String cantidad = tbl_Ingresa.getValueAt(selectedRow, 2).toString();
                     String lote = tbl_Ingresa.getValueAt(selectedRow, 3).toString();
                     String precioC = tbl_Ingresa.getValueAt(selectedRow, 4).toString();
+                    String proveedor = tbl_Ingresa.getValueAt(selectedRow, 5).toString();
+                    String articulo = tbl_Ingresa.getValueAt(selectedRow, 6).toString();
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
@@ -66,18 +68,19 @@ public class MenuIngresa extends javax.swing.JPanel {
                     txt_cantidad.setText(cantidad);
                     txt_lote.setText(lote);
                     txt_precioCompra.setText(precioC);
+                    cmb_proveedor.setSelectedItem(proveedor);
+                    cmb_articulo.setSelectedItem(articulo);
 
                 }
             }
         });
-        
-        
+
     }
 
     public void cargarDatosCombobox() {
         cmb_articulo.removeAllItems();
         cmb_proveedor.removeAllItems();
-        
+
         ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
         for (Articulo item : dataArticulo) {
@@ -98,7 +101,13 @@ public class MenuIngresa extends javax.swing.JPanel {
     private void cargarDatosEnTabla() {
 
         String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Proveedor", "Articulo"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
         for (Ingresa ingreso : ingresos) {
@@ -108,8 +117,8 @@ public class MenuIngresa extends javax.swing.JPanel {
                 ingreso.getCantidad(),
                 ingreso.getLote(),
                 ingreso.getPrecioCompra(),
-                ingreso.getArticulo().getNombre(),
-                ingreso.getProveedor().getNombre()
+                ingreso.getProveedor().getNombre(),
+                ingreso.getArticulo().getNombre()
             };
             modeloTabla.addRow(fila);
         }
@@ -400,6 +409,11 @@ public class MenuIngresa extends javax.swing.JPanel {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarIngresa(idIngresa) == true) {
                         eliminarIngresa(this.selectedRow);
+                        txt_id.setText("");
+                        txt_fecha.setText("");
+                        txt_cantidad.setText("");
+                        txt_lote.setText("");
+                        txt_precioCompra.setText("");
                         JOptionPane.showMessageDialog(this, "El ingreso se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el ingreso.");

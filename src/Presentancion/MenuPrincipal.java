@@ -18,6 +18,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.ImageIcon;
 
 import logica.Clases.RoundedPanel;
 
@@ -30,31 +31,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
     MenuIngresa menuIngresa = new MenuIngresa();
     MenuEmpleado menuEmpleado = new MenuEmpleado();
     MenuFabricante menuFabricante = new MenuFabricante();
-    
+
     //VARIABLES
-    Color selectedColor = new Color(156,40,177);
-    Color unSelectedColor = new Color(85,51,91);
-          
+    Color selectedColor = new Color(156, 40, 177);
+    Color unSelectedColor = new Color(85, 51, 91);
 
     public MenuPrincipal() {
         initComponents();
         setTitle("Venta");
-        
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Icon/icono.png"));
+        setIconImage(icon.getImage());
+
         btnPanelVenta.setBackground(selectedColor);
         btnPanelProveedor.setBackground(unSelectedColor);
         btnPanelEmpleado.setBackground(unSelectedColor);
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(unSelectedColor);
         btnPanelSalir.setBackground(unSelectedColor);
-        
-        
+
         menuVenta.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuVenta, BorderLayout.CENTER);
         jPanelContenido.revalidate();
         jPanelContenido.repaint();
-
 
     }
 
@@ -88,6 +88,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jPanelMenu.setBackground(new java.awt.Color(36, 37, 39));
         jPanelMenu.setMaximumSize(getPreferredSize());
+        jPanelMenu.setName(""); // NOI18N
 
         JPanelButtons.setBackground(new java.awt.Color(36, 37, 39));
         JPanelButtons.setForeground(new java.awt.Color(36, 37, 39));
@@ -317,13 +318,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
         setTitle("Empleado");
-        
+
         btnPanelVenta.setBackground(unSelectedColor);
         btnPanelProveedor.setBackground(unSelectedColor);
         btnPanelEmpleado.setBackground(selectedColor);
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(unSelectedColor);
-        
+
         menuEmpleado.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
@@ -334,15 +335,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btnArticuloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticuloActionPerformed
         setTitle("Articulo");
-        
+
         btnPanelVenta.setBackground(unSelectedColor);
         btnPanelProveedor.setBackground(unSelectedColor);
         btnPanelEmpleado.setBackground(unSelectedColor);
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(selectedColor);
-        
+
         menuArticulo.cargarDatosCategoria();
-        
+
         menuArticulo.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
@@ -353,16 +354,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void btnIngresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresaActionPerformed
         setTitle("Ingresa");
-        
+
         btnPanelVenta.setBackground(unSelectedColor);
         btnPanelProveedor.setBackground(unSelectedColor);
         btnPanelEmpleado.setBackground(unSelectedColor);
         btnPanelIngresa.setBackground(selectedColor);
         btnPanelArticulo.setBackground(unSelectedColor);
-        
+
         menuIngresa.setLocation(0, 0);
         menuIngresa.cargarDatosCombobox();
-        
+
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuIngresa, BorderLayout.CENTER);
@@ -371,17 +372,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresaActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
-        
+
         setTitle("Venta");
-        
+
         btnPanelVenta.setBackground(selectedColor);
         btnPanelProveedor.setBackground(unSelectedColor);
         btnPanelEmpleado.setBackground(unSelectedColor);
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(unSelectedColor);
-        
-        
-        
+
         menuVenta.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
@@ -391,15 +390,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
-        
+
         setTitle("Proveedor");
-        
+
         btnPanelVenta.setBackground(unSelectedColor);
         btnPanelProveedor.setBackground(selectedColor);
         btnPanelEmpleado.setBackground(unSelectedColor);
         btnPanelIngresa.setBackground(unSelectedColor);
         btnPanelArticulo.setBackground(unSelectedColor);
-        
+
         menuProveedor.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();

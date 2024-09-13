@@ -80,8 +80,14 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor", "ID Proveedor"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Proveedor"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
         for (Direccion direccion : direcciones) {
@@ -467,6 +473,11 @@ public class MenuDireccion extends javax.swing.JFrame {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarDireccion(idDireccion) == true) {
                         eliminarDireccion(this.selectedRow);
+                        txt_id.setText("");
+                        txt_calle.setText("");
+                        txt_numeroPuerta.setText("");
+                        txt_localidad.setText("");
+                        txt_departamento.setText("");
                         JOptionPane.showMessageDialog(this, "La dirección se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la dirección.");

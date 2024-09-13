@@ -41,6 +41,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         String fechaFormateada = formatoFecha.format(fechaactual);
 
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
+        txt_fecha_creada.setText(fechaFormateada); // Establecer el valor formateado
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
@@ -51,8 +52,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Proveedor.getValueAt(selectedRow, 0).toString();
                     String nombre = tbl_Proveedor.getValueAt(selectedRow, 1).toString();
-                    String telefono = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
-                    String email = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
+                    String email = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
+                    String telefono = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
                     String update_date = tbl_Proveedor.getValueAt(selectedRow, 4).toString();
                     String create_date = tbl_Proveedor.getValueAt(selectedRow, 5).toString();
 
@@ -71,15 +72,21 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Correo", "Telefono", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
         for (Proveedor proveedor : proveedores) {
             Object[] fila = {
                 proveedor.getId(),
                 proveedor.getNombre(),
-                proveedor.getTelefonos(),
                 proveedor.getEmail(),
+                proveedor.getTelefonos(),
                 proveedor.getUpdateDate(),
                 proveedor.getCreateDate()
             };
@@ -350,6 +357,12 @@ public class MenuProveedor extends javax.swing.JPanel {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarProveedor(idProveedor) == true) {
                         eliminarProveedor(this.selectedRow);
+                        txt_id.setText("");
+                        txt_nombre.setText("");
+                        txt_telefono.setText("");
+                        txt_email.setText("");
+                        txt_fecha_actualizada.setText("");
+                        txt_fecha_creada.setText("");
                         JOptionPane.showMessageDialog(this, "El proveedor se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el proveedor.");
@@ -453,18 +466,44 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+            // Crear un nuevo proveedor
             Proveedor nuevoProveedor = new Proveedor();
 
-            nuevoProveedor.setNombre(txt_nombre.getText());
-            nuevoProveedor.setEmail(txt_email.getText());
-            nuevoProveedor.setTelefonos(txt_telefono.getText());
+            // Obtener y validar el nombre
+            String nombre = txt_nombre.getText();
+            if (nombre == null || nombre.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío");
+                return;
+            }
+            nuevoProveedor.setNombre(nombre);
+
+            // Obtener y validar el email
+            String email = txt_email.getText();
+            if (email == null || email.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El email no puede estar vacío");
+                return;
+            }
+
+            nuevoProveedor.setEmail(email);
+
+            // Obtener y validar el teléfono
+            String telefono = txt_telefono.getText();
+            if (telefono == null || telefono.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El teléfono no puede estar vacío");
+                return;
+            }
+            nuevoProveedor.setTelefonos(telefono);
+
+            // Establecer fechas de creación y actualización
             nuevoProveedor.setUpdateDate(new Date());
             nuevoProveedor.setCreateDate(new Date());
 
-            if (ICP.agregarProveedor(nuevoProveedor) == true) {
-                JOptionPane.showMessageDialog(this, "El proveedor se agrego correctamente");
-
+            // Intentar agregar el proveedor
+            if (ICP.agregarProveedor(nuevoProveedor)) {
+                JOptionPane.showMessageDialog(this, "El proveedor se agregó correctamente");
                 cargarDatosEnTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un problema al agregar el proveedor");
             }
 
         } catch (Exception e) {
