@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 
 public class CategoriasServicios {
@@ -93,7 +95,6 @@ public class CategoriasServicios {
             status.setObject(1, null);
             status.setObject(2, categoria.getNombre());
             status.setObject(3, categoria.getDescripcion());
-            
 
             int rs = status.executeUpdate();
 
@@ -124,5 +125,28 @@ public class CategoriasServicios {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Categoria> buscarCategoria(String nombre, String datoABuscar) {
+          ArrayList<Categoria> categorias = new ArrayList<>();
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT id_categoria,nombre_categoria,descripcion from categoria Where CATEGORIA." + datoABuscar + " like '%" + nombre + "%';");
+//            ps.setObject(1,atributo);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                int idCategoria = rs.getInt("id_categoria");
+                String nombre_categoria = rs.getString("nombre_categoria");
+                String descripcion = rs.getString("descripcion");
+
+                Categoria categoria = new Categoria(idCategoria, nombre_categoria, descripcion);
+                categorias.add(categoria);
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return categorias;
     }
 }

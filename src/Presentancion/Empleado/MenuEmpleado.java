@@ -415,6 +415,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
+            
 
            
             String apellido = txt_apellido.getText();
@@ -424,6 +425,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (apellido.length() > 50) {
                 throw new Exception("El apellido no puede exceder los 50 caracteres.");
             }
+            
 
         
             String cedulaText = txt_cedula.getText();
@@ -457,6 +459,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (email.length() > 100) {
                 throw new Exception("El email no puede exceder los 100 caracteres.");
             }
+            
 
            
             String contraseña = txt_contraseña.getText();

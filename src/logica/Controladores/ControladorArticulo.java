@@ -163,7 +163,7 @@ public class ControladorArticulo implements IControladorArticulo {
 
     @Override
     public ArrayList<Categoria> buscarCategoria(String nombre, String dato) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return servicioCategoria.buscarCategoria(nombre, dato);
     }
     
 
@@ -173,14 +173,14 @@ public class ControladorArticulo implements IControladorArticulo {
     }  
     
     public ArrayList<Fabricante> buscarFabricante(String nombre, String dato){
-        ArrayList<Fabricante> fabricantes = null;
-        return null;
+       return servicioFabricante.buscarFabricante(nombre, dato);
+       
     }
    
 
     @Override
     public ArrayList<Articulo> listarArticulos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return null;
     }
 
     @Override

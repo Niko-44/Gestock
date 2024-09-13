@@ -408,6 +408,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
+           
 
             String telefono = txt_telefono.getText();
             if (telefono.isBlank()) {
@@ -423,6 +424,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
             }
+            
 
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
