@@ -49,6 +49,7 @@ public interface IControladorArticulo {
     public abstract void modificaDatosFabricante(Fabricante fabricante);  
 
     public abstract void modificaDatosCategoria(Categoria categoria); 
+    
 
     public abstract ArrayList<Categoria> buscarCategoria(String nombre, String dato);  
 
