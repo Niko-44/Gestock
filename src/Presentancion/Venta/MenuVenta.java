@@ -240,7 +240,7 @@ public class MenuVenta extends javax.swing.JPanel {
         if (datoBuscado.isBlank()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else {
-            cargarDatosBuscados(ICV.buscarVenta(atributo, datoBuscado));
+            cargarDatosBuscados(ICV.buscarVenta(atributo, datoBuscado, id_venta));
         }
     }//GEN-LAST:event_btn_BuscarActionPerformed
 

@@ -108,21 +108,24 @@ public class VentasServicios {
         }
     }
 
-    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo) {
+    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_venta) {
         ArrayList<Venta> ventas = new ArrayList<>();
 
         try {
-
-            String sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+            
+            
+            String sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+            
+            
 
             if (atributo.equals("Fecha")) {
                 atributo = "fecha_venta";
-                sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+                sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
             }
 
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
-                sql = "SELECT * FROM venta WHERE venta." + atributo + " = " + datoABuscar + "";
+                sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
             }
 
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -133,6 +136,7 @@ public class VentasServicios {
 
                 Empleado empleado = new Empleado();
                 empleado.setId(rs.getInt("id_empleado_fk"));
+                empleado.setNombre(rs.getString("nombre"));
 
                 int idVenta = rs.getInt("id_venta");
                 Date fecha = rs.getDate("fecha_venta");

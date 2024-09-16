@@ -21,7 +21,7 @@ public interface IControladorVenta {
 
     public abstract void agregarArticuloCarrito();
 
-    public abstract ArrayList<Venta> buscarVenta(String atributo, String datoBuscar);
+    public abstract ArrayList<Venta> buscarVenta(String atributo, String datoBuscar, int id_venta);
     public abstract ArrayList<Linea> buscarLinea(String atributo, String datoBuscar, int id_venta);
 
     public abstract void eliminarArticulo(int sku);
