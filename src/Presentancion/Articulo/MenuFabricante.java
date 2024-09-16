@@ -70,7 +70,13 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Telefono", "Correo", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Fabricante> fabricantes = ICA.obtenerFabricantes();
         for (Fabricante fabricante : fabricantes) {
@@ -91,7 +97,13 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void cargarDatosBuscados(ArrayList<Fabricante> DatosBuscados) {
         String[] columnas = {"ID", "Nombre", "Telefono", "Correo", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         for (Fabricante fabricantes : DatosBuscados) {
             Object[] fila = {

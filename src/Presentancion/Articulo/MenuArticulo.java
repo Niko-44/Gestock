@@ -74,7 +74,7 @@ public class MenuArticulo extends javax.swing.JPanel {
                     String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 7).toString();
                     String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 8).toString();
                     String categoria = tbl_Articulo.getValueAt(selectedRow, 9).toString();
-                    
+
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -95,7 +95,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     public void cargarDatosCategoria() {
         cmb_id_categoria.removeAllItems();
-        
+
         ArrayList<Categoria> datosCategoria = ICA.obtenerCategorias();
 
         for (Categoria item : datosCategoria) {
@@ -107,7 +107,13 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
         for (Articulo articulos : articulo) {
@@ -777,7 +783,13 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     private void cargarDatosBuscados(ArrayList<Articulo> DatosBuscados) {
         String[] columnas = {"SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         for (Articulo articulos : DatosBuscados) {
             Object[] fila = {

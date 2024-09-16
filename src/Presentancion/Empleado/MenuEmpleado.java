@@ -63,8 +63,13 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Contraseña", "Rol"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
-
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
         for (Empleado empleado : empleados) {
             Object[] fila = {
@@ -597,9 +602,14 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void cargarDatosBuscados(ArrayList<Empleado> DatosBuscados) {
         String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Nombre Usuario", "Email", "Contraseña", "Rol"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
-        
         for (Empleado empleado : DatosBuscados) {
             Object[] fila = {
                 empleado.getId(),
@@ -616,15 +626,15 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
         tbl_Empleado.setModel(modeloTabla);
     }
-    
+
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
         String atributo = cmb_BusquedaEmpleado.getSelectedItem().toString();
         String datoBuscado = txt_Buscar.getText();
-        if(datoBuscado == ""){
+        if (datoBuscado == "") {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
-        }
-        else
+        } else {
             cargarDatosBuscados(ICE.buscarEmpleado(datoBuscado, atributo));
+        }
 
     }//GEN-LAST:event_btn_BuscarActionPerformed
 

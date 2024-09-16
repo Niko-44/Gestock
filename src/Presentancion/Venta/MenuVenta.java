@@ -66,7 +66,13 @@ public class MenuVenta extends javax.swing.JPanel {
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
 
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Venta> ventas = ICV.obtenerVenta();
         ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
@@ -241,7 +247,13 @@ public class MenuVenta extends javax.swing.JPanel {
     private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
 
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         for (Venta venta : DatosBuscados) {
 

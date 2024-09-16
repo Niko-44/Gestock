@@ -37,7 +37,13 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Linea> lineaVenta = ICV.obtenerLineasVenta(id_venta);
 

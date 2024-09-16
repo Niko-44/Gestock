@@ -54,7 +54,13 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Descripción"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Categoria> categoria = ICA.obtenerCategorias();
         for (Categoria categorias : categoria) {
@@ -78,7 +84,13 @@ public class MenuCategoria extends javax.swing.JFrame {
     
         private void cargarDatosBuscados(ArrayList<Categoria> DatosBuscados) {
         String[] columnas = {"ID","Nombre","Descripcion"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         for (Categoria categorias : DatosBuscados) {
             Object[] fila = {
