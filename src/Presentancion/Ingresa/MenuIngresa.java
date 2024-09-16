@@ -504,7 +504,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Selecciona una dirección para eliminar.");
+                JOptionPane.showMessageDialog(this, "Selecciona un ingreso para eliminar.");
             }
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
@@ -620,8 +620,7 @@ public class MenuIngresa extends javax.swing.JPanel {
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
 
-            if (txt_id.getText().isBlank()
-                    || txt_fecha.getText().isBlank()
+            if (txt_fecha.getText().isBlank()
                     || txt_cantidad.getText().isBlank()
                     || txt_lote.getText().isBlank()
                     || txt_precioCompra.getText().isBlank()) {

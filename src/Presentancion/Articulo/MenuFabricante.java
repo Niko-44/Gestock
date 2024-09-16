@@ -500,6 +500,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
         try {
+            this.selectedRow = tbl_Fabricante.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idFabricante = (Integer) tbl_Fabricante.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación

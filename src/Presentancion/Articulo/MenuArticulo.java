@@ -708,6 +708,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
         try {
+            this.selectedRow = tbl_Articulo.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idArticulo = (Integer) tbl_Articulo.getValueAt(selectedRow, 0);
                 // Mostrar un diálogo de confirmación
