@@ -112,20 +112,31 @@ public class VentasServicios {
         ArrayList<Venta> ventas = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%';");
-//            ps.setObject(1,atributo);
+
+            String sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+
+            if (atributo.equals("Fecha")) {
+                atributo = "fecha_venta";
+                sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+            }
+
+            if (atributo.equals("ID")) {
+                atributo = "id_venta";
+                sql = "SELECT * FROM venta WHERE venta." + atributo + " = " + datoABuscar + "";
+            }
+
+            PreparedStatement ps = conexion.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                
+
                 Empleado empleado = new Empleado();
                 empleado.setId(rs.getInt("id_empleado_fk"));
 
                 int idVenta = rs.getInt("id_venta");
                 Date fecha = rs.getDate("fecha_venta");
                 String estado = rs.getString("estado");
-                
 
                 Venta venta = new Venta(idVenta, fecha, Venta.EstadoVenta.valueOf(estado), empleado);
                 ventas.add(venta);

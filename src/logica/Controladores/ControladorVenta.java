@@ -52,8 +52,8 @@ public class ControladorVenta implements IControladorVenta {
         return ventasServicio.buscarVenta(datoBuscar, atributo);
     }
 
-    public ArrayList<Linea> buscarLinea(String atributo, String datoBuscar) {
-        return servicioLinea.buscarLinea(datoBuscar, atributo);
+    public ArrayList<Linea> buscarLinea(String atributo, String datoBuscar, int id_venta) {
+        return servicioLinea.buscarLinea(datoBuscar, atributo, id_venta);
     }
 
     public void eliminarArticulo(int sku) {

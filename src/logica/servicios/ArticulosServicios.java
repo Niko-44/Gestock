@@ -48,9 +48,8 @@ public class ArticulosServicios {
 
     public boolean agregarArticulo(Articulo articulo) throws Exception {
         try {
-            
-            if (verificarExistencia(articulo))
-            {
+
+            if (verificarExistencia(articulo)) {
                 throw new Exception("El articulo ya existe");
             }
 
@@ -71,7 +70,7 @@ public class ArticulosServicios {
             return true;
 
         } catch (SQLException ex) {
-            
+
             ex.printStackTrace();
             return false;
         }
@@ -82,13 +81,14 @@ public class ArticulosServicios {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `articulo`");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                
+
                 int sku = rs.getInt("sku");
                 String nombre = rs.getString("nombre");
-                
-                if (articulo.getNombre().equals(nombre) || articulo.getSku() == sku)
+
+                if (articulo.getNombre().equals(nombre) || articulo.getSku() == sku) {
                     return true;
-                
+                }
+
             }
             rs.close();
         } catch (SQLException ex) {
@@ -148,18 +148,21 @@ public class ArticulosServicios {
             return false;
         }
     }
-    
-    public ArrayList<Articulo> BuscarArticulo(String datoABuscar, String atributo){
+
+    public ArrayList<Articulo> BuscarArticulo(String datoABuscar, String atributo) {
         ArrayList<Articulo> articulos = new ArrayList<>();
-        
-        
-        
+
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO."+atributo+" like '%" +datoABuscar+"%';");
-//            ps.setObject(1,atributo);
-            
+            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " like '%" + datoABuscar + "%'";
+
+            if (atributo.equals("SKU")) {
+                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
+            }
+
+            PreparedStatement ps = conexion.prepareStatement(sql);
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));

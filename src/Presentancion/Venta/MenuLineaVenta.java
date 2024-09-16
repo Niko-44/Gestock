@@ -239,7 +239,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         if (datoBuscado.isBlank()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else {
-            cargarDatosBuscados(ICV.buscarLinea(atributo, datoBuscado));
+            cargarDatosBuscados(ICV.buscarLinea(atributo, datoBuscado, id_venta));
         }
     }//GEN-LAST:event_btn_Buscar3ActionPerformed
 

@@ -226,16 +226,6 @@ public class MenuVenta extends javax.swing.JPanel {
         String atributo = cmb_Atributo.getSelectedItem().toString();
         String datoBuscado = txt_Buscar.getText();
         
-        if (atributo.equals("Fecha"))
-        {
-            atributo = "fecha_venta";
-        }
-        
-        if (atributo.equals("ID"))
-        {
-            atributo = "id_venta";
-        }
-        
         if (datoBuscado.isBlank()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else {

@@ -76,7 +76,7 @@ public class LineasServicio {
         return resultado;
     }
 
-    public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo) {
+    public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo, int id_venta) {
         ArrayList<Linea> lineas = new ArrayList<>();
         String sql;
 
@@ -85,20 +85,20 @@ public class LineasServicio {
             switch (atributo) {
                 case "Precio":
                     atributo = "precio_venta";
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%'";
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%' and linea.id_venta_fk = " + id_venta;
                     break;
 
                 case "Cantidad":
                     atributo = "cantidad_vendida";
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + "=" + datoABuscar;
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + "=" + datoABuscar + " and linea.id_venta_fk = " + id_venta;
                     break;
 
                 case "Articulo":
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE articulo.nombre" + " LIKE '%" + datoABuscar + "%'";
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE articulo.nombre" + " LIKE '%" + datoABuscar + "%'" + " and linea.id_venta_fk = " + id_venta;
                     break;
 
                 default:
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%'";
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%'" + " and linea.id_venta_fk = " + id_venta;
             }
 
             PreparedStatement ps = conexion.prepareStatement(sql);
