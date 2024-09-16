@@ -63,7 +63,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     }
 
-    private void cargarDatosEnTabla() {
+    public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
 
         modeloTabla = new DefaultTableModel(columnas, 0);

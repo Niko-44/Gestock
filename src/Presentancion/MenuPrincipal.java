@@ -326,6 +326,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelArticulo.setBackground(unSelectedColor);
 
         menuEmpleado.setLocation(0, 0);
+        menuEmpleado.cargarDatosEnTabla();
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuEmpleado, BorderLayout.CENTER);
@@ -343,6 +344,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelArticulo.setBackground(selectedColor);
 
         menuArticulo.cargarDatosCategoria();
+        menuArticulo.cargarDatosEnTabla();
 
         menuArticulo.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
@@ -363,6 +365,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         menuIngresa.setLocation(0, 0);
         menuIngresa.cargarDatosCombobox();
+        menuIngresa.cargarDatosEnTabla();
 
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
@@ -382,6 +385,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelArticulo.setBackground(unSelectedColor);
 
         menuVenta.setLocation(0, 0);
+        menuVenta.cargarDatosEnTabla();
+        
+        
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuVenta, BorderLayout.CENTER);
@@ -400,6 +406,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         btnPanelArticulo.setBackground(unSelectedColor);
 
         menuProveedor.setLocation(0, 0);
+        menuProveedor.cargarDatosEnTabla();
+        
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.
         jPanelContenido.removeAll();
         jPanelContenido.add(menuProveedor, BorderLayout.CENTER);

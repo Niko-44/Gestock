@@ -61,7 +61,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     }
 
-    private void cargarDatosEnTabla() {
+    public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 

@@ -98,7 +98,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         }
     }
 
-    private void cargarDatosEnTabla() {
+    public void cargarDatosEnTabla() {
 
         String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Proveedor", "Articulo"};
         modeloTabla = new DefaultTableModel(columnas, 0) {

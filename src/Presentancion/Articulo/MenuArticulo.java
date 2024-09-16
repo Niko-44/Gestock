@@ -105,7 +105,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         }
     }
 
-    private void cargarDatosEnTabla() {
+    public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 

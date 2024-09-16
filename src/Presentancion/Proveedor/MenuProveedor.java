@@ -70,7 +70,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         });
     }
 
-    private void cargarDatosEnTabla() {
+    public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Correo", "Telefono", "Fecha Actualización", "Fecha Creación"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
