@@ -48,8 +48,12 @@ public class ControladorVenta implements IControladorVenta {
 
     }
 
-    public void buscar(String atributo, String datoBuscar) {
+    public ArrayList<Venta> buscarVenta(String atributo, String datoBuscar) {
+        return ventasServicio.buscarVenta(datoBuscar, atributo);
+    }
 
+    public ArrayList<Linea> buscarLinea(String atributo, String datoBuscar) {
+        return servicioLinea.buscarLinea(datoBuscar, atributo);
     }
 
     public void eliminarArticulo(int sku) {
@@ -92,14 +96,11 @@ public class ControladorVenta implements IControladorVenta {
 
     }
 
-    public void modificarDatosVentas(Venta venta) 
-    {
+    public void modificarDatosVentas(Venta venta) {
         ventasServicio.modificaDatosVenta(venta);
     }
-    
-    
-    public ArrayList<Linea> obtenerLineasVenta(int id_venta)
-    {
+
+    public ArrayList<Linea> obtenerLineasVenta(int id_venta) {
         return servicioLinea.getLineasVenta(id_venta);
     }
 
