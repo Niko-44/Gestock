@@ -23,5 +23,5 @@ public interface IControladorEmpleado {
     public abstract void cancelarProceso();
     public abstract void confirmarModificacion();
     public abstract void cancelarModificacion();
-    public abstract void buscar(String atributo, String datoBuscar);
+    public abstract ArrayList<Empleado> buscarEmpleado(String datoBuscar, String atributo);
 }
