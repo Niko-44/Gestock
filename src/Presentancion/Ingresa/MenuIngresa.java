@@ -619,6 +619,16 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+
+            if (txt_id.getText().isBlank()
+                    || txt_fecha.getText().isBlank()
+                    || txt_cantidad.getText().isBlank()
+                    || txt_lote.getText().isBlank()
+                    || txt_precioCompra.getText().isBlank()) {
+
+                throw new Exception("Hay campos vacíos o inválidos");
+            }
+
             Ingresa nuevoIngreso = new Ingresa();
 
             // Definir el formato que esperas en el campo de texto

@@ -461,7 +461,6 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (calle.length() > 100) {
                 throw new Exception("La calle no puede exceder los 100 caracteres.");
             }
-           
 
             String numPuertaText = txt_numeroPuerta.getText();
             if (numPuertaText.isBlank()) {
@@ -484,7 +483,6 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (localidad.length() > 100) {
                 throw new Exception("La localidad no puede exceder los 100 caracteres.");
             }
-            
 
             String departamento = txt_departamento.getText();
             if (departamento.isBlank()) {
@@ -493,8 +491,6 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (departamento.length() > 100) {
                 throw new Exception("La departamento no puede exceder los 100 caracteres.");
             }
-           
-           
 
             if (cmb_proveedor.getSelectedIndex() < 0) {
                 throw new Exception("Debe seleccionar un proveedor.");
@@ -524,6 +520,15 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+            if (txt_id.getText().isBlank()
+                    || txt_calle.getText().isBlank()
+                    || txt_numeroPuerta.getText().isBlank()
+                    || txt_localidad.getText().isBlank()
+                    || txt_departamento.getText().isBlank()) {
+
+                throw new Exception("Hay campos vacíos o inválidos");
+            }
+
             Direccion nuevaDireccion = new Direccion();
 
             nuevaDireccion.setCalle(txt_calle.getText());
