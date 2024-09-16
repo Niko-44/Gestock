@@ -158,6 +158,11 @@ public class MenuVenta extends javax.swing.JPanel {
                 btnEliminarMouseClicked(evt);
             }
         });
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btn_Buscar.setText("Buscar");
         btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -259,6 +264,10 @@ public class MenuVenta extends javax.swing.JPanel {
         cargarDatosEnTabla();
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
         menuLineaVenta.cargarDatosEnTabla();
@@ -294,7 +303,8 @@ public class MenuVenta extends javax.swing.JPanel {
     }// GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnEliminarMouseClicked
-        /*try {
+        
+        try {
             this.selectedRow = tbl_venta.getSelectedRow();
             if (this.selectedRow != -1) {
                 int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
@@ -314,13 +324,14 @@ public class MenuVenta extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "Selecciona una venta para eliminar.");
             }
+            
         } catch (Exception e) {
             e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
         } // TODO add your handling code here:
     }// GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnModificarMouseClicked
-        try {
+        /*try {
 
             String idText = txtID.getText();
             if (idText.isBlank()) {
