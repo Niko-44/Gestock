@@ -30,7 +30,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
         cargarDatosEnTabla();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
-        
 
         tbl_Empleado.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -63,7 +62,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Nombre Usuario", "Email", "Contraseña", "Rol"};
+        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Contraseña", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
@@ -146,7 +145,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -441,7 +440,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-            
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -456,7 +455,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-           
             String nombre = txt_nombre.getText();
             if (nombre.isBlank()) {
                 throw new Exception("El nombre no puede estar vacío.");
@@ -464,11 +462,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
 
-           
             String apellido = txt_apellido.getText();
             if (apellido.isBlank()) {
                 throw new Exception("El apellido no puede estar vacío.");
@@ -476,11 +470,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (apellido.length() > 50) {
                 throw new Exception("El apellido no puede exceder los 50 caracteres.");
             }
-            if (!apellido.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El apellido solo puede contener letras y espacios.");
-            }
 
-        
             String cedulaText = txt_cedula.getText();
             if (cedulaText.isBlank()) {
                 throw new Exception("La cédula no puede estar vacía.");
@@ -495,7 +485,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 throw new Exception("La cédula debe ser un número entero válido.");
             }
 
-            
             String nombre_usuario = txt_nombre_usuario.getText();
             if (nombre_usuario.isBlank()) {
                 throw new Exception("El nombre de usuario no puede estar vacío.");
@@ -504,7 +493,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 throw new Exception("El nombre de usuario no puede exceder los 50 caracteres.");
             }
 
-         
             String email = txt_email.getText();
             if (email.isBlank()) {
                 throw new Exception("El email no puede estar vacío.");
@@ -512,11 +500,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             if (email.length() > 100) {
                 throw new Exception("El email no puede exceder los 100 caracteres.");
             }
-            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new Exception("El formato del email es inválido.");
-            }
 
-           
             String contraseña = txt_contraseña.getText();
             if (contraseña.isBlank()) {
                 throw new Exception("La contraseña no puede estar vacía.");
@@ -525,19 +509,17 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 throw new Exception("La contraseña debe tener entre 8 y 20 caracteres.");
             }
 
-          
             String rol = cmb_Empleado.getSelectedItem().toString();
             if (rol.isBlank()) {
                 throw new Exception("Debe seleccionar un rol.");
             }
 
-           
             Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
             ICE.modificaDatosEmpleado(empleado);
 
             JOptionPane.showMessageDialog(this, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-           
+
             txt_id.setText("");
             txt_nombre.setText("");
             txt_apellido.setText("");
@@ -578,6 +560,17 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
         try {
+
+            if (txt_nombre.getText().isBlank()
+                    || txt_apellido.getText().isBlank()
+                    || txt_cedula.getText().isBlank()
+                    || txt_nombre_usuario.getText().isBlank()
+                    || txt_email.getText().isBlank()
+                    || txt_contraseña.getText().isBlank()) {
+
+                throw new Exception("Hay campos vacíos o inválidos");
+            }
+
             Empleado nuevoEmpleado = new Empleado();
 
             nuevoEmpleado.setNombre(txt_nombre.getText());
@@ -589,7 +582,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             nuevoEmpleado.setRol(Empleado.ROLEMPLEADO.valueOf(cmb_Empleado.getSelectedItem().toString()));
 
             System.out.println(nuevoEmpleado.getRol());
-            
+
             if (ICE.agregarEmpleado(nuevoEmpleado) == true) {
                 JOptionPane.showMessageDialog(this, "El empleado se agrego correctamente");
 

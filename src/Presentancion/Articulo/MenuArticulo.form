@@ -29,7 +29,6 @@
                           <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
                           <Component id="jPanel2" alignment="0" pref="734" max="32767" attributes="0"/>
                           <Component id="jPanel4" alignment="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -45,6 +44,12 @@
                       <Component id="btn_Limpiar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btn_categoria" min="-2" pref="140" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btn_Fabricante" min="-2" pref="145" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -55,9 +60,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btn_Refrescar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -67,11 +72,14 @@
                   <Component id="btn_Buscar" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="178" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" pref="65" max="-2" attributes="0"/>
-              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btn_categoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_Fabricante" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -89,15 +97,15 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="10" rowCount="4">
                 <Column editable="false" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Sku" type="java.lang.Object"/>
-                <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                <Column editable="true" title="Descripcion" type="java.lang.Object"/>
-                <Column editable="true" title="Stock" type="java.lang.Object"/>
-                <Column editable="true" title="Precio" type="java.lang.Object"/>
-                <Column editable="true" title="Peso" type="java.lang.Object"/>
-                <Column editable="true" title="Fecha actualizada" type="java.lang.Object"/>
-                <Column editable="true" title="Fecha creada" type="java.lang.Object"/>
-                <Column editable="true" title="ID Categoria" type="java.lang.Object"/>
+                <Column editable="false" title="Sku" type="java.lang.Object"/>
+                <Column editable="false" title="Nombre" type="java.lang.Object"/>
+                <Column editable="false" title="Descripcion" type="java.lang.Object"/>
+                <Column editable="false" title="Stock" type="java.lang.Object"/>
+                <Column editable="false" title="Precio" type="java.lang.Object"/>
+                <Column editable="false" title="Peso" type="java.lang.Object"/>
+                <Column editable="false" title="Fecha actualizada" type="java.lang.Object"/>
+                <Column editable="false" title="Fecha creada" type="java.lang.Object"/>
+                <Column editable="false" title="ID Categoria" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="autoResizeMode" type="int" value="4"/>
@@ -2388,34 +2396,24 @@
         </CodeStatement>
       </LayoutCode>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel3">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="0"/>
-        <Property name="horizontalGap" type="int" value="200"/>
-        <Property name="rows" type="int" value="1"/>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JButton" name="btn_categoria">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Categor&#xed;as"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_categoriaMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_categoriaActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btn_Fabricante">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Fabricante"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_FabricanteMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_FabricanteActionPerformed"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
+    <Component class="javax.swing.JButton" name="btn_categoria">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Categor&#xed;as"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_categoriaMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_categoriaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_Fabricante">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fabricante"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_FabricanteMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_FabricanteActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JButton" name="btn_Buscar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Buscar"/>

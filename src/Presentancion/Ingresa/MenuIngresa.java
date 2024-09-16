@@ -46,6 +46,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         this.ICP = fabrica.getIControladorProveedor();
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
+        cargarDatosCombobox();
 
         tbl_Ingresa.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -57,6 +58,8 @@ public class MenuIngresa extends javax.swing.JPanel {
                     String cantidad = tbl_Ingresa.getValueAt(selectedRow, 2).toString();
                     String lote = tbl_Ingresa.getValueAt(selectedRow, 3).toString();
                     String precioC = tbl_Ingresa.getValueAt(selectedRow, 4).toString();
+                    String proveedor = tbl_Ingresa.getValueAt(selectedRow, 5).toString();
+                    String articulo = tbl_Ingresa.getValueAt(selectedRow, 6).toString();
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
@@ -65,10 +68,18 @@ public class MenuIngresa extends javax.swing.JPanel {
                     txt_cantidad.setText(cantidad);
                     txt_lote.setText(lote);
                     txt_precioCompra.setText(precioC);
+                    cmb_proveedor.setSelectedItem(proveedor);
+                    cmb_articulo.setSelectedItem(articulo);
 
                 }
             }
         });
+
+    }
+
+    public void cargarDatosCombobox() {
+        cmb_articulo.removeAllItems();
+        cmb_proveedor.removeAllItems();
 
         ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
@@ -85,24 +96,29 @@ public class MenuIngresa extends javax.swing.JPanel {
             cmb_proveedor.addItem(item.getNombre());
             proveedor_ingresa_id.add(item.getId());
         }
-
     }
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Nombre Proveedor", "Nombre Articulo"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Proveedor", "Articulo"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Ingresa> ingresos = ICP.obtenerIngresosMercaderia();
         for (Ingresa ingreso : ingresos) {
             Object[] fila = {
-                    ingreso.getIdIngresa(),
-                    ingreso.getFechaIngreso(),
-                    ingreso.getCantidad(),
-                    ingreso.getLote(),
-                    ingreso.getPrecioCompra(),
-                    ingreso.getArticulo().getNombre(),
-                    ingreso.getProveedor().getNombre()
+                ingreso.getIdIngresa(),
+                ingreso.getFechaIngreso(),
+                ingreso.getCantidad(),
+                ingreso.getLote(),
+                ingreso.getPrecioCompra(),
+                ingreso.getProveedor().getNombre(),
+                ingreso.getArticulo().getNombre()
             };
             modeloTabla.addRow(fila);
         }
@@ -116,6 +132,33 @@ public class MenuIngresa extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tbl_Ingresa.getModel();
         model.removeRow(selectedRow);
 
+    }
+
+    private void cargarDatosBuscados(ArrayList<Ingresa> DatosBuscados) {
+        String[] columnas = {"ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Proveedor", "Articulo"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
+
+        for (Ingresa ingreso : DatosBuscados) {
+            Object[] fila = {
+                ingreso.getIdIngresa(),
+                ingreso.getFechaIngreso(),
+                ingreso.getCantidad(),
+                ingreso.getLote(),
+                ingreso.getPrecioCompra(),
+                ingreso.getProveedor().getNombre(),
+                ingreso.getArticulo().getNombre()
+            };
+            modeloTabla.addRow(fila);
+
+        }
+
+        tbl_Ingresa.setModel(modeloTabla);
     }
 
     /**
@@ -152,6 +195,12 @@ public class MenuIngresa extends javax.swing.JPanel {
         btn_modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_ingresa = new javax.swing.JLabel();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
 
         tbl_Ingresa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -163,7 +212,15 @@ public class MenuIngresa extends javax.swing.JPanel {
             new String [] {
                 "ID", "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbl_Ingresa.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tbl_Ingresa);
 
@@ -344,32 +401,82 @@ public class MenuIngresa extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_ingresa, gridBagConstraints);
 
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha Ingreso", "Cantidad", "Lote", "Precio Compra", "Articulo", "Proveedor" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 764, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(btn_Buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Refrescar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Limpiar)
+                        .addGap(42, 42, 42)))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 672, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(244, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(61, 61, 61)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(269, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -385,6 +492,11 @@ public class MenuIngresa extends javax.swing.JPanel {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarIngresa(idIngresa) == true) {
                         eliminarIngresa(this.selectedRow);
+                        txt_id.setText("");
+                        txt_fecha.setText("");
+                        txt_cantidad.setText("");
+                        txt_lote.setText("");
+                        txt_precioCompra.setText("");
                         JOptionPane.showMessageDialog(this, "El ingreso se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el ingreso.");
@@ -401,7 +513,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -416,7 +528,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-            
             String fechaText = txt_fecha.getText();
             if (fechaText.isBlank()) {
                 throw new Exception("La fecha de ingreso no puede estar vacía.");
@@ -429,7 +540,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("La fecha de ingreso debe tener el formato 'yyyy-MM-dd'.");
             }
 
-           
             String cantidadText = txt_cantidad.getText();
             if (cantidadText.isBlank()) {
                 throw new Exception("La cantidad no puede estar vacía.");
@@ -444,7 +554,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("La cantidad debe ser un número entero válido.");
             }
 
-           
             String loteText = txt_lote.getText();
             if (loteText.isBlank()) {
                 throw new Exception("El lote no puede estar vacío.");
@@ -459,7 +568,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El lote debe ser un número entero válido.");
             }
 
-            
             String precioCText = txt_precioCompra.getText();
             if (precioCText.isBlank()) {
                 throw new Exception("El precio de compra no puede estar vacío.");
@@ -474,7 +582,6 @@ public class MenuIngresa extends javax.swing.JPanel {
                 throw new Exception("El precio de compra debe ser un número decimal válido.");
             }
 
-            
             if (cmb_articulo.getSelectedIndex() < 0) {
                 throw new Exception("Debe seleccionar un artículo.");
             }
@@ -486,7 +593,6 @@ public class MenuIngresa extends javax.swing.JPanel {
             }
             int proveedorCmb_id = proveedor_ingresa_id.get(cmb_proveedor.getSelectedIndex());
 
-           
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(articuloCmb_id);
 
@@ -498,7 +604,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-     
+
             txt_id.setText("");
             txt_fecha.setText("");
             txt_cantidad.setText("");
@@ -509,11 +615,20 @@ public class MenuIngresa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-
-    }                                          
+    }
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+
+            if (txt_id.getText().isBlank()
+                    || txt_fecha.getText().isBlank()
+                    || txt_cantidad.getText().isBlank()
+                    || txt_lote.getText().isBlank()
+                    || txt_precioCompra.getText().isBlank()) {
+
+                throw new Exception("Hay campos vacíos o inválidos");
+            }
+
             Ingresa nuevoIngreso = new Ingresa();
 
             // Definir el formato que esperas en el campo de texto
@@ -552,17 +667,44 @@ public class MenuIngresa extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_id.setText("");
+        txt_fecha.setText("");
+        txt_cantidad.setText("");
+        txt_lote.setText("");
+        txt_precioCompra.setText("");
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if (datoBuscado == "") {
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        } else {
+            cargarDatosBuscados(ICP.buscarIngresa(atributo, datoBuscado));
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Limpiar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JComboBox<String> cmb_articulo;
     private javax.swing.JComboBox<String> cmb_proveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_articulo;
     private javax.swing.JLabel lbl_cantidad;
     private javax.swing.JLabel lbl_fechaIngreso;
@@ -572,6 +714,7 @@ public class MenuIngresa extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_precioCompra;
     private javax.swing.JLabel lbl_proveedor;
     private javax.swing.JTable tbl_Ingresa;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_cantidad;
     private javax.swing.JTextField txt_fecha;
     private javax.swing.JTextField txt_id;

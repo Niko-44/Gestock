@@ -52,7 +52,10 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_fecha_creada.setText(fechaFormateada);
 
         this.ICA = fabrica.getIControladorArticulo();
+
         cargarDatosEnTabla();
+        cargarDatosCategoria();
+
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
@@ -70,7 +73,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                     String peso = tbl_Articulo.getValueAt(selectedRow, 6).toString();
                     String fecha_actualizada = tbl_Articulo.getValueAt(selectedRow, 7).toString();
                     String fecha_creada = tbl_Articulo.getValueAt(selectedRow, 8).toString();
-
+                    String categoria = tbl_Articulo.getValueAt(selectedRow, 9).toString();
+                    
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -82,21 +86,27 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_peso.setText(peso);
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creada.setText(fecha_creada);
+                    cmb_id_categoria.setSelectedItem(categoria);
                 }
             }
         });
 
-        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+    }
 
-        for (Articulo item : dataArticulo) {
+    public void cargarDatosCategoria() {
+        cmb_id_categoria.removeAllItems();
+        
+        ArrayList<Categoria> datosCategoria = ICA.obtenerCategorias();
 
-            cmb_id_categoria.addItem(String.valueOf(item.getCategoria().getNombre()));
+        for (Categoria item : datosCategoria) {
+
+            cmb_id_categoria.addItem(String.valueOf(item.getNombre()));
             id_categoria.add(item.getId());
         }
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
+        String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         ArrayList<Articulo> articulo = ICA.obtenerArticulos();
@@ -165,7 +175,6 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
         btn_categoria = new javax.swing.JButton();
         btn_Fabricante = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
@@ -189,7 +198,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true, true, true
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -436,8 +445,6 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(jPanel1, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.GridLayout(1, 0, 200, 0));
-
         btn_categoria.setText("Categorías");
         btn_categoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -449,7 +456,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                 btn_categoriaActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_categoria);
 
         btn_Fabricante.setText("Fabricante");
         btn_Fabricante.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -462,7 +468,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                 btn_FabricanteActionPerformed(evt);
             }
         });
-        jPanel3.add(btn_Fabricante);
 
         btn_Buscar.setText("Buscar");
         btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -500,8 +505,7 @@ public class MenuArticulo extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
                         .addComponent(btn_Buscar)
@@ -513,7 +517,12 @@ public class MenuArticulo extends javax.swing.JPanel {
                         .addComponent(btn_Refrescar)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Limpiar)
-                        .addGap(15, 15, 15)))
+                        .addGap(15, 15, 15))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Fabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -521,9 +530,9 @@ public class MenuArticulo extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Refrescar)
@@ -531,11 +540,13 @@ public class MenuArticulo extends javax.swing.JPanel {
                         .addComponent(btn_Limpiar))
                     .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_categoria)
+                    .addComponent(btn_Fabricante))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -594,7 +605,6 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            
 
             String descripcion = txt_descripcion.getText();
             if (descripcion.isBlank()) {
@@ -603,10 +613,6 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (descripcion.length() > 100) {
                 throw new Exception("La descripción no puede exceder los 100 caracteres.");
             }
-            
-                
-            
-
             String stockText = txt_stock.getText();
             if (stockText.isBlank()) {
                 throw new Exception("El stock no puede estar vacío.");
@@ -778,7 +784,6 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getSku(),
                 articulos.getDescripcion(),
                 articulos.getNombre(),
-                
                 articulos.getStock(),
                 articulos.getPrecio(),
                 articulos.getPeso(),
@@ -792,20 +797,20 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         tbl_Articulo.setModel(modeloTabla);
     }
-    
+
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
         String atributo = cmb_Atributo.getSelectedItem().toString();
         String datoBuscado = txt_Buscar.getText();
-        if(datoBuscado == ""){
+        if (datoBuscado == "") {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
-        }
-        else
+        } else {
             cargarDatosBuscados(ICA.buscarArticulo(datoBuscado, atributo));
-          
+        }
+
     }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
-       cargarDatosEnTabla();
+        cargarDatosEnTabla();
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -865,7 +870,6 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

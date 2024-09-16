@@ -33,11 +33,10 @@ public class MenuVenta extends javax.swing.JPanel {
 
     SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
 
-    private int id_venta; 
-    
+    private int id_venta;
+
     public MenuVenta() {
-        
-        
+
         initComponents();
         DefaultTableModel model = (DefaultTableModel) tbl_venta.getModel();
         UIManager.put("OptionPane.yesButtonText", "Sí");// poner el botón yes de la confirmaión en español
@@ -55,10 +54,8 @@ public class MenuVenta extends javax.swing.JPanel {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_venta.getValueAt(selectedRow, 0).toString();
                     String date = tbl_venta.getValueAt(selectedRow, 1).toString();
-                    
+
                     id_venta = Integer.parseInt(id);
-                    
-                    
 
                 }
             }
@@ -67,10 +64,10 @@ public class MenuVenta extends javax.swing.JPanel {
     }
 
     private void cargarDatosEnTabla() {
-        String[] columnas = { "ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado" };
-        
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
+
         modeloTabla = new DefaultTableModel(columnas, 0);
-        
+
         ArrayList<Venta> ventas = ICV.obtenerVenta();
         ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
@@ -78,28 +75,17 @@ public class MenuVenta extends javax.swing.JPanel {
 
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
-                    venta.getId(),
-                    venta.getFechaVenta(),
-                    venta.getEstado(),
-                    venta.getEmpleado().getNombre(),
-                    venta.getEmpleado().getId(), };
+                venta.getId(),
+                venta.getFechaVenta(),
+                venta.getEstado(),
+                venta.getEmpleado().getNombre(),
+                venta.getEmpleado().getId(),};
 
             modeloTabla.addRow(fila);
         }
 
         tbl_venta.setModel(modeloTabla);
         tbl_venta.getColumnModel().getColumn(2).setCellRenderer(new EstadoCellRenderer());
-    }
-
-    private int buscarEmpleadoID(String nombreEmpleado, ArrayList<Empleado> dataEmleado) {
-        for (Empleado empleado : dataEmleado) {
-
-            if (empleado.getNombre().equals(nombreEmpleado)) {
-                return empleado.getId();
-            }
-        }
-
-        return 0;
     }
 
     private void eliminarVenta(int selectedRow) {
@@ -120,6 +106,11 @@ public class MenuVenta extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         btnVerLineaVenta = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
 
         setMaximumSize(getPreferredSize());
 
@@ -132,7 +123,7 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -168,6 +159,24 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         });
 
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Estado", "ID" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,12 +185,19 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 886, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnVerLineaVenta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_Buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Refrescar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -190,14 +206,58 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerLineaVenta)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVerLineaVenta, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        
+        if (datoBuscado.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        } else {
+            cargarDatosBuscados(ICV.buscarVenta(atributo, datoBuscado));
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
+    private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
+
+        modeloTabla = new DefaultTableModel(columnas, 0);
+
+        for (Venta venta : DatosBuscados) {
+
+            // Obtener el nombre del empleado que realizo la venta
+            Object[] fila = {
+                venta.getId(),
+                venta.getFechaVenta(),
+                venta.getEstado(),
+                venta.getEmpleado().getNombre(),
+                venta.getEmpleado().getId(),};
+
+            modeloTabla.addRow(fila);
+        }
+
+        tbl_venta.setModel(modeloTabla);
+        tbl_venta.getColumnModel().getColumn(2).setCellRenderer(new EstadoCellRenderer());
+    }
+
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
@@ -313,15 +373,20 @@ public class MenuVenta extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-*/
+         */
     }// GEN-LAST:event_btnModificarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnVerLineaVenta;
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Refrescar;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbl_venta;
+    private javax.swing.JTextPane txt_Buscar;
     // End of variables declaration//GEN-END:variables
 }

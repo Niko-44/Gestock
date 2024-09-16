@@ -41,6 +41,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         String fechaFormateada = formatoFecha.format(fechaactual);
 
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
+        txt_fecha_creada.setText(fechaFormateada); // Establecer el valor formateado
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
@@ -51,8 +52,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_Proveedor.getValueAt(selectedRow, 0).toString();
                     String nombre = tbl_Proveedor.getValueAt(selectedRow, 1).toString();
-                    String telefono = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
-                    String email = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
+                    String email = tbl_Proveedor.getValueAt(selectedRow, 2).toString();
+                    String telefono = tbl_Proveedor.getValueAt(selectedRow, 3).toString();
                     String update_date = tbl_Proveedor.getValueAt(selectedRow, 4).toString();
                     String create_date = tbl_Proveedor.getValueAt(selectedRow, 5).toString();
 
@@ -71,15 +72,21 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Correo", "Telefono", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Proveedor> proveedores = ICP.obtenerProveedor();
         for (Proveedor proveedor : proveedores) {
             Object[] fila = {
                 proveedor.getId(),
                 proveedor.getNombre(),
-                proveedor.getTelefonos(),
                 proveedor.getEmail(),
+                proveedor.getTelefonos(),
                 proveedor.getUpdateDate(),
                 proveedor.getCreateDate()
             };
@@ -93,6 +100,32 @@ public class MenuProveedor extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tbl_Proveedor.getModel();
         model.removeRow(selectedRow);
 
+    }
+
+    private void cargarDatosBuscados(ArrayList<Proveedor> DatosBuscados) {
+        String[] columnas = {"ID", "Nombre", "Correo", "Telefono", "Fecha Actualización", "Fecha Creación"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
+
+        for (Proveedor proveedor : DatosBuscados) {
+            Object[] fila = {
+                proveedor.getId(),
+                proveedor.getNombre(),
+                proveedor.getEmail(),
+                proveedor.getTelefonos(),
+                proveedor.getUpdateDate(),
+                proveedor.getCreateDate()
+            };
+            modeloTabla.addRow(fila);
+
+        }
+
+        tbl_Proveedor.setModel(modeloTabla);
     }
 
     @SuppressWarnings("unchecked")
@@ -122,6 +155,12 @@ public class MenuProveedor extends javax.swing.JPanel {
         btn_modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_proveedor = new javax.swing.JLabel();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
 
         tbl_Proveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,7 +174,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -309,19 +348,58 @@ public class MenuProveedor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_proveedor, gridBagConstraints);
 
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Teléfono", "Correo" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(btn_direcciones)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(btn_direcciones)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(btn_Buscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Refrescar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Limpiar)
+                        .addGap(60, 60, 60)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -331,7 +409,15 @@ public class MenuProveedor extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_direcciones)
@@ -350,6 +436,12 @@ public class MenuProveedor extends javax.swing.JPanel {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarProveedor(idProveedor) == true) {
                         eliminarProveedor(this.selectedRow);
+                        txt_id.setText("");
+                        txt_nombre.setText("");
+                        txt_telefono.setText("");
+                        txt_email.setText("");
+                        txt_fecha_actualizada.setText("");
+                        txt_fecha_creada.setText("");
                         JOptionPane.showMessageDialog(this, "El proveedor se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el proveedor.");
@@ -366,12 +458,14 @@ public class MenuProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_eliminarMouseClicked
 
     private void btn_direccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_direccionesActionPerformed
+        menuDireccion.cargarDatosCombobox();
         menuDireccion.setVisible(true);
+
     }//GEN-LAST:event_btn_direccionesActionPerformed
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-         
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -386,7 +480,6 @@ public class MenuProveedor extends javax.swing.JPanel {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-          
             String nombre = txt_nombre.getText();
             if (nombre.isBlank()) {
                 throw new Exception("El nombre no puede estar vacío.");
@@ -394,33 +487,20 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-            if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-                throw new Exception("El nombre solo puede contener letras y espacios.");
-            }
-
            
+
             String telefono = txt_telefono.getText();
             if (telefono.isBlank()) {
                 throw new Exception("El teléfono no puede estar vacío.");
             }
-           if (!telefono.isBlank()) {
-                if (!telefono.matches("\\d{7,15}")) {
-                    throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
-                }
-            }
 
-            
             String correo = txt_email.getText();
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
             }
-            if (!correo.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-                throw new Exception("El correo electrónico no tiene un formato válido.");
-            }
+            
 
-            
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
 
             // Verificación de la fecha de creación
             String fechaCreadaText = txt_fecha_creada.getText();
@@ -440,7 +520,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-            
+
             // Limpieza de campos
             txt_id.setText("");
             txt_nombre.setText("");
@@ -462,18 +542,44 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+            // Crear un nuevo proveedor
             Proveedor nuevoProveedor = new Proveedor();
 
-            nuevoProveedor.setNombre(txt_nombre.getText());
-            nuevoProveedor.setEmail(txt_email.getText());
-            nuevoProveedor.setTelefonos(txt_telefono.getText());
+            // Obtener y validar el nombre
+            String nombre = txt_nombre.getText();
+            if (nombre == null || nombre.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío");
+                return;
+            }
+            nuevoProveedor.setNombre(nombre);
+
+            // Obtener y validar el email
+            String email = txt_email.getText();
+            if (email == null || email.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El email no puede estar vacío");
+                return;
+            }
+
+            nuevoProveedor.setEmail(email);
+
+            // Obtener y validar el teléfono
+            String telefono = txt_telefono.getText();
+            if (telefono == null || telefono.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El teléfono no puede estar vacío");
+                return;
+            }
+            nuevoProveedor.setTelefonos(telefono);
+
+            // Establecer fechas de creación y actualización
             nuevoProveedor.setUpdateDate(new Date());
             nuevoProveedor.setCreateDate(new Date());
 
-            if (ICP.agregarProveedor(nuevoProveedor) == true) {
-                JOptionPane.showMessageDialog(this, "El proveedor se agrego correctamente");
-
+            // Intentar agregar el proveedor
+            if (ICP.agregarProveedor(nuevoProveedor)) {
+                JOptionPane.showMessageDialog(this, "El proveedor se agregó correctamente");
                 cargarDatosEnTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un problema al agregar el proveedor");
             }
 
         } catch (Exception e) {
@@ -482,24 +588,53 @@ public class MenuProveedor extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_id.setText("");
+        txt_nombre.setText("");
+        txt_telefono.setText("");
+        txt_email.setText("");
+        txt_fecha_actualizada.setText("");
+        txt_fecha_creada.setText("");
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if (datoBuscado == "") {
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        } else {
+            cargarDatosBuscados(ICP.buscarProveedor(atributo, datoBuscado));
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Limpiar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_direcciones;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_email;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JLabel lbl_proveedor;
     private javax.swing.JLabel lbl_telefono;
     private javax.swing.JTable tbl_Proveedor;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_email;
     private javax.swing.JFormattedTextField txt_fecha_actualizada;
     private javax.swing.JTextField txt_fecha_creada;

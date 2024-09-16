@@ -159,4 +159,19 @@ public class ControladorProveedor implements IControladorProveedor {
         
         return servicioIngresa.getIngresa();
     }
+    
+    public ArrayList<Proveedor> buscarProveedor(String nombre, String dato)
+    {
+        return servicioProveedores.buscarProveedor(nombre, dato);
+    }
+
+    public ArrayList<Direccion> buscarDireccion(String nombre, String dato)
+    {
+        return servicioDirecciones.buscarDireccion(nombre, dato);        
+    }
+
+    public ArrayList<Ingresa> buscarIngresa(String nombre, String dato)
+    {
+        return servicioIngresa.buscarIngresa(nombre, dato);    
+    }
 }

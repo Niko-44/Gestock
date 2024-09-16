@@ -14,14 +14,13 @@ import java.util.Date;
 import logica.Clases.Empleado;
 import logica.Clases.Venta;
 
-
 public class VentasServicios {
 
     public VentasServicios() {
     }
 
     private Connection conexion = new ConexionDB().getConexion();
-    
+
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
@@ -31,11 +30,11 @@ public class VentasServicios {
                 Empleado empleado = new Empleado();
                 empleado.setId(rs.getInt("id_empleado"));
                 empleado.setNombre(rs.getString("nombre_empleado"));
-                
+
                 int id = rs.getInt("id_venta");
                 Date fecha_venta = rs.getDate("fecha_venta");
                 String estado = rs.getString("estado");
-                
+
                 Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
                 resultado.add(venta);
 
@@ -46,9 +45,8 @@ public class VentasServicios {
         }
         return resultado;
     }
-    
-    
-      public void modificaDatosVenta(Venta venta) {
+
+    public void modificaDatosVenta(Venta venta) {
         try {
             PreparedStatement status = conexion.prepareStatement("UPDATE `venta` SET `fecha_venta` = ?, `estado` = ?, `id_empleado_fk` = ? WHERE `venta`.`id_venta` = ?;");
 
@@ -70,30 +68,26 @@ public class VentasServicios {
         }
     }
 
-    
-    public boolean agregarVenta(Venta venta)
-    {
-        try {   
-            
+    public boolean agregarVenta(Venta venta) {
+        try {
+
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `venta` (`id_venta`, `fecha_venta`, `estado`, `id_empleado_fk`) VALUES (?, ?, ?, ?)");
             status.setObject(1, null);
             status.setObject(2, venta.getFechaVenta());
             status.setObject(3, venta.getEstado().name());
             status.setObject(4, venta.getEmpleado().getId());
-            
-            
+
             int rs = status.executeUpdate();
-            
+
             return true;
-            
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         }
     }
-    
-        public boolean eliminarVenta(int idVenta) {
+
+    public boolean eliminarVenta(int idVenta) {
         try {
             PreparedStatement status = conexion.prepareStatement("DELETE FROM venta WHERE id_venta = ?");
 
@@ -112,5 +106,45 @@ public class VentasServicios {
             System.out.println("Error al eliminar la venta: " + e.getMessage());
             return false;
         }
+    }
+
+    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo) {
+        ArrayList<Venta> ventas = new ArrayList<>();
+
+        try {
+
+            String sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+
+            if (atributo.equals("Fecha")) {
+                atributo = "fecha_venta";
+                sql = "SELECT * FROM venta WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+            }
+
+            if (atributo.equals("ID")) {
+                atributo = "id_venta";
+                sql = "SELECT * FROM venta WHERE venta." + atributo + " = " + datoABuscar + "";
+            }
+
+            PreparedStatement ps = conexion.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Empleado empleado = new Empleado();
+                empleado.setId(rs.getInt("id_empleado_fk"));
+
+                int idVenta = rs.getInt("id_venta");
+                Date fecha = rs.getDate("fecha_venta");
+                String estado = rs.getString("estado");
+
+                Venta venta = new Venta(idVenta, fecha, Venta.EstadoVenta.valueOf(estado), empleado);
+                ventas.add(venta);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return ventas;
     }
 }

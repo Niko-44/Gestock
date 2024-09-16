@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Fabrica;
 import logica.Clases.Direccion;
+import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
@@ -34,7 +35,6 @@ public class MenuDireccion extends javax.swing.JFrame {
         cargarDatosEnTabla();
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
-        
 
         tbl_Direccion.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -60,11 +60,15 @@ public class MenuDireccion extends javax.swing.JFrame {
             }
         });
 
-        ArrayList<Direccion> dataDireccion = ICP.obtenerDireccion();
+    }
 
-        for (Direccion item : dataDireccion) {
+    public void cargarDatosCombobox() {
+        cmb_proveedor.removeAllItems();
+        ArrayList<Proveedor> dataProveedor = ICP.obtenerProveedor();
 
-            cmb_proveedor.addItem(String.valueOf(item.getProveedor().getNombre()));
+        for (Proveedor item : dataProveedor) {
+
+            cmb_proveedor.addItem(String.valueOf(item.getNombre()));
             cmbProveedor_id.add(item.getId());
         }
     }
@@ -77,8 +81,14 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Nombre Proveedor", "ID Proveedor"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"ID", "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
 
         ArrayList<Direccion> direcciones = ICP.obtenerDireccion();
         for (Direccion direccion : direcciones) {
@@ -92,6 +102,33 @@ public class MenuDireccion extends javax.swing.JFrame {
                 direccion.getProveedor().getId()
             };
             modeloTabla.addRow(fila);
+        }
+
+        tbl_Direccion.setModel(modeloTabla);
+    }
+
+    private void cargarDatosBuscados(ArrayList<Direccion> DatosBuscados) {
+        String[] columnas = {"ID", "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
+
+        for (Direccion direccion : DatosBuscados) {
+            Object[] fila = {
+                direccion.getId(),
+                direccion.getCalle(),
+                direccion.getNumeroPuerta(),
+                direccion.getLocalidad(),
+                direccion.getDepartamento(),
+                direccion.getProveedor().getNombre(),
+                direccion.getProveedor().getId()
+            };
+            modeloTabla.addRow(fila);
+
         }
 
         tbl_Direccion.setModel(modeloTabla);
@@ -130,9 +167,16 @@ public class MenuDireccion extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_direccion = new javax.swing.JLabel();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
 
         jTextField1.setText("jTextField1");
 
+        setTitle("Direccion");
         setResizable(false);
 
         tbl_Direccion.setModel(new javax.swing.table.DefaultTableModel(
@@ -147,7 +191,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -160,7 +204,7 @@ public class MenuDireccion extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva dirección"));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 10, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -298,6 +342,12 @@ public class MenuDireccion extends javax.swing.JFrame {
         });
         jPanel1.add(btn_modificar);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(jPanel1, gridBagConstraints);
+
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_direccion.setText("Dirección");
@@ -308,35 +358,80 @@ public class MenuDireccion extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_direccion, gridBagConstraints);
 
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 708, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(btn_Buscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Refrescar)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Limpiar)
+                .addGap(34, 34, 34))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(308, 308, 308)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(390, Short.MAX_VALUE)))
         );
 
         pack();
@@ -344,7 +439,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
+
             String idText = txt_id.getText();
             if (idText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -359,19 +454,14 @@ public class MenuDireccion extends javax.swing.JFrame {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
 
-       
-             String calle = txt_calle.getText();
+            String calle = txt_calle.getText();
             if (calle.isBlank()) {
                 throw new Exception("La calle no puede estar vacía.");
             }
             if (calle.length() > 100) {
                 throw new Exception("La calle no puede exceder los 100 caracteres.");
             }
-            if (!calle.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La calle contiene caracteres inválidos.");
-            }
 
-            
             String numPuertaText = txt_numeroPuerta.getText();
             if (numPuertaText.isBlank()) {
                 throw new Exception("El número de puerta no puede estar vacío.");
@@ -386,7 +476,6 @@ public class MenuDireccion extends javax.swing.JFrame {
                 throw new Exception("El número de puerta debe ser un número entero válido.");
             }
 
-            
             String localidad = txt_localidad.getText();
             if (localidad.isBlank()) {
                 throw new Exception("La localidad no puede estar vacía.");
@@ -394,39 +483,29 @@ public class MenuDireccion extends javax.swing.JFrame {
             if (localidad.length() > 100) {
                 throw new Exception("La localidad no puede exceder los 100 caracteres.");
             }
-            if (!localidad.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La localidad contiene caracteres inválidos.");
-            }
 
-          String departamento = txt_departamento.getText();
+            String departamento = txt_departamento.getText();
             if (departamento.isBlank()) {
                 throw new Exception("La departamento no puede estar vacía.");
             }
             if (departamento.length() > 100) {
                 throw new Exception("La departamento no puede exceder los 100 caracteres.");
             }
-            if (!departamento.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,!? ]+")) {
-                throw new Exception("La departamento contiene caracteres inválidos.");
-            }
-           
 
-            
             if (cmb_proveedor.getSelectedIndex() < 0) {
                 throw new Exception("Debe seleccionar un proveedor.");
             }
             int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
-           
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
 
-          
             Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
             ICP.administradorModificaDireccion(direccion);
 
             JOptionPane.showMessageDialog(this, "La dirección se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             cargarDatosEnTabla();
-         
+
             txt_id.setText("");
             txt_calle.setText("");
             txt_numeroPuerta.setText("");
@@ -441,21 +520,28 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
+            if (txt_calle.getText().isBlank()
+                    || txt_numeroPuerta.getText().isBlank()
+                    || txt_localidad.getText().isBlank()
+                    || txt_departamento.getText().isBlank()) {
+
+                throw new Exception("Hay campos vacíos o inválidos");
+            }
+
             Direccion nuevaDireccion = new Direccion();
 
             nuevaDireccion.setCalle(txt_calle.getText());
             nuevaDireccion.setNumeroPuerta(Integer.parseInt(txt_numeroPuerta.getText()));
             nuevaDireccion.setDepartamento(txt_departamento.getText());
             nuevaDireccion.setLocalidad(txt_localidad.getText());
-            
+
             int cmb_id = cmbProveedor_id.get(cmb_proveedor.getSelectedIndex());
 
             Proveedor nuevoProveedor = new Proveedor();
             nuevoProveedor.setId(cmb_id);
             nuevoProveedor.setNombre(cmb_proveedor.getSelectedItem().toString());
-            
-            nuevaDireccion.setProveedor(nuevoProveedor);
 
+            nuevaDireccion.setProveedor(nuevoProveedor);
 
             if (ICP.agregarDireccion(nuevaDireccion) == true) {
                 JOptionPane.showMessageDialog(this, "La direccion se agrego correctamente");
@@ -467,6 +553,28 @@ public class MenuDireccion extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
+
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_id.setText("");
+        txt_calle.setText("");
+        txt_numeroPuerta.setText("");
+        txt_localidad.setText("");
+        txt_departamento.setText("");
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if (datoBuscado == "") {
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        } else {
+            cargarDatosBuscados(ICP.buscarDireccion(atributo, datoBuscado));
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_eliminarMouseClicked
         try {
@@ -480,6 +588,11 @@ public class MenuDireccion extends javax.swing.JFrame {
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     if (ICP.eliminarDireccion(idDireccion) == true) {
                         eliminarDireccion(this.selectedRow);
+                        txt_id.setText("");
+                        txt_calle.setText("");
+                        txt_numeroPuerta.setText("");
+                        txt_localidad.setText("");
+                        txt_departamento.setText("");
                         JOptionPane.showMessageDialog(this, "La dirección se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la dirección.");
@@ -539,14 +652,19 @@ public class MenuDireccion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Limpiar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JComboBox<String> cmb_proveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_calle;
     private javax.swing.JLabel lbl_departamento;
@@ -556,6 +674,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_numeroPuerta;
     private javax.swing.JLabel lbl_proveedor;
     private javax.swing.JTable tbl_Direccion;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_calle;
     private javax.swing.JTextField txt_departamento;
     private javax.swing.JTextField txt_id;

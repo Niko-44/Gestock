@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import logica.Clases.Fabricante;
 
 /**
@@ -110,7 +111,6 @@ public class IngresaServicio {
     public boolean agregarIngreso(Ingresa ingresa) throws Exception {
         try {
 
-
             PreparedStatement status = conexion.prepareStatement(
                     "INSERT INTO `ingresa` (`id_ingresa`, `fecha_ingreso`, `cantidad`, `lote`, `precio_compra`, `id_proveedor_fk`, `id_articulo_fk`) VALUES (?, ?, ?, ?, ?, ?, ?);");
             status.setObject(1, null);
@@ -130,6 +130,62 @@ public class IngresaServicio {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public ArrayList<Ingresa> buscarIngresa(String atributo, String dato) {
+        ArrayList<Ingresa> resultado = new ArrayList<>();
+
+        if (atributo == "Fecha Ingreso") {
+            atributo = "fecha_ingreso";
+        }
+
+        if (atributo == "Precio Compra") {
+            atributo = "precio_compra";
+        }
+
+        try {
+            String query = null;
+            if (atributo == "Articulo") {
+                atributo = "nombre";
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE a." + atributo + " like '%" + dato + "%';";
+
+            } else if (atributo == "Proveedor") {
+                atributo = "nombre_proveedor";
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE p." + atributo + " like '%" + dato + "%';";
+
+            } else {
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE i." + atributo + " like '%" + dato + "%';";
+            }
+            PreparedStatement status = conexion.prepareStatement(query);
+            ResultSet rs = status.executeQuery();
+
+            while (rs.next()) {
+                Articulo articulo = new Articulo();
+                articulo.setNombre(rs.getString("nombre_articulo"));
+                articulo.setId(rs.getInt("id_articulo"));
+
+                Proveedor proveedor = new Proveedor();
+                proveedor.setNombre(rs.getString("nombre_proveedor"));
+                proveedor.setId(rs.getInt("id_proveedor"));
+
+                Ingresa ingresa = new Ingresa(
+                        rs.getInt("id_ingresa"),
+                        rs.getDate("fecha_ingreso"),
+                        rs.getInt("cantidad"),
+                        rs.getInt("lote"),
+                        rs.getFloat("precio_compra"),
+                        proveedor,
+                        articulo
+                );
+
+                resultado.add(ingresa);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return resultado;
+
     }
 
 }
