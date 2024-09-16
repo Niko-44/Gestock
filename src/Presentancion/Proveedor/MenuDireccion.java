@@ -520,8 +520,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
-            if (txt_id.getText().isBlank()
-                    || txt_calle.getText().isBlank()
+            if (txt_calle.getText().isBlank()
                     || txt_numeroPuerta.getText().isBlank()
                     || txt_localidad.getText().isBlank()
                     || txt_departamento.getText().isBlank()) {

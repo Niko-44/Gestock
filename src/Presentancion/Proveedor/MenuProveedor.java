@@ -493,11 +493,6 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (telefono.isBlank()) {
                 throw new Exception("El teléfono no puede estar vacío.");
             }
-            if (!telefono.isBlank()) {
-                if (!telefono.matches("\\d{7,15}")) {
-                    throw new Exception("El teléfono debe contener entre 0 y 15 dígitos.");
-                }
-            }
 
             String correo = txt_email.getText();
             if (correo.isBlank()) {
