@@ -146,4 +146,32 @@ public class EmpleadosServicios {
         }
         return false;
     }
+    
+    public ArrayList<Empleado> BuscarEmpleado(String datoABuscar, String atributo){
+        ArrayList<Empleado> empleados = new ArrayList<>();
+        if (atributo == "Nombre Usuario"){
+            atributo = "nombre_usuario";
+        }
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado where "+atributo +" like '%"+ datoABuscar +"%';");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idEmpleado = rs.getInt("id_empleado");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                int cedula = rs.getInt("cedula");
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String email = rs.getString("email");
+                String contraseña = rs.getString("contraseña");
+                String rolEmpleado = rs.getString("rol");
+
+                Empleado empleado = new Empleado(idEmpleado, nombre, apellido, cedula, nombreUsuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rolEmpleado));
+                empleados.add(empleado);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return empleados;
+    }
 }

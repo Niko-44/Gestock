@@ -85,8 +85,8 @@ public class ControladorEmpleado implements IControladorEmpleado{
     public void cancelarModificacion(){
 
     }
-    public void buscar(String atributo, String datoBuscar){
-
+    public ArrayList<Empleado> buscarEmpleado(String datoBuscar, String atributo){
+        return servicioEmpleado.BuscarEmpleado(datoBuscar, atributo);
     }
 
 
