@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Fabrica;
 import logica.Clases.Direccion;
+import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 import logica.Interfaces.IControladorProveedor;
 
@@ -80,7 +81,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
 
-        String[] columnas = {"ID", "Calle", "Numero Puerta", "Localidad", "Departamento", "Proveedor"};
+        String[] columnas = {"ID", "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -101,6 +102,33 @@ public class MenuDireccion extends javax.swing.JFrame {
                 direccion.getProveedor().getId()
             };
             modeloTabla.addRow(fila);
+        }
+
+        tbl_Direccion.setModel(modeloTabla);
+    }
+
+    private void cargarDatosBuscados(ArrayList<Direccion> DatosBuscados) {
+        String[] columnas = {"ID", "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Retornar false para que ninguna celda sea editable
+                return false;
+            }
+        };
+
+        for (Direccion direccion : DatosBuscados) {
+            Object[] fila = {
+                direccion.getId(),
+                direccion.getCalle(),
+                direccion.getNumeroPuerta(),
+                direccion.getLocalidad(),
+                direccion.getDepartamento(),
+                direccion.getProveedor().getNombre(),
+                direccion.getProveedor().getId()
+            };
+            modeloTabla.addRow(fila);
+
         }
 
         tbl_Direccion.setModel(modeloTabla);
@@ -139,6 +167,12 @@ public class MenuDireccion extends javax.swing.JFrame {
         btn_modificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lbl_direccion = new javax.swing.JLabel();
+        cmb_Atributo = new javax.swing.JComboBox<>();
+        btn_Refrescar = new javax.swing.JButton();
+        btn_Limpiar = new javax.swing.JButton();
+        btn_Buscar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Buscar = new javax.swing.JTextPane();
 
         jTextField1.setText("jTextField1");
 
@@ -170,7 +204,7 @@ public class MenuDireccion extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva dirección"));
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 10, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         lbl_id.setText("ID");
@@ -308,6 +342,12 @@ public class MenuDireccion extends javax.swing.JFrame {
         });
         jPanel1.add(btn_modificar);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(jPanel1, gridBagConstraints);
+
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lbl_direccion.setText("Dirección");
@@ -318,35 +358,80 @@ public class MenuDireccion extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(lbl_direccion, gridBagConstraints);
 
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Calle", "Número de puerta", "Localidad", "Departamento", "Proveedor" }));
+
+        btn_Refrescar.setText("Refrescar");
+        btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RefrescarActionPerformed(evt);
+            }
+        });
+
+        btn_Limpiar.setText("Limpiar");
+        btn_Limpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_LimpiarActionPerformed(evt);
+            }
+        });
+
+        btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(txt_Buscar);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 708, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(btn_Buscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Refrescar)
+                .addGap(18, 18, 18)
+                .addComponent(btn_Limpiar)
+                .addGap(34, 34, 34))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane1)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(308, 308, 308)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Limpiar))
+                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(390, Short.MAX_VALUE)))
         );
 
         pack();
@@ -465,6 +550,28 @@ public class MenuDireccion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_agregarActionPerformed
 
+    private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
+        cargarDatosEnTabla();
+    }//GEN-LAST:event_btn_RefrescarActionPerformed
+
+    private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        txt_id.setText("");
+        txt_calle.setText("");
+        txt_numeroPuerta.setText("");
+        txt_localidad.setText("");
+        txt_departamento.setText("");
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        if (datoBuscado == "") {
+            JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
+        } else {
+            cargarDatosBuscados(ICP.buscarDireccion(atributo, datoBuscado));
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
+
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_eliminarMouseClicked
         try {
             this.selectedRow = tbl_Direccion.getSelectedRow();
@@ -541,14 +648,19 @@ public class MenuDireccion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Limpiar;
+    private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
+    private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JComboBox<String> cmb_proveedor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_calle;
     private javax.swing.JLabel lbl_departamento;
@@ -558,6 +670,7 @@ public class MenuDireccion extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_numeroPuerta;
     private javax.swing.JLabel lbl_proveedor;
     private javax.swing.JTable tbl_Direccion;
+    private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_calle;
     private javax.swing.JTextField txt_departamento;
     private javax.swing.JTextField txt_id;

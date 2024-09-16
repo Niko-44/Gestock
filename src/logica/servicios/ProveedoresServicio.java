@@ -11,8 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import logica.Clases.Direccion;
 import logica.Clases.Empleado;
 import logica.Clases.Fabricante;
+import logica.Clases.Ingresa;
 import logica.Clases.Proveedor;
 
 public class ProveedoresServicio {
@@ -137,5 +139,47 @@ public class ProveedoresServicio {
         }
         return false;
     }
+
+    public ArrayList<Proveedor> buscarProveedor(String atributo, String dato) {
+
+        ArrayList<Proveedor> proveedores = new ArrayList<>();
+
+        if (atributo == "Nombre") {
+            atributo = "nombre_proveedor";
+        }
+
+        if (atributo == "Teléfono") {
+            atributo = "telefono";
+        }
+        
+        if(atributo == "Correo")
+        {
+            atributo = "email";
+        }
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor WHERE proveedor." + atributo + " like '%" + dato + "%';");
+//            ps.setObject(1,atributo);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int idProveedor = rs.getInt("id_proveedor");
+                String nombre = rs.getString("nombre_proveedor");
+                String email = rs.getString("email");
+                String telefono = rs.getString("telefono");
+                Date updateDate = rs.getDate("update_date");
+                Date createDate = rs.getDate("create_date");
+
+                Proveedor proveedor = new Proveedor(idProveedor, nombre, telefono, email, updateDate, createDate);
+                proveedores.add(proveedor);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return proveedores;
+
+    }
+
 
 }
