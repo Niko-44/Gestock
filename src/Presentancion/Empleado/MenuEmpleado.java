@@ -445,6 +445,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
+             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
 
             String idText = txt_id.getText();
             if (idText.isBlank()) {
@@ -522,7 +526,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
             Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
             ICE.modificaDatosEmpleado(empleado);
 
-            JOptionPane.showMessageDialog(this, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+           
             cargarDatosEnTabla();
 
             txt_id.setText("");

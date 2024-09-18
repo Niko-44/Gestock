@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 
@@ -37,12 +38,14 @@ public class ArticulosServicios {
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Articulo actualizado exitosamente.");
+                JOptionPane.showMessageDialog(null, "El artículo se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró el articulo con los datos proporcionados.");
+                JOptionPane.showMessageDialog(null, "El artículo no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el Articulo: " + e.getMessage());
+
+            System.err.println("Error al actualizar el Articulo: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el artículo:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -71,9 +74,11 @@ public class ArticulosServicios {
 
         } catch (SQLException ex) {
 
-            ex.printStackTrace();
-            return false;
+            System.err.println("Error al actualizar el Articulo: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
+        return false;
     }
 
     public boolean verificarExistencia(Articulo articulo) {

@@ -439,6 +439,11 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
+            
+             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar la direccion?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
 
             String idText = txt_id.getText();
             if (idText.isBlank()) {
@@ -503,7 +508,7 @@ public class MenuDireccion extends javax.swing.JFrame {
             Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
             ICP.administradorModificaDireccion(direccion);
 
-            JOptionPane.showMessageDialog(this, "La dirección se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
             cargarDatosEnTabla();
 
             txt_id.setText("");

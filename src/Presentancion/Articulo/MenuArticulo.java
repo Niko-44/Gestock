@@ -575,6 +575,10 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este artículo?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
 
             String idText = txt_id.getText();
             if (idText.isBlank()) {
@@ -682,7 +686,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria);
             ICA.modificaDatosArticulo(articulo);
 
-            JOptionPane.showMessageDialog(this, "El artículo se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+           
             cargarDatosEnTabla();
 
             txt_id.setText("");

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import logica.Clases.Empleado;
 import logica.Clases.Fabricante;
 
@@ -68,14 +69,15 @@ public class EmpleadosServicios {
              int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Direccion actualizada exitosamente.");
+                JOptionPane.showMessageDialog(null, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró la Direccion con los datos proporcionados.");
+                JOptionPane.showMessageDialog(null, "El empleado no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println("Error al eliminar el empleado: " + e.getMessage());
-
-        }
+        // Mostrar el error en una ventana de diálogo
+        System.err.println("Error al actualizar el empleado: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar el empleado:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public boolean eliminarEmpleado(int idEmpleado) {

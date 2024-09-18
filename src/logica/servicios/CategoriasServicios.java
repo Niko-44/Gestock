@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
 
@@ -54,13 +55,15 @@ public class CategoriasServicios {
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Categoria actualizada exitosamente.");
+                  JOptionPane.showMessageDialog(null, "La categoría se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró la categoria con los datos proporcionados.");
+                JOptionPane.showMessageDialog(null, "La categoría no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar La categoria: " + e.getMessage());
-        }
+        // Mostrar el error en una ventana de diálogo
+        System.err.println("Error al actualizar la categoria: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar la categoria:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public boolean eliminarCategoria(int idCategoria) {

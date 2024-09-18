@@ -513,6 +513,11 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_modificarMouseClicked
         try {
+            
+             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar el ingreso?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
 
             String idText = txt_id.getText();
             if (idText.isBlank()) {
@@ -602,7 +607,7 @@ public class MenuIngresa extends javax.swing.JPanel {
             Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
             ICP.modificarDatosIngresa(ingresa);
 
-            JOptionPane.showMessageDialog(this, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+           
             cargarDatosEnTabla();
 
             txt_id.setText("");

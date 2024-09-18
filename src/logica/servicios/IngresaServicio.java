@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Fabricante;
 
 /**
@@ -78,13 +79,15 @@ public class IngresaServicio {
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Ingreso actualizado exitosamente.");
+                JOptionPane.showMessageDialog(null, "El registro de ingreso se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró el ingreso con los datos proporcionados.");
+                 JOptionPane.showMessageDialog(null, "El registro de ingreso no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (SQLException e) {
-            System.out.println("Error al actualizar el ingreso: " + e.getMessage());
-        }
+        }catch (SQLException e) {
+        // Mostrar el error en una ventana de diálogo
+        System.err.println("Error al actualizar el ingreso: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar el ingreso:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public boolean eliminarIngresa(int idIngresa) {

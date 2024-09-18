@@ -62,13 +62,15 @@ public class FabricantesServicios {
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Fabricante actualizado exitosamente.");
+                JOptionPane.showMessageDialog(null, "El fabricante se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró el fabricante con los datos proporcionados.");
+                JOptionPane.showMessageDialog(null, "El fabricante no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el fabricante: " + e.getMessage());
-        }
+        // Mostrar el error en una ventana de diálogo
+        System.err.println("Error al actualizar el fabricante: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar el fabricante:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public boolean eliminarFabricante(int idFabricante) {
@@ -136,10 +138,9 @@ public class FabricantesServicios {
         }
         return false;
     }
-    
-    
-        public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
-          ArrayList<Fabricante> fabricantes = new ArrayList<>();
+
+    public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
+        ArrayList<Fabricante> fabricantes = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where FABRICANTE." + datoABuscar + " like '%" + nombre + "%';");
 //            ps.setObject(1,atributo);
@@ -149,16 +150,16 @@ public class FabricantesServicios {
             while (rs.next()) {
 
                 int idFabricante = rs.getInt("id_fabricante");
-                String nombre_fabricante= rs.getString("nombre_fabricante");
+                String nombre_fabricante = rs.getString("nombre_fabricante");
                 String telefono = rs.getString("telefono");
                 String email = rs.getString("email");
-                Date update_date=rs.getDate("update_date");
-                Date create_date=rs.getDate("create_date");
+                Date update_date = rs.getDate("update_date");
+                Date create_date = rs.getDate("create_date");
 
-                Fabricante fabricante = new Fabricante(idFabricante,nombre_fabricante,telefono,email,update_date,create_date);
+                Fabricante fabricante = new Fabricante(idFabricante, nombre_fabricante, telefono, email, update_date, create_date);
                 fabricantes.add(fabricante);
             }
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return fabricantes;

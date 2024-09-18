@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Direccion;
 import logica.Clases.Empleado;
 import logica.Clases.Fabricante;
@@ -84,13 +85,15 @@ public class ProveedoresServicio {
             int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
-                System.out.println("Fabricante actualizado exitosamente.");
+               JOptionPane.showMessageDialog(null, "El proveedor se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("No se encontró el fabricante con los datos proporcionados.");
+                JOptionPane.showMessageDialog(null, "El proveedor no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el fabricante: " + e.getMessage());
-        }
+        // Mostrar el error en una ventana de diálogo
+        System.err.println("Error al actualizar el proveedor: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al actualizar el proveedor:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 
     public boolean agregarProveedor(Proveedor proveedor) throws Exception {
