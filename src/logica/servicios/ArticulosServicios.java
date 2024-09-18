@@ -148,7 +148,7 @@ public class ArticulosServicios {
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
-
+            
                 int idArticulo = rs.getInt("id_articulo");
                 int sku = rs.getInt("sku");
                 String nombre = rs.getString("nombre");

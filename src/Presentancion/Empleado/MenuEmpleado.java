@@ -650,6 +650,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_apellido.setText("");
         txt_id.setText("");
         txt_nombre.setText("");
+        txt_cedula.setText("");
         txt_contraseña.setText("");
         txt_email.setText("");
         txt_nombre_usuario.setText("");

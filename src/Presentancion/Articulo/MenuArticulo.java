@@ -106,7 +106,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Articulo", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
+        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -787,7 +787,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_ModificarActionPerformed
 
     private void cargarDatosBuscados(ArrayList<Articulo> DatosBuscados) {
-        String[] columnas = {"SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "UpdateDate", "CreateDate", "Categoria"};
+        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -798,6 +798,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         for (Articulo articulos : DatosBuscados) {
             Object[] fila = {
+                articulos.getId(),
                 articulos.getSku(),
                 articulos.getDescripcion(),
                 articulos.getNombre(),
