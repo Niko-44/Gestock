@@ -43,8 +43,7 @@ public class ArticulosServicios {
                 JOptionPane.showMessageDialog(null, "El artículo no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-
-            System.err.println("Error al actualizar el Articulo: " + e.getMessage());
+            System.err.println("Error al actualizar el artículo: " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error al actualizar el artículo:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -52,9 +51,7 @@ public class ArticulosServicios {
     public boolean agregarArticulo(Articulo articulo) throws Exception {
         try {
 
-            if (verificarExistencia(articulo)) {
-                throw new Exception("El articulo ya existe");
-            }
+            
 
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `articulo` (`id_articulo`, `sku`, `nombre`, `descripcion`, `stock`, `precio`, `peso`, `update_date`, `create_date`, `id_categoria_fk`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             status.setObject(1, null);
@@ -73,34 +70,13 @@ public class ArticulosServicios {
             return true;
 
         } catch (SQLException ex) {
-
-            System.err.println("Error al actualizar el Articulo: " + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al actualizar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al agregar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             
         }
         return false;
     }
 
-    public boolean verificarExistencia(Articulo articulo) {
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `articulo`");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                int sku = rs.getInt("sku");
-                String nombre = rs.getString("nombre");
-
-                if (articulo.getNombre().equals(nombre) || articulo.getSku() == sku) {
-                    return true;
-                }
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+   
 
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> articulos = new ArrayList<>();

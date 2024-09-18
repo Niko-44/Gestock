@@ -104,9 +104,6 @@ public class EmpleadosServicios {
     public boolean agregarEmpleado(Empleado empleado) throws Exception {
         try {
 
-            if (verificarExistencia(empleado)) {
-                throw new Exception("La cedula coincide con la de otro empleado ya existente");
-            }
 
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `cedula`, `nombre_usuario`, `email`, `contraseña`, `rol`) VALUES (?, ?, ?, ?, ?, ?, ?, ?); ");
             status.setObject(1, null);
@@ -122,32 +119,15 @@ public class EmpleadosServicios {
 
             return true;
 
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
 
-            ex.printStackTrace();
+            System.err.println("Error al agregar el empleado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al agregar el empleado:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    public boolean verificarExistencia(Empleado empleado) {
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `empleado`");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                int cedula = rs.getInt("cedula");
-
-                if (empleado.getCedula() == cedula) {
-                    return true;
-                }
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+  
     
     public ArrayList<Empleado> BuscarEmpleado(String datoABuscar, String atributo){
         ArrayList<Empleado> empleados = new ArrayList<>();

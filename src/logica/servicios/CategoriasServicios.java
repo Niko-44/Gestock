@@ -90,9 +90,7 @@ public class CategoriasServicios {
     public boolean agregarCategoria(Categoria categoria) throws Exception {
         try {
 
-            if (verificarExistencia(categoria)) {
-                throw new Exception("La categoria ya existe");
-            }
+            
 
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `categoria` (`id_categoria`, `nombre_categoria`, `descripcion`) VALUES (?, ?, ?);");
             status.setObject(1, null);
@@ -103,32 +101,15 @@ public class CategoriasServicios {
 
             return true;
 
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
 
-            ex.printStackTrace();
+            System.err.println("Error al agregar la categoria: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al agregar la categoria:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    public boolean verificarExistencia(Categoria categoria) {
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `categoria`");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                String nombre = rs.getString("nombre_categoria");
-
-                if (categoria.getNombre().equals(nombre)) {
-                    return true;
-                }
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+    
 
     public ArrayList<Categoria> buscarCategoria(String nombre, String datoABuscar) {
           ArrayList<Categoria> categorias = new ArrayList<>();

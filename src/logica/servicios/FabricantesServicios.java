@@ -97,9 +97,7 @@ public class FabricantesServicios {
     public boolean agregarFabricante(Fabricante fabricante) throws Exception {
         try {
 
-            if (verificarExistencia(fabricante)) {
-                throw new Exception("El fabricante ya existe");
-            }
+           
 
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `fabricante` (`id_fabricante`, `nombre_fabricante`, `telefono`, `email`, `update_date`, `create_date`) VALUES (?, ?, ?, ?, ?, ?);");
             status.setObject(1, null);
@@ -113,31 +111,14 @@ public class FabricantesServicios {
 
             return true;
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al agregar el fabricante: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al agregar el fabricante:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    public boolean verificarExistencia(Fabricante fabricante) {
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `fabricante`");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                String nombre = rs.getString("nombre_fabricante");
-
-                if (fabricante.getNombre().equals(nombre)) {
-                    return true;
-                }
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
+   
 
     public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();

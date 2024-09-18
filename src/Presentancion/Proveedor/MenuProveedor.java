@@ -583,9 +583,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (ICP.agregarProveedor(nuevoProveedor)) {
                 JOptionPane.showMessageDialog(this, "El proveedor se agregó correctamente");
                 cargarDatosEnTabla();
-            } else {
-                JOptionPane.showMessageDialog(this, "Hubo un problema al agregar el proveedor");
-            }
+            } 
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());

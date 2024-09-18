@@ -99,9 +99,7 @@ public class ProveedoresServicio {
     public boolean agregarProveedor(Proveedor proveedor) throws Exception {
         try {
 
-            if (verificarExistencia(proveedor)) {
-                throw new Exception("El proveedor ya existe");
-            }
+           
 
             PreparedStatement status = conexion.prepareStatement(
                     "INSERT INTO `proveedor` (`id_proveedor`, `nombre_proveedor`, `email`, `telefono`, `update_date`, `create_date`) VALUES (?, ?, ?, ?, ?, ?); ");
@@ -116,32 +114,14 @@ public class ProveedoresServicio {
 
             return true;
 
-        } catch (SQLException ex) {
-
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            
+            System.err.println("Error al agregar el proveedor: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al agregar el proveedor:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
 
-    public boolean verificarExistencia(Proveedor proveedor) {
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM `proveedor`");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                String nombre = rs.getString("nombre_proveedor");
-
-                if (proveedor.getNombre().equals(nombre)) {
-                    return true;
-                }
-
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
 
     public ArrayList<Proveedor> buscarProveedor(String atributo, String dato) {
 
