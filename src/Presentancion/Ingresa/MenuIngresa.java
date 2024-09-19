@@ -4,6 +4,8 @@
  */
 package Presentancion.Ingresa;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,10 +15,12 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import logica.Clases.Articulo;
 import logica.Clases.Ingresa;
+import logica.Clases.DateLabelFormatter;
 import logica.Clases.Proveedor;
 import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +28,8 @@ import logica.Fabrica;
 import logica.Clases.Ingresa;
 import logica.Fabrica;
 import logica.Interfaces.IControladorProveedor;
+
+import org.jdatepicker.impl.*;
 
 /**
  *
@@ -47,6 +53,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         this.ICA = fabrica.getIControladorArticulo();
         cargarDatosEnTabla();
         cargarDatosCombobox();
+        agregarDatePicker();
 
         tbl_Ingresa.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -159,6 +166,33 @@ public class MenuIngresa extends javax.swing.JPanel {
         }
 
         tbl_Ingresa.setModel(modeloTabla);
+    }
+
+    private void agregarDatePicker() {
+        // Configurar el JDatePicker
+        UtilDateModel model = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Hoy");
+        p.put("text.month", "Mes");
+        p.put("text.year", "Año");
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+        // Establecer tamaño preferido para el DatePicker
+        datePicker.setPreferredSize(new java.awt.Dimension(200, 30));
+
+        // Quitar el JTextField y agregar el DatePicker en su lugar
+        txt_fecha.setVisible(false);  // Ocultar el JTextField
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 2;  // Ajustar el GridBagConstraints según la posición que desees
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;  // Ajustar el componente horizontalmente
+        gbc.insets = new Insets(0, 12, 0, 12);  // Márgenes para mayor espacio alrededor
+
+
+        jPanel4.add(datePicker, gbc);  // Añadir el DatePicker al JPanel
+        jPanel4.revalidate();  // Actualizar el layout
+        jPanel4.repaint();
     }
 
     /**
@@ -476,7 +510,7 @@ public class MenuIngresa extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(269, Short.MAX_VALUE)))
+                    .addContainerGap(283, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -513,8 +547,8 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
-             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar el ingreso?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar el ingreso?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
             }
@@ -607,7 +641,6 @@ public class MenuIngresa extends javax.swing.JPanel {
             Ingresa ingresa = new Ingresa(id, fecha_ingreso, cantidad, lote, precioC, nuevoProveedor, nuevoArticulo);
             ICP.modificarDatosIngresa(ingresa);
 
-           
             cargarDatosEnTabla();
 
             txt_id.setText("");

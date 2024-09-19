@@ -42,8 +42,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     String cedula = tbl_Empleado.getValueAt(selectedRow, 3).toString();
                     String nombre_usuario = tbl_Empleado.getValueAt(selectedRow, 4).toString();
                     String email = tbl_Empleado.getValueAt(selectedRow, 5).toString();
-                    String contraseña = tbl_Empleado.getValueAt(selectedRow, 6).toString();
-                    String rol = tbl_Empleado.getValueAt(selectedRow, 7).toString();
+                    String rol = tbl_Empleado.getValueAt(selectedRow, 6).toString();
 
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
@@ -52,7 +51,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_cedula.setText(cedula);
                     txt_nombre_usuario.setText(nombre_usuario);
                     txt_email.setText(email);
-                    txt_contraseña.setText(contraseña);
                     cmb_Empleado.setSelectedItem(rol);
 
                 }
@@ -62,7 +60,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Contraseña", "Rol"};
+        String[] columnas = {"ID", "Nombre", "Apellido", "Cédula", "Usuario", "Email", "Rol"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -79,7 +77,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 empleado.getCedula(),
                 empleado.getNombreUsuario(),
                 empleado.getEmail(),
-                empleado.getContraseña(),
                 empleado.getRol()
             };
             modeloTabla.addRow(fila);
@@ -435,7 +432,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
