@@ -33,7 +33,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
 
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
     DefaultTableModel modeloTabla;
 
     MenuFabricante fabricante = new MenuFabricante();
@@ -125,8 +125,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getStock(),
                 articulos.getPrecio(),
                 articulos.getPeso(),
-                articulos.getUpdateDate(),
-                articulos.getCreateDate(),
+                formatoFecha.format(articulos.getUpdateDate()),
+                formatoFecha.format(articulos.getCreateDate()),
                 articulos.getCategoria().getNombre()
             };
             modeloTabla.addRow(fila);

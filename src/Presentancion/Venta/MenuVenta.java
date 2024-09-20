@@ -82,7 +82,7 @@ public class MenuVenta extends javax.swing.JPanel {
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                venta.getFechaVenta(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
                 venta.getEmpleado().getNombre(),
                 venta.getEmpleado().getId(),};
@@ -260,7 +260,7 @@ public class MenuVenta extends javax.swing.JPanel {
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                venta.getFechaVenta(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
                 venta.getEmpleado().getNombre(),
                 venta.getEmpleado().getId(),};
