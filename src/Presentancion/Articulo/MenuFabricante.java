@@ -26,6 +26,7 @@ public class MenuFabricante extends javax.swing.JFrame {
     IControladorArticulo ICA;
     private int selectedRow;
     DefaultTableModel modeloTabla;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     public MenuFabricante() {
         initComponents();
@@ -40,8 +41,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
         txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
         txt_fecha_creado.setValue(fechaFormateada);
-        
-        
+
         tbl_Fabricante.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_Fabricante.getSelectedRow();
@@ -70,7 +70,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Nombre", "Telefono", "Correo", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0){
+        modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -85,8 +85,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                 fabricante.getNombre(),
                 fabricante.getCorreo(),
                 fabricante.getTelefono(),
-                fabricante.getUpdateDate(),
-                fabricante.getCreateDate()
+                sdf.format(fabricante.getUpdateDate()),
+                sdf.format(fabricante.getCreateDate())
             };
             modeloTabla.addRow(fila);
 
@@ -97,7 +97,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void cargarDatosBuscados(ArrayList<Fabricante> DatosBuscados) {
         String[] columnas = {"ID", "Nombre", "Telefono", "Correo", "Fecha Actualización", "Fecha Creación"};
-        modeloTabla = new DefaultTableModel(columnas, 0){
+        modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -111,8 +111,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                 fabricantes.getNombre(),
                 fabricantes.getCorreo(),
                 fabricantes.getTelefono(),
-                fabricantes.getUpdateDate(),
-                fabricantes.getCreateDate()
+                sdf.format(fabricantes.getUpdateDate()),
+                sdf.format(fabricantes.getCreateDate())
             };
             modeloTabla.addRow(fila);
 
@@ -434,8 +434,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-            
-            
+
             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este Fabricante?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
@@ -489,7 +488,6 @@ public class MenuFabricante extends javax.swing.JFrame {
             Fabricante fabricante = new Fabricante(id, nombre, telefono, correo, new Date(), create_date);
             ICA.modificaDatosFabricante(fabricante);
 
-           
             cargarDatosEnTabla();
 
             txt_id.setText("");

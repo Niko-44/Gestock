@@ -20,6 +20,7 @@ import logica.Interfaces.IControladorProveedor;
 
 /**
  *
+ *
  * @author Cristian
  */
 public class MenuProveedor extends javax.swing.JPanel {
@@ -27,7 +28,7 @@ public class MenuProveedor extends javax.swing.JPanel {
     private IControladorProveedor ICP;
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
-
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     MenuDireccion menuDireccion = new MenuDireccion();
     private DefaultTableModel modeloTabla;
 
@@ -87,8 +88,9 @@ public class MenuProveedor extends javax.swing.JPanel {
                 proveedor.getNombre(),
                 proveedor.getEmail(),
                 proveedor.getTelefonos(),
-                proveedor.getUpdateDate(),
-                proveedor.getCreateDate()
+                sdf.format(proveedor.getUpdateDate()),
+                sdf.format(proveedor.getCreateDate())
+
             };
             modeloTabla.addRow(fila);
         }
@@ -118,8 +120,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                 proveedor.getNombre(),
                 proveedor.getEmail(),
                 proveedor.getTelefonos(),
-                proveedor.getUpdateDate(),
-                proveedor.getCreateDate()
+                sdf.format(proveedor.getUpdateDate()),
+                sdf.format(proveedor.getCreateDate())
             };
             modeloTabla.addRow(fila);
 
@@ -465,8 +467,8 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
-             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este proveedor?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este proveedor?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
             }
@@ -492,7 +494,6 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (nombre.length() > 50) {
                 throw new Exception("El nombre no puede exceder los 50 caracteres.");
             }
-           
 
             String telefono = txt_telefono.getText();
             if (telefono.isBlank()) {
@@ -503,7 +504,6 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (correo.isBlank()) {
                 throw new Exception("El correo electrónico no puede estar vacío.");
             }
-            
 
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -523,7 +523,6 @@ public class MenuProveedor extends javax.swing.JPanel {
             Proveedor proveedor = new Proveedor(id, nombre, telefono, correo, new Date(), create_date);
             ICP.modificarDatosProveedor(proveedor);
 
-            
             cargarDatosEnTabla();
 
             // Limpieza de campos
@@ -583,7 +582,7 @@ public class MenuProveedor extends javax.swing.JPanel {
             if (ICP.agregarProveedor(nuevoProveedor)) {
                 JOptionPane.showMessageDialog(this, "El proveedor se agregó correctamente");
                 cargarDatosEnTabla();
-            } 
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());

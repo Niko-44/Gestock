@@ -31,7 +31,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
     Fabrica fabrica = Fabrica.getInstance();
 
-    SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 
     private int id_venta;
 
@@ -64,7 +64,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
 
         modeloTabla = new DefaultTableModel(columnas, 0){
             @Override
@@ -82,7 +82,7 @@ public class MenuVenta extends javax.swing.JPanel {
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                venta.getFechaVenta(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
                 venta.getEmpleado().getNombre(),
                 venta.getEmpleado().getId(),};
@@ -260,7 +260,7 @@ public class MenuVenta extends javax.swing.JPanel {
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                venta.getFechaVenta(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
                 venta.getEmpleado().getNombre(),
                 venta.getEmpleado().getId(),};
