@@ -135,7 +135,7 @@ public class EmpleadosServicios {
             atributo = "nombre_usuario";
         }
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado where "+atributo +" like '%"+ datoABuscar +"%';");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado where LOWER("+atributo +") like LOWER('%"+ datoABuscar +"%');");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idEmpleado = rs.getInt("id_empleado");

@@ -134,7 +134,7 @@ public class ArticulosServicios {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " like '%" + datoABuscar + "%'";
+            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
 
             if (atributo.equals("SKU")) {
                 sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";

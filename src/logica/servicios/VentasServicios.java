@@ -114,7 +114,7 @@ public class VentasServicios {
         try {
             
             
-            String sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
+            String sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%')";
             
             
 
