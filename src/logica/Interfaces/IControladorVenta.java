@@ -29,6 +29,7 @@ public interface IControladorVenta {
     public abstract ArrayList<Venta> obtenerVenta();
     
     public abstract boolean agregarVenta(Venta venta);
+    public abstract boolean agregarLineaVenta(Linea linea);
 
     public abstract void listarVentas(int numeroVenta);
     

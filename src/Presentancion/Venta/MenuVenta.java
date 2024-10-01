@@ -546,6 +546,7 @@ public class MenuVenta extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
             e.printStackTrace();
         }
     }//GEN-LAST:event_btn_AgregarActionPerformed
