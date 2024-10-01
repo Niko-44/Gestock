@@ -5,6 +5,9 @@
 package logica.Controladores;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Linea;
 import logica.Clases.Venta;
@@ -68,6 +71,16 @@ public class ControladorVenta implements IControladorVenta {
         return ventasServicio.agregarVenta(venta);
     }
 
+    public boolean agregarLineaVenta(Linea linea) {
+        try {
+            return servicioLinea.agregarLinea(linea);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            Logger.getLogger(ControladorArticulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public void listarVentas(int numeroVenta) {
 
     }
@@ -99,11 +112,10 @@ public class ControladorVenta implements IControladorVenta {
     public void modificarDatosVentas(Venta venta) {
         ventasServicio.modificaDatosVenta(venta);
     }
-    
-      public void modificarDatosLinea(Linea linea)
-      {
-          servicioLinea.modificaDatosLinea(linea);
-      }
+
+    public void modificarDatosLinea(Linea linea) {
+        servicioLinea.modificaDatosLinea(linea);
+    }
 
     public ArrayList<Linea> obtenerLineasVenta(int id_venta) {
         return servicioLinea.getLineasVenta(id_venta);

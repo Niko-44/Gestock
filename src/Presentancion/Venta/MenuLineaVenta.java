@@ -189,6 +189,11 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
         btn_agregar.setActionCommand("btn_agregar");
         btn_agregar.setLabel("Agregar");
+        btn_agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_agregarActionPerformed(evt);
+            }
+        });
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
@@ -431,6 +436,51 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btn_modificarMouseClicked
+
+    private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+         try {
+            String articulo = (String) cmb_articulo.getSelectedItem();
+            int cantidad = Integer.parseInt(txt_cantidad.getText());
+            float precio = Float.parseFloat(txt_precio.getText());
+
+            if (articulo == null || articulo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un articulo para la linea.");
+                return;
+            }
+
+            if (cantidad <= 0) {
+                JOptionPane.showMessageDialog(this, "Ingrese una cantidad valida.");
+                return;
+            }
+            
+            if (precio <= 0) {
+                JOptionPane.showMessageDialog(this, "El precio es menor o igual a 0.");
+                return;
+            }
+
+           
+            ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+
+            int cmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
+            Articulo nuevoArticulo = new Articulo();
+            nuevoArticulo.setId(cmb_id);
+            
+            Venta venta = new Venta();
+            venta.setId(id_venta);
+
+            Linea nuevaLinea = new Linea(0, cantidad, precio, nuevoArticulo, venta);
+            
+
+            if (ICV.agregarLineaVenta(nuevaLinea) == true) {
+                JOptionPane.showMessageDialog(this, "La linea se agrego correctamente");
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_agregarActionPerformed
 
     /**
      * @param args the command line arguments

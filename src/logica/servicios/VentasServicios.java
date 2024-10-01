@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import logica.Clases.Empleado;
 import logica.Clases.Venta;
 
@@ -81,9 +82,10 @@ public class VentasServicios {
             return true;
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
+            JOptionPane.showMessageDialog(null, "Error al agregar la venta:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
         }
+        return false;
     }
 
     public boolean eliminarVenta(int idVenta) {

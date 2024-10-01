@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Linea;
 import logica.Clases.Venta;
@@ -152,5 +153,26 @@ public class LineasServicio {
             ex.printStackTrace();
         }
         return lineas;
+    }
+    
+    public boolean agregarLinea(Linea linea) {
+        try {
+
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `linea` (`id_linea`, `cantidad_vendida`, `precio_venta`, `id_articulo_fk`, `id_venta_fk`) VALUES (?, ?, ?, ?, ?)");
+            status.setObject(1, null);
+            status.setObject(2, linea.getCantidad());
+            status.setObject(3, linea.getPrecioVenta());
+            status.setObject(4, linea.getArticulo().getId());
+            status.setObject(5, linea.getVenta().getId());
+            
+            int rs = status.executeUpdate();
+
+            return true;
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al ingresar la linea de venta:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+        return false;
     }
 }
