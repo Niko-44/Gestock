@@ -811,8 +811,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getStock(),
                 articulos.getPrecio(),
                 articulos.getPeso(),
-                articulos.getUpdateDate(),
-                articulos.getCreateDate(),
+                formatoFecha.format(articulos.getUpdateDate()),
+                formatoFecha.format(articulos.getCreateDate()),
                 articulos.getCategoria().getNombre()
             };
             modeloTabla.addRow(fila);
