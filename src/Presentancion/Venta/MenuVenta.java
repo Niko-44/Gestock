@@ -47,7 +47,6 @@ public class MenuVenta extends javax.swing.JPanel {
 
         cargarDatosEnTabla();
         cargarDatosEmpleado();
-       
 
         tbl_venta.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -58,7 +57,7 @@ public class MenuVenta extends javax.swing.JPanel {
                     String Estado = tbl_venta.getValueAt(selectedRow, 2).toString();
                     String Empleado = tbl_venta.getValueAt(selectedRow, 3).toString();
 
-                    id_venta=Integer.parseInt(id);
+                    id_venta = Integer.parseInt(id);
                     txt_id.setText(id);
                     cmbEstado.setSelectedItem(Estado);
                     cmbEmpleado.setSelectedItem(Empleado);
@@ -80,7 +79,6 @@ public class MenuVenta extends javax.swing.JPanel {
             empleadoprueba_id.add(item.getId());
         }
     }
-
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
@@ -242,6 +240,11 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btn_Agregar.setActionCommand("jButtonAgregar");
         btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar);
 
         btn_Eliminar.setText("Eliminar");
@@ -327,7 +330,6 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -414,7 +416,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_EliminarMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-       try {
+        try {
             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar esta venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
@@ -460,39 +462,46 @@ public class MenuVenta extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+            String estadoVenta = (String) cmbEstado.getSelectedItem();
+            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
+
+            if (estadoVenta == null || estadoVenta.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un estado para la venta.");
+                return;
+            }
+
+            if (nombreEmpleado == null || nombreEmpleado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un empleado para la venta.");
+                return;
+            }
+
+            Date fecha = new Date();
+            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
+
+            int cmb_id = empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
+            Empleado nuevoEmpleado = new Empleado();
+            nuevoEmpleado.setId(cmb_id);
+
+            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
+
+            if (ICV.agregarVenta(nuevaVenta) == true) {
+                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
+
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
         menuLineaVenta.cargarDatosEnTabla();
         menuLineaVenta.setVisible(true);
     }// GEN-LAST:event_btnVerLineaVentaActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAgregarActionPerformed
-        /*try {
-            String estadoVenta = (String) cmbEstado.getSelectedItem();
-            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
-            String fechaTexto = txtDate.getText();
-
-            Date fecha = formatoFecha.parse(fechaTexto);
-            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
-
-            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
-
-            Empleado nuevoEmpleado = new Empleado();
-
-            nuevoEmpleado.setId(id_empleado);
-
-            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
-
-            if (ICV.agregarVenta(nuevaVenta) == true) {
-                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al intentar agregar la venta");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }// GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerLineaVenta;
