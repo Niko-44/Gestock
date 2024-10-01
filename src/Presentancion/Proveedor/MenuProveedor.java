@@ -28,7 +28,6 @@ public class MenuProveedor extends javax.swing.JPanel {
     private IControladorProveedor ICP;
     Fabrica fabrica = Fabrica.getInstance();
     private int selectedRow;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     MenuDireccion menuDireccion = new MenuDireccion();
     private DefaultTableModel modeloTabla;
 
@@ -41,8 +40,8 @@ public class MenuProveedor extends javax.swing.JPanel {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         String fechaFormateada = formatoFecha.format(fechaactual);
 
-        txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
-        txt_fecha_creada.setText(fechaFormateada); // Establecer el valor formateado
+       // txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
+        //txt_fecha_creada.setText(fechaFormateada); // Establecer el valor formateado
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
 
@@ -63,8 +62,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                     txt_nombre.setText(nombre);
                     txt_telefono.setText(telefono);
                     txt_email.setText(email);
-                    txt_fecha_actualizada.setText(update_date);
-                    txt_fecha_creada.setText(create_date);
+                  //  txt_fecha_actualizada.setText(update_date);
+                   // txt_fecha_creada.setText(create_date);
 
                     btn_agregar.setEnabled(false);
                     btn_modificar.setEnabled(true);
@@ -91,8 +90,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                 proveedor.getNombre(),
                 proveedor.getEmail(),
                 proveedor.getTelefonos(),
-                sdf.format(proveedor.getUpdateDate()),
-                sdf.format(proveedor.getCreateDate())
+                proveedor.getFechaUpdateFormateada(),
+                proveedor.getFechaCreadaFormateada()
 
             };
             modeloTabla.addRow(fila);
@@ -123,8 +122,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                 proveedor.getNombre(),
                 proveedor.getEmail(),
                 proveedor.getTelefonos(),
-                sdf.format(proveedor.getUpdateDate()),
-                sdf.format(proveedor.getCreateDate())
+                proveedor.getFechaUpdateFormateada(),
+                proveedor.getFechaCreadaFormateada()
             };
             modeloTabla.addRow(fila);
 
@@ -150,10 +149,6 @@ public class MenuProveedor extends javax.swing.JPanel {
         txt_nombre = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         txt_email = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txt_fecha_creada = new javax.swing.JTextField();
-        txt_fecha_actualizada = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         btn_agregar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
@@ -272,40 +267,6 @@ public class MenuProveedor extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         jPanel4.add(txt_email, gridBagConstraints);
 
-        jLabel1.setText("Fecha actualizada");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Fecha creado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(jLabel2, gridBagConstraints);
-
-        txt_fecha_creada.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(txt_fecha_creada, gridBagConstraints);
-
-        txt_fecha_actualizada.setEditable(false);
-        txt_fecha_actualizada.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_fecha_actualizadaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
-
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
@@ -396,13 +357,13 @@ public class MenuProveedor extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(btn_Buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(63, 63, 63)
                         .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_Buscar)
+                        .addGap(18, 18, 18)
                         .addComponent(btn_Refrescar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_Limpiar)
@@ -420,9 +381,9 @@ public class MenuProveedor extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Refrescar)
-                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_Limpiar))
-                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btn_Limpiar)
+                        .addComponent(btn_Buscar))
+                    .addComponent(cmb_Atributo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,8 +408,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                         txt_nombre.setText("");
                         txt_telefono.setText("");
                         txt_email.setText("");
-                        txt_fecha_actualizada.setText("");
-                        txt_fecha_creada.setText("");
+                       // txt_fecha_actualizada.setText("");
+                       // txt_fecha_creada.setText("");
                         JOptionPane.showMessageDialog(this, "El proveedor se eliminó correctamente.");
                     } else {
                         JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el proveedor.");
@@ -511,9 +472,9 @@ public class MenuProveedor extends javax.swing.JPanel {
             }
 
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-
+            Date fechaActual = new Date();
             // Verificación de la fecha de creación
-            String fechaCreadaText = txt_fecha_creada.getText();
+            String fechaCreadaText = formato.format(fechaActual);
             if (fechaCreadaText.isBlank()) {
                 throw new Exception("La fecha de creación no puede estar vacía.");
             }
@@ -535,8 +496,8 @@ public class MenuProveedor extends javax.swing.JPanel {
             txt_nombre.setText("");
             txt_telefono.setText("");
             txt_email.setText("");
-            txt_fecha_actualizada.setText("");
-            txt_fecha_creada.setText("");
+           // txt_fecha_actualizada.setText("");
+           // txt_fecha_creada.setText("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -544,10 +505,6 @@ public class MenuProveedor extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_btn_modificarMouseClicked
-
-    private void txt_fecha_actualizadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_fecha_actualizadaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_fecha_actualizadaActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         try {
@@ -605,8 +562,7 @@ public class MenuProveedor extends javax.swing.JPanel {
         txt_nombre.setText("");
         txt_telefono.setText("");
         txt_email.setText("");
-        txt_fecha_actualizada.setText("");
-        txt_fecha_creada.setText("");
+        
 
         btn_agregar.setEnabled(true);
         btn_modificar.setEnabled(false);
@@ -633,8 +589,6 @@ public class MenuProveedor extends javax.swing.JPanel {
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JComboBox<String> cmb_Atributo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -648,8 +602,6 @@ public class MenuProveedor extends javax.swing.JPanel {
     private javax.swing.JTable tbl_Proveedor;
     private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_email;
-    private javax.swing.JFormattedTextField txt_fecha_actualizada;
-    private javax.swing.JTextField txt_fecha_creada;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;
