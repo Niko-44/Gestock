@@ -24,36 +24,31 @@ import logica.Interfaces.IControladorVenta;
 public class MenuLineaVenta extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTabla;
-    
+
     private IControladorVenta ICV;
     private IControladorArticulo ICA;
-    
-    
+
     private int selectedRow;
     Fabrica fabrica = Fabrica.getInstance();
 
     public int id_venta;
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
-     ArrayList<Integer> venta_id = new ArrayList<>();
+    ArrayList<Integer> venta_id = new ArrayList<>();
 
     /**
      * Creates new form MenuCategoria
      */
     public MenuLineaVenta() {
         initComponents();
-        
+
         this.ICV = fabrica.getIControladoreVenta();
         this.ICA = fabrica.getIControladorArticulo();
-        
-        
-        
+
         cargarDatosCombobox();
-       
-        
+
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
-        
-        
+
         tbl_lineaVenta.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
                 selectedRow = tbl_lineaVenta.getSelectedRow();
@@ -63,22 +58,18 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                     String articulo = tbl_lineaVenta.getValueAt(selectedRow, 1).toString();
                     String cantidad = tbl_lineaVenta.getValueAt(selectedRow, 2).toString();
                     String precio = tbl_lineaVenta.getValueAt(selectedRow, 3).toString();
-                    
-                    
+
                     txt_id.setText(id);
                     cmb_Atributo.setSelectedItem(articulo);
                     txt_cantidad.setText(cantidad);
                     txt_precio.setText(precio);
-                    
-                    
 
                 }
             }
         });
-        
+
     }
-    
-    
+
     public void cargarDatosCombobox() {
         cmb_articulo.removeAllItems();
 
@@ -90,7 +81,6 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             articulo_ingresa_id.add(item.getId());
         }
     }
-   
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
@@ -111,10 +101,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 linea.getIdLinea(),
                 linea.getArticulo().getNombre(),
                 linea.getCantidad(),
-                linea.getPrecioVenta(),
-                
-            
-            };
+                linea.getPrecioVenta(),};
 
             modeloTabla.addRow(fila);
         }
@@ -358,9 +345,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 linea.getIdLinea(),
                 linea.getArticulo().getNombre(),
                 linea.getCantidad(),
-                linea.getPrecioVenta(),
-               
-            };
+                linea.getPrecioVenta(),};
 
             modeloTabla.addRow(fila);
         }
@@ -373,7 +358,12 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
-          try {
+        try {
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar la linea de venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
 
             String idText = txt_id.getText();
             if (idText.isBlank()) {
@@ -388,7 +378,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
-            
+
             String cantidadText = txt_cantidad.getText();
             if (cantidadText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
@@ -402,8 +392,8 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             } catch (NumberFormatException e) {
                 throw new Exception("La cantidad debe ser un número entero válido.");
             }
-            
-             String precioText = txt_precio.getText();
+
+            String precioText = txt_precio.getText();
             if (precioText.isBlank()) {
                 throw new Exception("El ID no puede estar vacío.");
             }
@@ -423,25 +413,23 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             int cmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(cmb_id);
-            
-         
-            Linea lineVenta = new Linea(id,cantidad,precio,nuevoArticulo,null);
+
+            Linea lineVenta = new Linea(id, cantidad, precio, nuevoArticulo, null);
             ICV.modificarDatosLinea(lineVenta);
 
             JOptionPane.showMessageDialog(this, "La venta se ha actualizado correctamente.", "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
-            
+
             cargarDatosEnTabla();
 
             txt_id.setText("");
             txt_cantidad.setText("");
             txt_precio.setText("");
-            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-         
+
     }//GEN-LAST:event_btn_modificarMouseClicked
 
     /**
