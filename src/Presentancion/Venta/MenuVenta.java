@@ -4,6 +4,8 @@
  */
 package Presentancion.Venta;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import logica.Fabrica;
@@ -11,12 +13,17 @@ import logica.Clases.Venta;
 import logica.Interfaces.IControladorVenta;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import logica.Clases.DateLabelFormatter;
 import logica.Clases.Empleado;
 import logica.Clases.EstadoCellRenderer;
 import logica.Interfaces.IControladorEmpleado;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class MenuVenta extends javax.swing.JPanel {
 
@@ -31,6 +38,10 @@ public class MenuVenta extends javax.swing.JPanel {
 
     Fabrica fabrica = Fabrica.getInstance();
 
+    UtilDateModel model = new UtilDateModel();
+    Properties p = new Properties();
+    JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+    private JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 
     private int id_venta;
@@ -47,7 +58,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         cargarDatosEnTabla();
         cargarDatosEmpleado();
-       
+        agregarDatePicker();
 
         tbl_venta.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -58,7 +69,7 @@ public class MenuVenta extends javax.swing.JPanel {
                     String Estado = tbl_venta.getValueAt(selectedRow, 2).toString();
                     String Empleado = tbl_venta.getValueAt(selectedRow, 3).toString();
 
-                    id_venta=Integer.parseInt(id);
+                    id_venta = Integer.parseInt(id);
                     txt_id.setText(id);
                     cmbEstado.setSelectedItem(Estado);
                     cmbEmpleado.setSelectedItem(Empleado);
@@ -80,7 +91,6 @@ public class MenuVenta extends javax.swing.JPanel {
             empleadoprueba_id.add(item.getId());
         }
     }
-
 
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
@@ -119,6 +129,28 @@ public class MenuVenta extends javax.swing.JPanel {
 
     }
 
+    private void agregarDatePicker() {
+        // Configurar el JDatePicker
+        p.put("text.today", "Hoy");
+        p.put("text.month", "Mes");
+        p.put("text.year", "Año");
+
+        // Establecer tamaño preferido para el DatePicker
+        datePicker.setPreferredSize(new java.awt.Dimension(200, 30));
+
+        // Quitar el JTextField y agregar el DatePicker en su lugar
+        txt_fechaVenta.setVisible(false);  // Ocultar el JTextField
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 2;  // Ajustar el GridBagConstraints según la posición que desees
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;  // Ajustar el componente horizontalmente
+        gbc.insets = new Insets(0, 12, 0, 12);  // Márgenes para mayor espacio alrededor
+
+        jPanel4.add(datePicker, gbc);  // Añadir el DatePicker al JPanel
+        jPanel4.revalidate();  // Actualizar el layout
+        jPanel4.repaint();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -146,6 +178,8 @@ public class MenuVenta extends javax.swing.JPanel {
         btnVerLineaVenta = new javax.swing.JButton();
         cmbEstado = new javax.swing.JComboBox<>();
         cmbEmpleado = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txt_fechaVenta = new javax.swing.JTextField();
 
         setMaximumSize(getPreferredSize());
 
@@ -223,7 +257,7 @@ public class MenuVenta extends javax.swing.JPanel {
         lbl_nombre.setText("Estado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_nombre, gridBagConstraints);
@@ -231,7 +265,7 @@ public class MenuVenta extends javax.swing.JPanel {
         lbl_descripcion.setText("Empleado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_descripcion, gridBagConstraints);
@@ -272,7 +306,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 19);
         jPanel4.add(jPanel1, gridBagConstraints);
@@ -280,7 +314,7 @@ public class MenuVenta extends javax.swing.JPanel {
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completada", "Cancelada" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 4;
         gridBagConstraints.weightx = 0.6;
@@ -289,10 +323,26 @@ public class MenuVenta extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 15);
         jPanel4.add(cmbEmpleado, gridBagConstraints);
+
+        jLabel2.setText("Fecha de venta");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 15);
+        jPanel4.add(txt_fechaVenta, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -327,7 +377,6 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -414,7 +463,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_EliminarMouseClicked
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
-       try {
+        try {
             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar esta venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
@@ -505,6 +554,7 @@ public class MenuVenta extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -515,6 +565,7 @@ public class MenuVenta extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JTable tbl_venta;
     private javax.swing.JTextPane txt_Buscar;
+    private javax.swing.JTextField txt_fechaVenta;
     private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables
 }
