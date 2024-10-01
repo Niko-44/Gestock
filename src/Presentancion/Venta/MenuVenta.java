@@ -489,6 +489,19 @@ public class MenuVenta extends javax.swing.JPanel {
             } catch (NumberFormatException e) {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
+            
+            String fechaText = datePicker.getJFormattedTextField().getText();
+            if (fechaText.isBlank()) {
+                throw new Exception("La fecha de ingreso no puede estar vacía.");
+            }
+            
+           SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+            Date fecha_ingreso;
+            try {
+                fecha_ingreso = formato.parse(fechaText);
+            } catch (ParseException e) {
+                throw new Exception("La fecha de ingreso debe tener el formato 'dd-MM-yyyy'.");
+            }
 
             String comboEstado = cmbEstado.getSelectedItem().toString();
             if (comboEstado.isBlank()) {
@@ -502,7 +515,7 @@ public class MenuVenta extends javax.swing.JPanel {
             Empleado nuevoEmpleado = new Empleado();
             nuevoEmpleado.setId(cmb_id);
 
-            Venta venta = new Venta(id, null, Venta.EstadoVenta.valueOf(comboEstado), nuevoEmpleado);
+            Venta venta = new Venta(id, fecha_ingreso, Venta.EstadoVenta.valueOf(comboEstado), nuevoEmpleado);
             ICV.modificarDatosVentas(venta);
 
             JOptionPane.showMessageDialog(this, "La venta se ha actualizado correctamente.", "Éxito",
