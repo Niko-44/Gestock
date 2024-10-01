@@ -52,6 +52,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_nombre_usuario.setText(nombre_usuario);
                     txt_email.setText(email);
                     cmb_Empleado.setSelectedItem(rol);
+                    
+                    btn_Agregar.setEnabled(false);
 
                 }
             }
@@ -641,6 +643,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -651,6 +654,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_contraseña.setText("");
         txt_email.setText("");
         txt_nombre_usuario.setText("");
+        
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
 

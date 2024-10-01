@@ -55,6 +55,8 @@ public class MenuDireccion extends javax.swing.JFrame {
                     txt_localidad.setText(localidad);
                     txt_departamento.setText(departamento);
                     cmb_proveedor.setSelectedItem(proveedor);
+                    
+                    btn_agregar.setEnabled(false);
 
                 }
             }
@@ -561,6 +563,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -569,6 +572,7 @@ public class MenuDireccion extends javax.swing.JFrame {
         txt_numeroPuerta.setText("");
         txt_localidad.setText("");
         txt_departamento.setText("");
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed

@@ -84,6 +84,8 @@ public class MenuIngresa extends javax.swing.JPanel {
                     txt_precioCompra.setText(precioC);
                     cmb_proveedor.setSelectedItem(proveedor);
                     cmb_articulo.setSelectedItem(articulo);
+                    
+                    btn_agregar.setEnabled(false);
 
                 }
             }
@@ -708,6 +710,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -716,6 +719,8 @@ public class MenuIngresa extends javax.swing.JPanel {
         txt_cantidad.setText("");
         txt_lote.setText("");
         txt_precioCompra.setText("");
+        
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed

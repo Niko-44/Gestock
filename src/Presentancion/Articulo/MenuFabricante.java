@@ -62,6 +62,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                     txt_telefono.setText(telefono);
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creado.setText(fecha_creada);
+                    
+                    btn_Agregar.setEnabled(false);
 
                 }
             }
@@ -572,6 +574,7 @@ public class MenuFabricante extends javax.swing.JFrame {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -582,6 +585,8 @@ public class MenuFabricante extends javax.swing.JFrame {
         txt_telefono.setText("");
         txt_fecha_actualizada.setText("");
         txt_fecha_creado.setText("");
+        
+        btn_Agregar.setEnabled(true);
 
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
