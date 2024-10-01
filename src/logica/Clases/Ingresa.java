@@ -4,8 +4,6 @@
  */
 package logica.Clases;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Ingresa {
@@ -84,20 +82,5 @@ public class Ingresa {
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
     }
-    // Método para obtener la fecha en el formato deseado
-    public String getFechaFormateada() {
-        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-        return formateador.format(fechaIngreso);
-    }
-    // Método para establecer la fecha desde una cadena en formato específico
-    public void setFechaDesdeCadena(String fechaCadena) {
-        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            this.fechaIngreso = formateador.parse(fechaCadena);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 }
-
 

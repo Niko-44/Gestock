@@ -4,7 +4,6 @@
  */
 package logica.Clases;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Fabricante {
@@ -75,12 +74,5 @@ public class Fabricante {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    public String getFechaUpdateFormateada() {
-        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-        return formateador.format(updateDate);
-    }
-    public String getFechaCreadaFormateada() {
-        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-        return formateador.format(createDate);
-    }
+
 }

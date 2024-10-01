@@ -45,7 +45,6 @@ public class MenuVenta extends javax.swing.JPanel {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 
     private int id_venta;
-    private String total;
 
     public MenuVenta() {
 
@@ -80,11 +79,6 @@ public class MenuVenta extends javax.swing.JPanel {
                     btn_Agregar.setEnabled(false);
                     btn_Modificar.setEnabled(true);
                     btn_Eliminar.setEnabled(true);
-                    String date = tbl_venta.getValueAt(selectedRow, 1).toString();
-                    String total_venta = tbl_venta.getValueAt(selectedRow, 3).toString();
-
-                    id_venta = Integer.parseInt(id);
-                    total = total_venta;
 
                 }
             }
@@ -105,7 +99,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Total", "Empleado", "Usuario" };
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
 
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
@@ -119,20 +113,14 @@ public class MenuVenta extends javax.swing.JPanel {
         ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
         for (Venta venta : ventas) {
-            String empleado;
-            if(venta.getTotal() == null)
-                venta.setTotal("0");
-            empleado = venta.getEmpleado().getNombre().toString()+", "+venta.getEmpleado().getApellido().toString();
+
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-               // formatoFecha.format(venta.getFechaVenta()),
-                venta.getFechaFormateada(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
-                venta.getTotal(),
-                empleado,
-                venta.getEmpleado().getNombreUsuario()
-                };
+                venta.getEmpleado().getNombre(),
+                venta.getEmpleado().getId(),};
 
             modeloTabla.addRow(fila);
         }
@@ -220,11 +208,6 @@ public class MenuVenta extends javax.swing.JPanel {
         });
         tbl_venta.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tbl_venta.setMaximumSize(getPreferredSize());
-        tbl_venta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_ventaMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbl_venta);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -246,7 +229,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(txt_Buscar);
 
-        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Estado", "ID", "Empleado" }));
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Estado", "ID" }));
 
         btn_Refrescar.setText("Refrescar");
         btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
@@ -443,7 +426,7 @@ public class MenuVenta extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Total", "Empleado", "Usuario" };
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
 
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
@@ -454,20 +437,14 @@ public class MenuVenta extends javax.swing.JPanel {
         };
 
         for (Venta venta : DatosBuscados) {
-            String empleado;
-            if(venta.getTotal() == null)
-                venta.setTotal("0");
-            empleado = venta.getEmpleado().getNombre().toString()+", "+venta.getEmpleado().getApellido().toString();
+
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                //formatoFecha.format(venta.getFechaVenta()),
-                venta.getFechaFormateada(),
+                formatoFecha.format(venta.getFechaVenta()),
                 venta.getEstado(),
-                venta.getTotal(),
-                empleado,
-                venta.getEmpleado().getNombreUsuario()
-                };
+                venta.getEmpleado().getNombre(),
+                venta.getEmpleado().getId(),};
 
             modeloTabla.addRow(fila);
         }
@@ -481,55 +458,7 @@ public class MenuVenta extends javax.swing.JPanel {
         btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void tbl_ventaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ventaMouseClicked
-        // TODO add your handling code here:
-        menuLineaVenta.id_venta = id_venta;
-        menuLineaVenta.total = total;
-        menuLineaVenta.cargarDatosEnTabla();
-        menuLineaVenta.setVisible(true);
-    }//GEN-LAST:event_tbl_ventaMouseClicked
-
-    private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
-        menuLineaVenta.id_venta = id_venta;
-        menuLineaVenta.total = total;
-        menuLineaVenta.cargarDatosEnTabla();
-        menuLineaVenta.setVisible(true);
-    }// GEN-LAST:event_btnVerLineaVentaActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAgregarActionPerformed
-        /*try {
-            String estadoVenta = (String) cmbEstado.getSelectedItem();
-            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
-            String fechaTexto = txtDate.getText();
-
-            Date fecha = formatoFecha.parse(fechaTexto);
-            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
-
-            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
-
-            Empleado nuevoEmpleado = new Empleado();
-
-            nuevoEmpleado.setId(id_empleado);
-
-            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
-
-            if (ICV.agregarVenta(nuevaVenta) == true) {
-                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al intentar agregar la venta");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }// GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnEliminarMouseClicked
-        
+    private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
         try {
             this.selectedRow = tbl_venta.getSelectedRow();
             if (this.selectedRow != -1) {
@@ -659,6 +588,12 @@ public class MenuVenta extends javax.swing.JPanel {
         btn_Modificar.setEnabled(false);
         btn_Eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_limpiarActionPerformed
+
+    private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
+        menuLineaVenta.id_venta = id_venta;
+        menuLineaVenta.cargarDatosEnTabla();
+        menuLineaVenta.setVisible(true);
+    }// GEN-LAST:event_btnVerLineaVentaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

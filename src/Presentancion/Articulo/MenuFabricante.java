@@ -39,8 +39,8 @@ public class MenuFabricante extends javax.swing.JFrame {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         String fechaFormateada = formatoFecha.format(fechaactual);
 
-      //  txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
-     //   txt_fecha_creado.setValue(fechaFormateada);
+        txt_fecha_actualizada.setValue(fechaFormateada); // Establecer el valor formateado
+        txt_fecha_creado.setValue(fechaFormateada);
 
         tbl_Fabricante.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -60,8 +60,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                     txt_nombre.setText(nombre);
                     txt_correo.setText(correo);
                     txt_telefono.setText(telefono);
-                  //  txt_fecha_actualizada.setText(fecha_actualizada);
-                  //  txt_fecha_creado.setText(fecha_creada);
+                    txt_fecha_actualizada.setText(fecha_actualizada);
+                    txt_fecha_creado.setText(fecha_creada);
 
                     btn_Agregar.setEnabled(false);
                     btn_Modificar.setEnabled(true);
@@ -88,8 +88,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                 fabricante.getNombre(),
                 fabricante.getCorreo(),
                 fabricante.getTelefono(),
-                fabricante.getFechaUpdateFormateada(),
-                fabricante.getFechaCreadaFormateada(),
+                sdf.format(fabricante.getUpdateDate()),
+                sdf.format(fabricante.getCreateDate())
             };
             modeloTabla.addRow(fila);
 
@@ -114,8 +114,8 @@ public class MenuFabricante extends javax.swing.JFrame {
                 fabricantes.getNombre(),
                 fabricantes.getCorreo(),
                 fabricantes.getTelefono(),
-                fabricantes.getFechaUpdateFormateada(),
-                fabricantes.getFechaCreadaFormateada(),
+                sdf.format(fabricantes.getUpdateDate()),
+                sdf.format(fabricantes.getCreateDate())
             };
             modeloTabla.addRow(fila);
 
@@ -153,10 +153,14 @@ public class MenuFabricante extends javax.swing.JFrame {
         txt_nombre = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         txt_correo = new javax.swing.JTextField();
+        lbl_fecha_actualizado = new javax.swing.JLabel();
+        lbl_fecha_creado = new javax.swing.JLabel();
+        txt_fecha_actualizada = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
+        txt_fecha_creado = new javax.swing.JFormattedTextField();
         btn_volver = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -278,6 +282,28 @@ public class MenuFabricante extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
         jPanel4.add(txt_correo, gridBagConstraints);
 
+        lbl_fecha_actualizado.setText("Fecha actualizado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_actualizado, gridBagConstraints);
+
+        lbl_fecha_creado.setText("Fecha creado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_fecha_creado, gridBagConstraints);
+
+        txt_fecha_actualizada.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_fecha_actualizada, gridBagConstraints);
+
         jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
         jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
@@ -317,6 +343,14 @@ public class MenuFabricante extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
         jPanel4.add(jPanel1, gridBagConstraints);
+
+        txt_fecha_creado.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(8, 10, 0, 10);
+        jPanel4.add(txt_fecha_creado, gridBagConstraints);
 
         btn_volver.setText("Volver");
         btn_volver.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -447,9 +481,8 @@ public class MenuFabricante extends javax.swing.JFrame {
             }
 
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaActual = new Date();
-            
-            String fechaCreadaText = formato.format(fechaActual);
+
+            String fechaCreadaText = txt_fecha_creado.getText();
             Date create_date;
             try {
                 create_date = formato.parse(fechaCreadaText);
@@ -553,8 +586,8 @@ public class MenuFabricante extends javax.swing.JFrame {
         txt_nombre.setText("");
         txt_correo.setText("");
         txt_telefono.setText("");
-      //  txt_fecha_actualizada.setText("");
-       // txt_fecha_creado.setText("");
+        txt_fecha_actualizada.setText("");
+        txt_fecha_creado.setText("");
 
         btn_Agregar.setEnabled(true);
         btn_Modificar.setEnabled(false);
@@ -612,12 +645,16 @@ public class MenuFabricante extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_Fabricante;
     private javax.swing.JLabel lbl_correo;
+    private javax.swing.JLabel lbl_fecha_actualizado;
+    private javax.swing.JLabel lbl_fecha_creado;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JLabel lbl_telefono;
     private javax.swing.JTable tbl_Fabricante;
     private javax.swing.JTextPane txt_Buscar;
     private javax.swing.JTextField txt_correo;
+    private javax.swing.JFormattedTextField txt_fecha_actualizada;
+    private javax.swing.JFormattedTextField txt_fecha_creado;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;
