@@ -66,10 +66,12 @@ public class MenuVenta extends javax.swing.JPanel {
                 if (selectedRow != -1) {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_venta.getValueAt(selectedRow, 0).toString();
+                    String fecha_v = tbl_venta.getValueAt(selectedRow, 1).toString();
                     String Estado = tbl_venta.getValueAt(selectedRow, 2).toString();
                     String Empleado = tbl_venta.getValueAt(selectedRow, 3).toString();
 
                     id_venta = Integer.parseInt(id);
+                    datePicker.getJFormattedTextField().setText(fecha_v);
                     txt_id.setText(id);
                     cmbEstado.setSelectedItem(Estado);
                     cmbEmpleado.setSelectedItem(Empleado);
