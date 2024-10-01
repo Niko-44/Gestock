@@ -45,6 +45,7 @@ public interface IControladorVenta {
     public abstract void cancelarProceso();
     
     public abstract void modificarDatosVentas(Venta venta);
+    public abstract void modificarDatosLinea(Linea linea);
     
     public abstract ArrayList<Linea> obtenerLineasVenta(int id_venta);
 }

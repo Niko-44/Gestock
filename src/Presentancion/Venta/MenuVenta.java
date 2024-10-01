@@ -46,6 +46,8 @@ public class MenuVenta extends javax.swing.JPanel {
         this.ICE = fabrica.getIControladoreEmpleado();
 
         cargarDatosEnTabla();
+        cargarDatosEmpleado();
+       
 
         tbl_venta.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting()) { // Este chequeo asegura que solo se ejecute una vez por selección
@@ -53,9 +55,13 @@ public class MenuVenta extends javax.swing.JPanel {
                 if (selectedRow != -1) {
                     // Obtener los valores de la fila seleccionada
                     String id = tbl_venta.getValueAt(selectedRow, 0).toString();
-                    String date = tbl_venta.getValueAt(selectedRow, 1).toString();
+                    String Estado = tbl_venta.getValueAt(selectedRow, 2).toString();
+                    String Empleado = tbl_venta.getValueAt(selectedRow, 3).toString();
 
-                    id_venta = Integer.parseInt(id);
+                    id_venta=Integer.parseInt(id);
+                    txt_id.setText(id);
+                    cmbEstado.setSelectedItem(Estado);
+                    cmbEmpleado.setSelectedItem(Empleado);
 
                 }
             }
@@ -63,10 +69,23 @@ public class MenuVenta extends javax.swing.JPanel {
 
     }
 
+    public void cargarDatosEmpleado() {
+        cmbEmpleado.removeAllItems();
+
+        ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
+
+        for (Empleado item : dataEmpleado) {
+
+            cmbEmpleado.addItem(item.getNombre());
+            empleadoprueba_id.add(item.getId());
+        }
+    }
+
+
     public void cargarDatosEnTabla() {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
 
-        modeloTabla = new DefaultTableModel(columnas, 0){
+        modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -110,13 +129,23 @@ public class MenuVenta extends javax.swing.JPanel {
         tbl_venta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnVerLineaVenta = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_Buscar = new javax.swing.JTextPane();
         cmb_Atributo = new javax.swing.JComboBox<>();
         btn_Refrescar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        lbl_id = new javax.swing.JLabel();
+        txt_id = new javax.swing.JTextField();
+        lbl_nombre = new javax.swing.JLabel();
+        lbl_descripcion = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        btn_Agregar = new javax.swing.JButton();
+        btn_Eliminar = new javax.swing.JButton();
+        btn_Modificar = new javax.swing.JButton();
+        btnVerLineaVenta = new javax.swing.JButton();
+        cmbEstado = new javax.swing.JComboBox<>();
+        cmbEmpleado = new javax.swing.JComboBox<>();
 
         setMaximumSize(getPreferredSize());
 
@@ -150,26 +179,6 @@ public class MenuVenta extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 324, 0, 322);
         jPanel2.add(jLabel1, gridBagConstraints);
 
-        btnVerLineaVenta.setText("Ver lineas de venta");
-        btnVerLineaVenta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerLineaVentaActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setActionCommand("jButtonEliminar");
-        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEliminarMouseClicked(evt);
-            }
-        });
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
         btn_Buscar.setText("Buscar");
         btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,6 +197,103 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         });
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Nueva categoria"));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        lbl_id.setText("ID");
+        lbl_id.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_id, gridBagConstraints);
+
+        txt_id.setEditable(false);
+        txt_id.setActionCommand("txtArticuloID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 15);
+        jPanel4.add(txt_id, gridBagConstraints);
+
+        lbl_nombre.setText("Estado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_nombre, gridBagConstraints);
+
+        lbl_descripcion.setText("Empleado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel4.add(lbl_descripcion, gridBagConstraints);
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(325, 23));
+        jPanel1.setPreferredSize(new java.awt.Dimension(688, 25));
+        jPanel1.setLayout(new java.awt.GridLayout(1, 3, 10, 50));
+
+        btn_Agregar.setActionCommand("jButtonAgregar");
+        btn_Agregar.setLabel("Agregar");
+        jPanel1.add(btn_Agregar);
+
+        btn_Eliminar.setText("Eliminar");
+        btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EliminarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Eliminar);
+
+        btn_Modificar.setText("Modificar");
+        btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ModificarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btn_Modificar);
+
+        btnVerLineaVenta.setText("Ver lineas de venta");
+        btnVerLineaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerLineaVentaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVerLineaVenta);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 19);
+        jPanel4.add(jPanel1, gridBagConstraints);
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completada", "Cancelada" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 4;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 15);
+        jPanel4.add(cmbEstado, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 0, 15);
+        jPanel4.add(cmbEmpleado, gridBagConstraints);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,21 +301,24 @@ public class MenuVenta extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVerLineaVenta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(btn_Buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Refrescar)))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Refrescar)
+                        .addGap(30, 30, 30))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,26 +326,27 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_Refrescar)
-                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnVerLineaVenta, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_Refrescar)
+                            .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(btn_Buscar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
         String atributo = cmb_Atributo.getSelectedItem().toString();
         String datoBuscado = txt_Buscar.getText();
-        
+
         if (datoBuscado.isBlank()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else {
@@ -247,7 +357,7 @@ public class MenuVenta extends javax.swing.JPanel {
     private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
         String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
 
-        modeloTabla = new DefaultTableModel(columnas, 0){
+        modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -276,9 +386,79 @@ public class MenuVenta extends javax.swing.JPanel {
         cargarDatosEnTabla();
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    private void btn_EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EliminarMouseClicked
+        try {
+            this.selectedRow = tbl_venta.getSelectedRow();
+            if (this.selectedRow != -1) {
+                int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
+                // Mostrar un diálogo de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(this,
+                        "¿Estás seguro de que deseas eliminar esta venta?", "Confirmar Eliminación",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    if (ICV.eliminarVenta(idVenta) == true) {
+                        eliminarVenta(this.selectedRow);
+                        JOptionPane.showMessageDialog(this, "La venta se eliminó correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la venta.");
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecciona una venta para eliminar.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
+        }
+    }//GEN-LAST:event_btn_EliminarMouseClicked
+
+    private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
+       try {
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar esta venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta != JOptionPane.YES_OPTION) {
+                return; // Salir si el usuario elige "No"
+            }
+            String idText = txt_id.getText();
+            if (idText.isBlank()) {
+                throw new Exception("El ID no puede estar vacío.");
+            }
+            int id;
+            try {
+                id = Integer.parseInt(idText);
+                if (id <= 0) {
+                    throw new Exception("El ID debe ser un número positivo.");
+                }
+            } catch (NumberFormatException e) {
+                throw new Exception("El ID debe ser un número entero válido.");
+            }
+
+            String comboEstado = cmbEstado.getSelectedItem().toString();
+            if (comboEstado.isBlank()) {
+                throw new Exception("Debe seleccionar un estado.");
+            }
+
+            if (cmbEmpleado.getSelectedIndex() < 0) {
+                throw new Exception("Debe seleccionar un empleado.");
+            }
+            int cmb_id = empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
+            Empleado nuevoEmpleado = new Empleado();
+            nuevoEmpleado.setId(cmb_id);
+
+            Venta venta = new Venta(id, null, Venta.EstadoVenta.valueOf(comboEstado), nuevoEmpleado);
+            ICV.modificarDatosVentas(venta);
+
+            JOptionPane.showMessageDialog(this, "La venta se ha actualizado correctamente.", "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+            cargarDatosEnTabla();
+
+            txt_id.setText("");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btn_ModificarMouseClicked
 
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
@@ -314,102 +494,27 @@ public class MenuVenta extends javax.swing.JPanel {
         }*/
     }// GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnEliminarMouseClicked
-        
-        try {
-            this.selectedRow = tbl_venta.getSelectedRow();
-            if (this.selectedRow != -1) {
-                int idVenta = (Integer) tbl_venta.getValueAt(selectedRow, 0);
-                // Mostrar un diálogo de confirmación
-                int confirmacion = JOptionPane.showConfirmDialog(this,
-                        "¿Estás seguro de que deseas eliminar esta venta?", "Confirmar Eliminación",
-                        JOptionPane.YES_NO_OPTION);
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    if (ICV.eliminarVenta(idVenta) == true) {
-                        eliminarVenta(this.selectedRow);
-                        JOptionPane.showMessageDialog(this, "La venta se eliminó correctamente.");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Hubo un error al eliminar la venta.");
-                    }
-
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecciona una venta para eliminar.");
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace(); // Puedes cambiar esto por un manejo de errores más adecuado
-        } // TODO add your handling code here:
-    }// GEN-LAST:event_btnEliminarMouseClicked
-
-    private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btnModificarMouseClicked
-        /*try {
-
-            String idText = txtID.getText();
-            if (idText.isBlank()) {
-                throw new Exception("El ID no puede estar vacío.");
-            }
-            int id;
-            try {
-                id = Integer.parseInt(idText);
-                if (id <= 0) {
-                    throw new Exception("El ID debe ser un número positivo.");
-                }
-            } catch (NumberFormatException e) {
-                throw new Exception("El ID debe ser un número entero válido.");
-            }
-
-            String fechaText = txtDate.getText();
-            if (fechaText.isBlank()) {
-                throw new Exception("La fecha no puede estar vacía.");
-            }
-            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            Date fechaV;
-            try {
-                fechaV = formato.parse(fechaText);
-            } catch (ParseException e) {
-                throw new Exception("La fecha debe tener el formato 'yyyy-MM-dd'.");
-            }
-
-            String comboEstado = cmbEstado.getSelectedItem().toString();
-            if (comboEstado.isBlank()) {
-                throw new Exception("Debe seleccionar un estado.");
-            }
-
-            if (cmbEmpleado.getSelectedIndex() < 0) {
-                throw new Exception("Debe seleccionar un empleado.");
-            }
-            int cmb_id = empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
-            Empleado nuevoEmpleado = new Empleado();
-            nuevoEmpleado.setId(cmb_id);
-
-            Venta venta = new Venta(id, fechaV, Venta.EstadoVenta.valueOf(comboEstado), nuevoEmpleado);
-            ICV.modificarDatosVentas(venta);
-
-            JOptionPane.showMessageDialog(this, "La venta se ha actualizado correctamente.", "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE);
-            cargarDatosEnTabla();
-
-            txtID.setText("");
-            txtDate.setText("");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-         */
-    }// GEN-LAST:event_btnModificarMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnVerLineaVenta;
+    private javax.swing.JButton btn_Agregar;
     private javax.swing.JButton btn_Buscar;
+    private javax.swing.JButton btn_Eliminar;
+    private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_Refrescar;
+    private javax.swing.JComboBox<String> cmbEmpleado;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_descripcion;
+    private javax.swing.JLabel lbl_id;
+    private javax.swing.JLabel lbl_nombre;
     private javax.swing.JTable tbl_venta;
     private javax.swing.JTextPane txt_Buscar;
+    private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables
 }

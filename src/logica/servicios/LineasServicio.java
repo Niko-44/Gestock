@@ -41,6 +41,29 @@ public class LineasServicio {
             return false;
         }
     }
+    
+      public void modificaDatosLinea(Linea linea) {
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `linea` SET `cantidad_vendida` = ?, `precio_venta` = ?, `id_articulo_fk` = ? WHERE `linea`.`id_linea` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, linea.getCantidad());
+            status.setObject(2, linea.getPrecioVenta());
+            status.setObject(3, linea.getArticulo().getId());
+            status.setObject(4, linea.getIdLinea());
+
+            int filasAfectadas = status.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Linea actualizada exitosamente.");
+            } else {
+                System.out.println("No se encontró La Linea con los datos proporcionados.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar la Linea: " + e.getMessage());
+        }
+    }
+
 
     public ArrayList<Linea> getLineasVenta(int id_venta) {
         ArrayList<Linea> resultado = new ArrayList<Linea>();
@@ -58,13 +81,14 @@ public class LineasServicio {
 
                 Articulo articulo = new Articulo();
                 articulo.setNombre(rs.getString("nombre"));
-
+                
                 Linea linea = new Linea();
 
                 linea.setCantidad(rs.getInt("cantidad_vendida"));
                 linea.setPrecioVenta(rs.getFloat("precio_venta"));
                 linea.setArticulo(articulo);
                 linea.setIdLinea(rs.getInt("id_linea"));
+               
 
                 resultado.add(linea);
 

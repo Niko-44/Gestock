@@ -14,17 +14,17 @@ public class Linea {
     private float precioVenta;
     private int cantidad;
     private Articulo articulo;
-    private Proveedor proveedor;
+    private Venta venta;
     
     public Linea() {
     }
     
-    public Linea(int idLinea ,float precioVenta, int cantidad, Articulo articulo, Proveedor proveedor) {
+    public Linea(int idLinea , int cantidad, float precioVenta, Articulo articulo, Venta venta) {
         this.idLinea = idLinea;
-        this.precioVenta = precioVenta;
         this.cantidad = cantidad;
+        this.precioVenta = precioVenta;
         this.articulo = articulo;
-        this.proveedor = proveedor;
+        this.venta = venta;
     }
 
     public int getIdLinea() {
@@ -53,15 +53,15 @@ public class Linea {
     public Articulo getArticulo() {
         return articulo;
     }
-    public Proveedor getProveedor() {
-        return proveedor;
+    public Venta getVenta() {
+        return venta;
     }
     
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
     }
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
     

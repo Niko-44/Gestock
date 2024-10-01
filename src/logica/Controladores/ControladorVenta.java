@@ -99,6 +99,11 @@ public class ControladorVenta implements IControladorVenta {
     public void modificarDatosVentas(Venta venta) {
         ventasServicio.modificaDatosVenta(venta);
     }
+    
+      public void modificarDatosLinea(Linea linea)
+      {
+          servicioLinea.modificaDatosLinea(linea);
+      }
 
     public ArrayList<Linea> obtenerLineasVenta(int id_venta) {
         return servicioLinea.getLineasVenta(id_venta);
