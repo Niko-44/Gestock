@@ -66,6 +66,7 @@ public class MenuProveedor extends javax.swing.JPanel {
                     txt_fecha_actualizada.setText(update_date);
                     txt_fecha_creada.setText(create_date);
 
+                    btn_agregar.setEnabled(false);
                 }
             }
         });
@@ -592,6 +593,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -601,6 +603,8 @@ public class MenuProveedor extends javax.swing.JPanel {
         txt_email.setText("");
         txt_fecha_actualizada.setText("");
         txt_fecha_creada.setText("");
+        
+        btn_agregar.setEnabled(true);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed

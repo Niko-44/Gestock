@@ -87,6 +87,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_fecha_actualizada.setText(fecha_actualizada);
                     txt_fecha_creada.setText(fecha_creada);
                     cmb_id_categoria.setSelectedItem(categoria);
+                    
+                    btn_Agregar.setEnabled(false);
                 }
             }
         });
@@ -835,6 +837,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
@@ -846,6 +849,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_precio.setText("");
         txt_sku.setText("");
         txt_stock.setText("");
+        
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed

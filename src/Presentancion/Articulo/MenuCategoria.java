@@ -46,6 +46,8 @@ public class MenuCategoria extends javax.swing.JFrame {
                     txt_id.setText(id);
                     txt_nombre.setText(nombre);
                     txt_descripcion.setText(descripcion);
+                    
+                    btn_Agregar.setEnabled(false);
 
                 }
             }
@@ -490,12 +492,15 @@ public class MenuCategoria extends javax.swing.JFrame {
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed
         cargarDatosEnTabla();
+        btn_Agregar.setEnabled(true);
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
         txt_descripcion.setText("");
         txt_id.setText("");
         txt_nombre.setText("");
+        
+        btn_Agregar.setEnabled(true);
         
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
