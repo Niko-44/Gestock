@@ -118,11 +118,11 @@ public class LineasServicio {
                     break;
 
                 case "Articulo":
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE articulo.nombre" + " LIKE '%" + datoABuscar + "%'" + " and linea.id_venta_fk = " + id_venta;
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE LOWER(articulo.nombre) LIKE LOWER('%" + datoABuscar + "%')" + " and linea.id_venta_fk = " + id_venta;
                     break;
 
                 default:
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%'" + " and linea.id_venta_fk = " + id_venta;
+                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE LOWER(linea." + atributo + ") LIKE LOWER('%" + datoABuscar + "%')" + " and linea.id_venta_fk = " + id_venta;
             }
 
             PreparedStatement ps = conexion.prepareStatement(sql);

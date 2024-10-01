@@ -150,14 +150,14 @@ public class IngresaServicio {
             String query = null;
             if (atributo == "Articulo") {
                 atributo = "nombre";
-                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE a." + atributo + " like '%" + dato + "%';";
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE LOWER(a." + atributo + ") like LOWER('%" + dato + "%');";
 
             } else if (atributo == "Proveedor") {
                 atributo = "nombre_proveedor";
-                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE p." + atributo + " like '%" + dato + "%';";
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE LOWER(p." + atributo + ") like LOWER('%" + dato + "%');";
 
             } else {
-                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE i." + atributo + " like '%" + dato + "%';";
+                query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor WHERE LOWER(i." + atributo + ") like LOWER('%" + dato + "%');";
             }
             PreparedStatement status = conexion.prepareStatement(query);
             ResultSet rs = status.executeQuery();

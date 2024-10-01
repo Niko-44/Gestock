@@ -141,7 +141,7 @@ public class ProveedoresServicio {
         }
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor WHERE proveedor." + atributo + " like '%" + dato + "%';");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor WHERE LOWER(proveedor." + atributo + ") like ('%" + dato + "%');");
 //            ps.setObject(1,atributo);
 
             ResultSet rs = ps.executeQuery();

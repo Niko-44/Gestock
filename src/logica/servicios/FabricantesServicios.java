@@ -123,7 +123,7 @@ public class FabricantesServicios {
     public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where FABRICANTE." + datoABuscar + " like '%" + nombre + "%';");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + datoABuscar + ") like LOWER('%" + nombre + "%');");
 //            ps.setObject(1,atributo);
 
             ResultSet rs = ps.executeQuery();

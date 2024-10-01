@@ -163,9 +163,9 @@ public class DireccionesServicios {
             PreparedStatement ps = null;
             if (atributo == "Proveedor") {
                 atributo = "nombre_proveedor";
-                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE PROVEEDOR." + atributo + " like '%" + dato + "%';");
+                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE LOWER(PROVEEDOR." + atributo + ") like LOWER('%" + dato + "%');");
             } else {
-                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE direccion." + atributo + " like '%" + dato + "%';");
+                ps = conexion.prepareStatement("SELECT DIRECCION.*, PROVEEDOR.nombre_proveedor  FROM direccion JOIN PROVEEDOR ON id_proveedor_fk = PROVEEDOR.id_proveedor WHERE LOWER(direccion." + atributo + ") like LOWER('%" + dato + "%');");
             }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

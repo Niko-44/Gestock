@@ -429,6 +429,11 @@ public class MenuArticulo extends javax.swing.JPanel {
                 btn_EliminarMouseClicked(evt);
             }
         });
+        btn_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_EliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Eliminar);
 
         btn_Modificar.setText("Modificar");
@@ -482,6 +487,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             }
         });
 
+        txt_Buscar.setNextFocusableComponent(btn_Buscar);
         jScrollPane2.setViewportView(txt_Buscar);
 
         cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion", "SKU" }));
@@ -800,8 +806,8 @@ public class MenuArticulo extends javax.swing.JPanel {
             Object[] fila = {
                 articulos.getId(),
                 articulos.getSku(),
-                articulos.getDescripcion(),
                 articulos.getNombre(),
+                articulos.getDescripcion(),
                 articulos.getStock(),
                 articulos.getPrecio(),
                 articulos.getPeso(),
@@ -841,6 +847,10 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_sku.setText("");
         txt_stock.setText("");
     }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EliminarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
