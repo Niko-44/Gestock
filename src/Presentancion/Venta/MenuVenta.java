@@ -146,7 +146,7 @@ public class MenuVenta extends javax.swing.JPanel {
         gbc.gridx = 2;  // Ajustar el GridBagConstraints según la posición que desees
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;  // Ajustar el componente horizontalmente
-        gbc.insets = new Insets(0, 12, 0, 12);  // Márgenes para mayor espacio alrededor
+        gbc.insets = new Insets(4, 0, 0, 15);  // Márgenes para mayor espacio alrededor
 
         jPanel4.add(datePicker, gbc);  // Añadir el DatePicker al JPanel
         jPanel4.revalidate();  // Actualizar el layout
