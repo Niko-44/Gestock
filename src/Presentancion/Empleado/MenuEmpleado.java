@@ -68,8 +68,14 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 return false;
             }
         };
+        String roles = null;
         ArrayList<Empleado> empleados = ICE.obtenerEmpleado();
         for (Empleado empleado : empleados) {
+            if(empleado.getRol().toString() == "admin"){
+                roles = "Administrador";
+            }else if(empleado.getRol().toString() == "vendedor"){
+                roles = "Vendedor";
+            }
             Object[] fila = {
                 empleado.getId(),
                 empleado.getNombre(),
@@ -77,7 +83,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 empleado.getCedula(),
                 empleado.getNombreUsuario(),
                 empleado.getEmail(),
-                empleado.getRol()
+                roles
             };
             modeloTabla.addRow(fila);
         }
@@ -404,12 +410,13 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_Buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(65, 65, 65)
+                        .addComponent(cmb_BusquedaEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane2)
-                        .addGap(38, 38, 38)
-                        .addComponent(cmb_BusquedaEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Buscar)
+                        .addGap(53, 53, 53)
                         .addComponent(btn_Refrescar)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Limpiar)))
@@ -423,13 +430,14 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_Refrescar)
-                        .addComponent(btn_Limpiar)
-                        .addComponent(cmb_BusquedaEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_Refrescar)
+                            .addComponent(btn_Limpiar)
+                            .addComponent(btn_Buscar))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmb_BusquedaEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(68, Short.MAX_VALUE))

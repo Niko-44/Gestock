@@ -24,18 +24,21 @@ public class VentasServicios {
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, EMPLEADO.nombre AS nombre_empleado, EMPLEADO.id_empleado FROM VENTA JOIN EMPLEADO ON VENTA.id_empleado_fk = EMPLEADO.id_empleado;");
+            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc;");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
                 Empleado empleado = new Empleado();
                 empleado.setId(rs.getInt("id_empleado"));
                 empleado.setNombre(rs.getString("nombre_empleado"));
+                empleado.setNombreUsuario(rs.getString("nombre_usuario"));
+                empleado.setApellido(rs.getString("apellido"));
 
                 int id = rs.getInt("id_venta");
                 Date fecha_venta = rs.getDate("fecha_venta");
                 String estado = rs.getString("estado");
 
                 Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
+                venta.setTotal(rs.getString("total_venta"));
                 resultado.add(venta);
 
             }
@@ -113,36 +116,37 @@ public class VentasServicios {
 
         try {
             
-            
-            String sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%')";
-            
-            
-
             if (atributo.equals("Fecha")) {
                 atributo = "fecha_venta";
-                sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
-            }
+              }
 
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
-                sql = "SELECT venta.*, empleado.nombre FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE venta." + atributo + " like '%" + datoABuscar + "%'";
             }
-
+            
+            String sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
+            if(atributo.equals("Empleado")){
+                
+                sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
+            }
+                
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-
                 Empleado empleado = new Empleado();
-                empleado.setId(rs.getInt("id_empleado_fk"));
-                empleado.setNombre(rs.getString("nombre"));
+                empleado.setId(rs.getInt("id_empleado"));
+                empleado.setNombre(rs.getString("nombre_empleado"));
+                empleado.setNombreUsuario(rs.getString("nombre_usuario"));
+                empleado.setApellido(rs.getString("apellido"));
 
-                int idVenta = rs.getInt("id_venta");
-                Date fecha = rs.getDate("fecha_venta");
+                int id = rs.getInt("id_venta");
+                Date fecha_venta = rs.getDate("fecha_venta");
                 String estado = rs.getString("estado");
 
-                Venta venta = new Venta(idVenta, fecha, Venta.EstadoVenta.valueOf(estado), empleado);
+                Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
+                venta.setTotal(rs.getString("total_venta"));
                 ventas.add(venta);
             }
             rs.close();

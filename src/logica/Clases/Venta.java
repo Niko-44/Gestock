@@ -4,6 +4,8 @@
  */
 package logica.Clases;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,6 +23,7 @@ public class Venta {
     private Date fechaVenta;
     private EstadoVenta estado;
     private Empleado empleado;
+    private String total;
 
     public Venta() {
         
@@ -31,6 +34,14 @@ public class Venta {
         this.fechaVenta = fechaVenta;
         this.estado = estado;
         this.empleado = empleado;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
     
 
@@ -64,6 +75,21 @@ public class Venta {
 
     public void setFechaVenta(Date fechaVenta) {
         this.fechaVenta = fechaVenta;
+    }
+    // Método para obtener la fecha en el formato deseado
+    public String getFechaFormateada() {
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+        return formateador.format(fechaVenta);
+    }
+
+    // Método para establecer la fecha desde una cadena en formato específico
+    public void setFechaDesdeCadena(String fechaCadena) {
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            this.fechaVenta = formateador.parse(fechaCadena);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     

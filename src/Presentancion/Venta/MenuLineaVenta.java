@@ -29,6 +29,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     Fabrica fabrica = Fabrica.getInstance();
 
     public int id_venta;
+    public String total;
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
 
     /**
@@ -81,7 +82,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
+        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio C/U", "SubTotal"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -93,19 +94,21 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         ArrayList<Linea> lineaVenta = ICV.obtenerLineasVenta(id_venta);
 
         for (Linea linea : lineaVenta) {
-
+            float SubTotal = linea.getCantidad() * linea.getPrecioVenta();
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 linea.getIdLinea(),
                 linea.getArticulo().getNombre(),
                 linea.getCantidad(),
-                linea.getPrecioVenta()
+                linea.getPrecioVenta(),
+                SubTotal
             };
 
             modeloTabla.addRow(fila);
         }
 
         tbl_lineaVenta.setModel(modeloTabla);
+        txt_total.setText(total);
     }
 
     private void eliminarLineaVenta(int selectedRow) {
@@ -138,6 +141,8 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txt_precio = new javax.swing.JTextField();
         cmb_articulo = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        txt_total = new javax.swing.JTextField();
 
         setTitle("Linea venta");
         setResizable(false);
@@ -251,13 +256,17 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        jLabel5.setText("TOTAL:");
+
+        txt_total.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,6 +286,12 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                         .addComponent(btn_Refrescar))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(83, 83, 83))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -297,7 +312,11 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -400,6 +419,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -409,5 +429,6 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txt_cantidad;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_precio;
+    private javax.swing.JTextField txt_total;
     // End of variables declaration//GEN-END:variables
 }
