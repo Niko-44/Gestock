@@ -52,8 +52,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
                     txt_nombre_usuario.setText(nombre_usuario);
                     txt_email.setText(email);
                     cmb_Empleado.setSelectedItem(rol);
-                    
+
                     btn_Agregar.setEnabled(false);
+                    btn_Modificar.setEnabled(true);
+                    jBtnEliminarEmpleado.setEnabled(true);
 
                 }
             }
@@ -345,6 +347,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
         jBtnEliminarEmpleado.setText("Eliminar");
         jBtnEliminarEmpleado.setActionCommand("jButtonEliminar");
+        jBtnEliminarEmpleado.setEnabled(false);
         jBtnEliminarEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jBtnEliminarEmpleadoMouseClicked(evt);
@@ -354,6 +357,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.setEnabled(false);
         btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_ModificarMouseClicked(evt);
@@ -444,7 +448,7 @@ public class MenuEmpleado extends javax.swing.JPanel {
 
     private void btn_ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ModificarMouseClicked
         try {
-             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
             }
@@ -525,7 +529,6 @@ public class MenuEmpleado extends javax.swing.JPanel {
             Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
             ICE.modificaDatosEmpleado(empleado);
 
-           
             cargarDatosEnTabla();
 
             txt_id.setText("");
@@ -654,8 +657,10 @@ public class MenuEmpleado extends javax.swing.JPanel {
         txt_contraseña.setText("");
         txt_email.setText("");
         txt_nombre_usuario.setText("");
-        
+
         btn_Agregar.setEnabled(true);
+        btn_Modificar.setEnabled(false);
+        jBtnEliminarEmpleado.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
 

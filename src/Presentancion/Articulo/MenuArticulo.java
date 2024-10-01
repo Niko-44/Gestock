@@ -89,6 +89,9 @@ public class MenuArticulo extends javax.swing.JPanel {
                     cmb_id_categoria.setSelectedItem(categoria);
                     
                     btn_Agregar.setEnabled(false);
+                    btn_Modificar.setEnabled(true);
+                    btn_Eliminar.setEnabled(true);
+                    
                 }
             }
         });
@@ -426,6 +429,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.setEnabled(false);
         btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_EliminarMouseClicked(evt);
@@ -440,6 +444,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.setEnabled(false);
         btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_ModificarMouseClicked(evt);
@@ -851,6 +856,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_stock.setText("");
         
         btn_Agregar.setEnabled(true);
+        btn_Modificar.setEnabled(false);
+        btn_Eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed

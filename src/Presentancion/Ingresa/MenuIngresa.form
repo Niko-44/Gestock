@@ -345,6 +345,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar"/>
                 <Property name="actionCommand" type="java.lang.String" value="jButtonEliminar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_eliminarMouseClicked"/>
@@ -354,6 +355,7 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modificar"/>
                 <Property name="actionCommand" type="java.lang.String" value="jButtonModificar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_modificarMouseClicked"/>

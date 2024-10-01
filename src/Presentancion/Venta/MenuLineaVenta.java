@@ -63,8 +63,10 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                     cmb_Atributo.setSelectedItem(articulo);
                     txt_cantidad.setText(cantidad);
                     txt_precio.setText(precio);
-                    
+
                     btn_agregar.setEnabled(false);
+                    btn_modificar.setEnabled(true);
+                    btn_eliminar.setEnabled(true);
                 }
             }
         });
@@ -183,6 +185,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonEliminar");
+        btn_modificar.setEnabled(false);
         btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_modificarMouseClicked(evt);
@@ -199,6 +202,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.setEnabled(false);
 
         txt_id.setEditable(false);
 
@@ -452,7 +456,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modificarMouseClicked
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-         try {
+        try {
             String articulo = (String) cmb_articulo.getSelectedItem();
             int cantidad = Integer.parseInt(txt_cantidad.getText());
             float precio = Float.parseFloat(txt_precio.getText());
@@ -466,24 +470,22 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Ingrese una cantidad valida.");
                 return;
             }
-            
+
             if (precio <= 0) {
                 JOptionPane.showMessageDialog(this, "El precio es menor o igual a 0.");
                 return;
             }
 
-           
             ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
 
             int cmb_id = articulo_ingresa_id.get(cmb_articulo.getSelectedIndex());
             Articulo nuevoArticulo = new Articulo();
             nuevoArticulo.setId(cmb_id);
-            
+
             Venta venta = new Venta();
             venta.setId(id_venta);
 
             Linea nuevaLinea = new Linea(0, cantidad, precio, nuevoArticulo, venta);
-            
 
             if (ICV.agregarLineaVenta(nuevaLinea) == true) {
                 JOptionPane.showMessageDialog(this, "La linea se agrego correctamente");
@@ -500,8 +502,10 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         txt_id.setText("");
         txt_cantidad.setText("");
         txt_precio.setText("");
-        
+
         btn_agregar.setEnabled(true);
+         btn_modificar.setEnabled(false);
+        btn_eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     /**

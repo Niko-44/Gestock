@@ -75,8 +75,10 @@ public class MenuVenta extends javax.swing.JPanel {
                     txt_id.setText(id);
                     cmbEstado.setSelectedItem(Estado);
                     cmbEmpleado.setSelectedItem(Empleado);
-                    
+
                     btn_Agregar.setEnabled(false);
+                    btn_Modificar.setEnabled(true);
+                    btn_Eliminar.setEnabled(true);
 
                 }
             }
@@ -290,6 +292,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.setEnabled(false);
         btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_EliminarMouseClicked(evt);
@@ -299,6 +302,7 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.setEnabled(false);
         btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_ModificarMouseClicked(evt);
@@ -500,13 +504,13 @@ public class MenuVenta extends javax.swing.JPanel {
             } catch (NumberFormatException e) {
                 throw new Exception("El ID debe ser un número entero válido.");
             }
-            
+
             String fechaText = datePicker.getJFormattedTextField().getText();
             if (fechaText.isBlank()) {
                 throw new Exception("La fecha de ingreso no puede estar vacía.");
             }
-            
-           SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+
+            SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
             Date fecha_ingreso;
             try {
                 fecha_ingreso = formato.parse(fechaText);
@@ -579,8 +583,10 @@ public class MenuVenta extends javax.swing.JPanel {
     private void btn_limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_limpiarActionPerformed
         txt_id.setText("");
         txt_fechaVenta.setText("");
-        
+
         btn_Agregar.setEnabled(true);
+        btn_Modificar.setEnabled(false);
+        btn_Eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_limpiarActionPerformed
 
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed

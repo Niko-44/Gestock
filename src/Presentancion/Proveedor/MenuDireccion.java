@@ -55,9 +55,10 @@ public class MenuDireccion extends javax.swing.JFrame {
                     txt_localidad.setText(localidad);
                     txt_departamento.setText(departamento);
                     cmb_proveedor.setSelectedItem(proveedor);
-                    
-                    btn_agregar.setEnabled(false);
 
+                    btn_agregar.setEnabled(false);
+                    btn_eliminar.setEnabled(true);
+                    btn_modificar.setEnabled(true);
                 }
             }
         });
@@ -328,6 +329,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.setEnabled(false);
         btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_eliminarMouseClicked(evt);
@@ -337,6 +339,7 @@ public class MenuDireccion extends javax.swing.JFrame {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.setEnabled(false);
         btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_modificarMouseClicked(evt);
@@ -441,8 +444,8 @@ public class MenuDireccion extends javax.swing.JFrame {
 
     private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
         try {
-            
-             int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar la direccion?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar la direccion?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta != JOptionPane.YES_OPTION) {
                 return; // Salir si el usuario elige "No"
             }
@@ -510,7 +513,6 @@ public class MenuDireccion extends javax.swing.JFrame {
             Direccion direccion = new Direccion(id, calle, num_puerta, localidad, departamento, nuevoProveedor);
             ICP.administradorModificaDireccion(direccion);
 
-            
             cargarDatosEnTabla();
 
             txt_id.setText("");
@@ -573,6 +575,8 @@ public class MenuDireccion extends javax.swing.JFrame {
         txt_localidad.setText("");
         txt_departamento.setText("");
         btn_agregar.setEnabled(true);
+        btn_eliminar.setEnabled(false);
+        btn_modificar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed

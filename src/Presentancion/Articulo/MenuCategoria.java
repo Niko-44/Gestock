@@ -48,7 +48,8 @@ public class MenuCategoria extends javax.swing.JFrame {
                     txt_descripcion.setText(descripcion);
                     
                     btn_Agregar.setEnabled(false);
-
+                    btn_Modificar.setEnabled(true);
+                    btn_Eliminar.setEnabled(true);
                 }
             }
         });
@@ -236,6 +237,7 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         btn_Eliminar.setText("Eliminar");
         btn_Eliminar.setActionCommand("jButtonEliminar");
+        btn_Eliminar.setEnabled(false);
         btn_Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_EliminarMouseClicked(evt);
@@ -245,6 +247,7 @@ public class MenuCategoria extends javax.swing.JFrame {
 
         btn_Modificar.setText("Modificar");
         btn_Modificar.setActionCommand("jButtonModificar");
+        btn_Modificar.setEnabled(false);
         btn_Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_ModificarMouseClicked(evt);
@@ -501,7 +504,8 @@ public class MenuCategoria extends javax.swing.JFrame {
         txt_nombre.setText("");
         
         btn_Agregar.setEnabled(true);
-        
+        btn_Modificar.setEnabled(false);
+        btn_Eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     /**

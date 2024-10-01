@@ -67,6 +67,8 @@ public class MenuProveedor extends javax.swing.JPanel {
                     txt_fecha_creada.setText(create_date);
 
                     btn_agregar.setEnabled(false);
+                    btn_modificar.setEnabled(true);
+                    btn_eliminar.setEnabled(true);
                 }
             }
         });
@@ -319,6 +321,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.setEnabled(false);
         btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_eliminarMouseClicked(evt);
@@ -328,6 +331,7 @@ public class MenuProveedor extends javax.swing.JPanel {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.setEnabled(false);
         btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_modificarMouseClicked(evt);
@@ -603,8 +607,10 @@ public class MenuProveedor extends javax.swing.JPanel {
         txt_email.setText("");
         txt_fecha_actualizada.setText("");
         txt_fecha_creada.setText("");
-        
+
         btn_agregar.setEnabled(true);
+        btn_modificar.setEnabled(false);
+        btn_eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed

@@ -51,7 +51,6 @@ public class MenuIngresa extends javax.swing.JPanel {
     private JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-
     DefaultTableModel modeloTabla;
 
     public MenuIngresa() {
@@ -84,9 +83,10 @@ public class MenuIngresa extends javax.swing.JPanel {
                     txt_precioCompra.setText(precioC);
                     cmb_proveedor.setSelectedItem(proveedor);
                     cmb_articulo.setSelectedItem(articulo);
-                    
-                    btn_agregar.setEnabled(false);
 
+                    btn_agregar.setEnabled(false);
+                    btn_modificar.setEnabled(true);
+                    btn_eliminar.setEnabled(true);
                 }
             }
         });
@@ -163,7 +163,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         for (Ingresa ingreso : DatosBuscados) {
             Object[] fila = {
                 ingreso.getIdIngresa(),
-                sdf.format(ingreso.getFechaIngreso()), 
+                sdf.format(ingreso.getFechaIngreso()),
                 ingreso.getCantidad(),
                 ingreso.getLote(),
                 ingreso.getPrecioCompra(),
@@ -406,6 +406,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         btn_eliminar.setText("Eliminar");
         btn_eliminar.setActionCommand("jButtonEliminar");
+        btn_eliminar.setEnabled(false);
         btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_eliminarMouseClicked(evt);
@@ -415,6 +416,7 @@ public class MenuIngresa extends javax.swing.JPanel {
 
         btn_modificar.setText("Modificar");
         btn_modificar.setActionCommand("jButtonModificar");
+        btn_modificar.setEnabled(false);
         btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_modificarMouseClicked(evt);
@@ -719,8 +721,10 @@ public class MenuIngresa extends javax.swing.JPanel {
         txt_cantidad.setText("");
         txt_lote.setText("");
         txt_precioCompra.setText("");
-        
+
         btn_agregar.setEnabled(true);
+        btn_modificar.setEnabled(false);
+        btn_eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_LimpiarActionPerformed
 
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
