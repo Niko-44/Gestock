@@ -276,6 +276,11 @@ public class MenuVenta extends javax.swing.JPanel {
 
         btn_Agregar.setActionCommand("jButtonAgregar");
         btn_Agregar.setLabel("Agregar");
+        btn_Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AgregarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btn_Agregar);
 
         btn_Eliminar.setText("Eliminar");
@@ -509,39 +514,46 @@ public class MenuVenta extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_ModificarMouseClicked
 
+    private void btn_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AgregarActionPerformed
+        try {
+            String estadoVenta = (String) cmbEstado.getSelectedItem();
+            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
+
+            if (estadoVenta == null || estadoVenta.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un estado para la venta.");
+                return;
+            }
+
+            if (nombreEmpleado == null || nombreEmpleado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Seleccione un empleado para la venta.");
+                return;
+            }
+
+            Date fecha = new Date();
+            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
+
+            int cmb_id = empleadoprueba_id.get(cmbEmpleado.getSelectedIndex());
+            Empleado nuevoEmpleado = new Empleado();
+            nuevoEmpleado.setId(cmb_id);
+
+            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
+
+            if (ICV.agregarVenta(nuevaVenta) == true) {
+                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
+                cargarDatosEnTabla();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_AgregarActionPerformed
+
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
         menuLineaVenta.cargarDatosEnTabla();
         menuLineaVenta.setVisible(true);
     }// GEN-LAST:event_btnVerLineaVentaActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAgregarActionPerformed
-        /*try {
-            String estadoVenta = (String) cmbEstado.getSelectedItem();
-            String nombreEmpleado = (String) cmbEmpleado.getSelectedItem();
-            String fechaTexto = txtDate.getText();
-
-            Date fecha = formatoFecha.parse(fechaTexto);
-            ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
-
-            int id_empleado = buscarEmpleadoID(nombreEmpleado, dataEmpleado);
-
-            Empleado nuevoEmpleado = new Empleado();
-
-            nuevoEmpleado.setId(id_empleado);
-
-            Venta nuevaVenta = new Venta(0, fecha, Venta.EstadoVenta.valueOf(estadoVenta), nuevoEmpleado);
-
-            if (ICV.agregarVenta(nuevaVenta) == true) {
-                JOptionPane.showMessageDialog(this, "La venta se agrego correctamente");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al intentar agregar la venta");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-    }// GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerLineaVenta;
