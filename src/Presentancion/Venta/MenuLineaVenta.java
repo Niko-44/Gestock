@@ -32,6 +32,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     Fabrica fabrica = Fabrica.getInstance();
 
     public int id_venta;
+    public String total;
     ArrayList<Integer> articulo_ingresa_id = new ArrayList<>();
     ArrayList<Integer> venta_id = new ArrayList<>();
 
@@ -86,7 +87,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
+        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio C/U", "SubTotal"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -98,18 +99,21 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         ArrayList<Linea> lineaVenta = ICV.obtenerLineasVenta(id_venta);
 
         for (Linea linea : lineaVenta) {
-
-            // Obtener el nombre la linea que realizo la venta
+            float SubTotal = linea.getCantidad() * linea.getPrecioVenta();
+            // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 linea.getIdLinea(),
                 linea.getArticulo().getNombre(),
                 linea.getCantidad(),
-                linea.getPrecioVenta(),};
+                linea.getPrecioVenta(),
+                SubTotal
+            };
 
             modeloTabla.addRow(fila);
         }
 
         tbl_lineaVenta.setModel(modeloTabla);
+        txt_total.setText(total);
     }
 
     private void eliminarLineaVenta(int selectedRow) {
@@ -126,8 +130,6 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         tbl_lineaVenta = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         btn_Buscar3 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txt_Buscar = new javax.swing.JTextPane();
         cmb_Atributo = new javax.swing.JComboBox<>();
         btn_Refrescar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -143,6 +145,9 @@ public class MenuLineaVenta extends javax.swing.JFrame {
         txt_precio = new javax.swing.JTextField();
         cmb_articulo = new javax.swing.JComboBox<>();
         btn_Limpiar = new javax.swing.JButton();
+        txt_Buscar = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txt_total = new javax.swing.JTextField();
 
         setTitle("Linea venta");
         setResizable(false);
@@ -169,8 +174,6 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 btn_Buscar3ActionPerformed(evt);
             }
         });
-
-        jScrollPane2.setViewportView(txt_Buscar);
 
         cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Articulo", "Precio", "Cantidad" }));
 
@@ -268,7 +271,7 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,6 +286,10 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("TOTAL:");
+
+        txt_total.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -292,18 +299,25 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btn_Buscar3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(37, 37, 37)
                         .addComponent(btn_Refrescar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_Limpiar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -316,16 +330,20 @@ public class MenuLineaVenta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Refrescar)
+                    .addComponent(btn_Limpiar)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_Refrescar)
+                        .addComponent(txt_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_Limpiar))
-                    .addComponent(btn_Buscar3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_Buscar3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -356,18 +374,20 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_Buscar3ActionPerformed
 
     private void cargarDatosBuscados(ArrayList<Linea> DatosBuscados) {
-        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio"};
+        String[] columnas = {"ID", "Articulo", "Cantidad", "Precio C/U", "SubTotal"};
 
         modeloTabla = new DefaultTableModel(columnas, 0);
 
         for (Linea linea : DatosBuscados) {
-
+            
+            float SubTotal = linea.getCantidad() * linea.getPrecioVenta();
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 linea.getIdLinea(),
                 linea.getArticulo().getNombre(),
                 linea.getCantidad(),
-                linea.getPrecioVenta(),};
+                linea.getPrecioVenta(),
+                SubTotal};
 
             modeloTabla.addRow(fila);
         }
@@ -422,12 +442,12 @@ public class MenuLineaVenta extends javax.swing.JFrame {
             }
             float precio;
             try {
-                precio = Integer.parseInt(precioText);
+                precio = Float.parseFloat(precioText);
                 if (precio <= 0) {
                     throw new Exception("El precio debe ser un número positivo.");
                 }
             } catch (NumberFormatException e) {
-                throw new Exception("El precio debe ser un número entero válido.");
+                throw new Exception("El precio debe ser un número válido.");
             }
 
             if (cmb_articulo.getSelectedIndex() < 0) {
@@ -557,14 +577,15 @@ public class MenuLineaVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbl_lineaVenta;
-    private javax.swing.JTextPane txt_Buscar;
+    private javax.swing.JTextField txt_Buscar;
     private javax.swing.JTextField txt_cantidad;
     private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_precio;
+    private javax.swing.JTextField txt_total;
     // End of variables declaration//GEN-END:variables
 }

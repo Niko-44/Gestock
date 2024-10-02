@@ -14,6 +14,8 @@ import logica.Interfaces.IControladorVenta;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -45,6 +47,7 @@ public class MenuVenta extends javax.swing.JPanel {
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 
     private int id_venta;
+    private String total;
 
     public MenuVenta() {
 
@@ -68,10 +71,19 @@ public class MenuVenta extends javax.swing.JPanel {
                     String id = tbl_venta.getValueAt(selectedRow, 0).toString();
                     String fecha_v = tbl_venta.getValueAt(selectedRow, 1).toString();
                     String Estado = tbl_venta.getValueAt(selectedRow, 2).toString();
-                    String Empleado = tbl_venta.getValueAt(selectedRow, 3).toString();
+                    String total_venta = tbl_venta.getValueAt(selectedRow, 3).toString();
+                    String Empleado = tbl_venta.getValueAt(selectedRow, 4).toString();
 
+                    Venta ventaFecha = new Venta();
+                    try {
+                        ventaFecha.setFechaFormateada(fecha_v);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(MenuVenta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String fechaString = formatoFecha.format(ventaFecha.getFechaVenta());
                     id_venta = Integer.parseInt(id);
-                    datePicker.getJFormattedTextField().setText(fecha_v);
+                    total = total_venta;
+                    datePicker.getJFormattedTextField().setText(fechaString);
                     txt_id.setText(id);
                     cmbEstado.setSelectedItem(Estado);
                     cmbEmpleado.setSelectedItem(Empleado);
@@ -98,10 +110,10 @@ public class MenuVenta extends javax.swing.JPanel {
         }
     }
 
-    public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado"};
+   public void cargarDatosEnTabla() {
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Total", "Empleado", "Usuario" };
 
-        modeloTabla = new DefaultTableModel(columnas, 0) {
+        modeloTabla = new DefaultTableModel(columnas, 0){
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -113,14 +125,20 @@ public class MenuVenta extends javax.swing.JPanel {
         ArrayList<Empleado> dataEmpleado = ICE.obtenerEmpleado();
 
         for (Venta venta : ventas) {
-
+            String empleado;
+            if(venta.getTotal() == null)
+                venta.setTotal("0");
+            empleado = venta.getEmpleado().getNombre().toString()+", "+venta.getEmpleado().getApellido().toString();
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                formatoFecha.format(venta.getFechaVenta()),
+               // formatoFecha.format(venta.getFechaVenta()),
+                venta.getFechaFormateada(),
                 venta.getEstado(),
-                venta.getEmpleado().getNombre(),
-                venta.getEmpleado().getId(),};
+                venta.getTotal(),
+                empleado,
+                venta.getEmpleado().getNombreUsuario()
+                };
 
             modeloTabla.addRow(fila);
         }
@@ -168,8 +186,6 @@ public class MenuVenta extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btn_Buscar = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txt_Buscar = new javax.swing.JTextPane();
         cmb_Atributo = new javax.swing.JComboBox<>();
         btn_Refrescar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -187,6 +203,7 @@ public class MenuVenta extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         txt_fechaVenta = new javax.swing.JTextField();
         btn_limpiar = new javax.swing.JButton();
+        txt_Buscar = new javax.swing.JTextField();
 
         setMaximumSize(getPreferredSize());
 
@@ -227,9 +244,7 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane2.setViewportView(txt_Buscar);
-
-        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Estado", "ID" }));
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fecha", "Estado", "Empleado", "ID" }));
 
         btn_Refrescar.setText("Refrescar");
         btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
@@ -365,6 +380,12 @@ public class MenuVenta extends javax.swing.JPanel {
             }
         });
 
+        txt_Buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_BuscarKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -379,12 +400,12 @@ public class MenuVenta extends javax.swing.JPanel {
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(btn_Buscar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(85, 85, 85)
                         .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_Buscar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_Buscar)
                         .addGap(18, 18, 18)
                         .addComponent(btn_Refrescar)
                         .addGap(18, 18, 18)
@@ -398,17 +419,17 @@ public class MenuVenta extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_Refrescar)
+                        .addComponent(btn_limpiar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_Refrescar)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_limpiar))
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
+                            .addComponent(txt_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(btn_Buscar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(13, 13, 13)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -425,10 +446,10 @@ public class MenuVenta extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btn_BuscarActionPerformed
 
-    private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
-        String[] columnas = {"ID", "Fecha Venta", "Estado", "Empleado", "ID Empleado"};
+   private void cargarDatosBuscados(ArrayList<Venta> DatosBuscados) {
+        String[] columnas = {"ID", "Fecha Venta", "Estado", "Total", "Empleado", "Usuario" };
 
-        modeloTabla = new DefaultTableModel(columnas, 0) {
+        modeloTabla = new DefaultTableModel(columnas, 0){
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Retornar false para que ninguna celda sea editable
@@ -437,14 +458,20 @@ public class MenuVenta extends javax.swing.JPanel {
         };
 
         for (Venta venta : DatosBuscados) {
-
+            String empleado;
+            if(venta.getTotal() == null)
+                venta.setTotal("0");
+            empleado = venta.getEmpleado().getNombre().toString()+", "+venta.getEmpleado().getApellido().toString();
             // Obtener el nombre del empleado que realizo la venta
             Object[] fila = {
                 venta.getId(),
-                formatoFecha.format(venta.getFechaVenta()),
+                //formatoFecha.format(venta.getFechaVenta()),
+                venta.getFechaFormateada(),
                 venta.getEstado(),
-                venta.getEmpleado().getNombre(),
-                venta.getEmpleado().getId(),};
+                venta.getTotal(),
+                empleado,
+                venta.getEmpleado().getNombreUsuario()
+                };
 
             modeloTabla.addRow(fila);
         }
@@ -589,8 +616,18 @@ public class MenuVenta extends javax.swing.JPanel {
         btn_Eliminar.setEnabled(false);
     }//GEN-LAST:event_btn_limpiarActionPerformed
 
+    private void txt_BuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_BuscarKeyPressed
+        // TODO add your handling code here:
+        String atributo = cmb_Atributo.getSelectedItem().toString();
+        String datoBuscado = txt_Buscar.getText();
+        
+        cargarDatosBuscados(ICV.buscarVenta(atributo, datoBuscado, id_venta));
+        
+    }//GEN-LAST:event_txt_BuscarKeyPressed
+
     private void btnVerLineaVentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnVerLineaVentaActionPerformed
         menuLineaVenta.id_venta = id_venta;
+        menuLineaVenta.total = total;
         menuLineaVenta.cargarDatosEnTabla();
         menuLineaVenta.setVisible(true);
     }// GEN-LAST:event_btnVerLineaVentaActionPerformed
@@ -613,12 +650,11 @@ public class MenuVenta extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_descripcion;
     private javax.swing.JLabel lbl_id;
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JTable tbl_venta;
-    private javax.swing.JTextPane txt_Buscar;
+    private javax.swing.JTextField txt_Buscar;
     private javax.swing.JTextField txt_fechaVenta;
     private javax.swing.JTextField txt_id;
     // End of variables declaration//GEN-END:variables

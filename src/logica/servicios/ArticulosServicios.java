@@ -14,6 +14,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
+import logica.Clases.Fabricante;
+
 
 public class ArticulosServicios {
 
@@ -82,9 +84,11 @@ public class ArticulosServicios {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
+            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                Fabricante fabricante = new Fabricante();
+                fabricante.setNombre(rs.getString("nombre_fabricante"));
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
@@ -100,6 +104,7 @@ public class ArticulosServicios {
                 Date createDate = rs.getDate("create_date");
 
                 Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
+                articulo.setFabricante(fabricante);
                 articulos.add(articulo);
             }
             rs.close();
@@ -134,10 +139,10 @@ public class ArticulosServicios {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
+            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
 
             if (atributo.equals("SKU")) {
-                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
+                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
             }
 
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -145,6 +150,8 @@ public class ArticulosServicios {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+                Fabricante fabricante = new Fabricante();
+                fabricante.setNombre(rs.getString("nombre_fabricante"));
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
@@ -160,6 +167,7 @@ public class ArticulosServicios {
                 Date createDate = rs.getDate("create_date");
 
                 Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
+                articulo.setFabricante(fabricante);
                 articulos.add(articulo);
             }
             rs.close();

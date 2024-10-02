@@ -21,6 +21,8 @@ import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -74,10 +76,20 @@ public class MenuIngresa extends javax.swing.JPanel {
                     String proveedor = tbl_Ingresa.getValueAt(selectedRow, 5).toString();
                     String articulo = tbl_Ingresa.getValueAt(selectedRow, 6).toString();
 
+                    
+                    Ingresa ingresaFecha = new Ingresa();
+                    
+                    try {
+                        ingresaFecha.setFechaFormateada(fecha_i);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(MenuIngresa.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    String fechaString = sdf.format(ingresaFecha.getFechaIngreso());
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
                     txt_id.setText(id);
-                    datePicker.getJFormattedTextField().setText(fecha_i);
+                    datePicker.getJFormattedTextField().setText(fechaString);
                     txt_cantidad.setText(cantidad);
                     txt_lote.setText(lote);
                     txt_precioCompra.setText(precioC);
@@ -129,7 +141,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         for (Ingresa ingreso : ingresos) {
             Object[] fila = {
                 ingreso.getIdIngresa(),
-                sdf.format(ingreso.getFechaIngreso()), // Cuando necesites mostrarla
+                ingreso.getFechaFormateada(), // Cuando necesites mostrarla
                 ingreso.getCantidad(),
                 ingreso.getLote(),
                 ingreso.getPrecioCompra(),
@@ -163,7 +175,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         for (Ingresa ingreso : DatosBuscados) {
             Object[] fila = {
                 ingreso.getIdIngresa(),
-                sdf.format(ingreso.getFechaIngreso()),
+                ingreso.getFechaFormateada(),
                 ingreso.getCantidad(),
                 ingreso.getLote(),
                 ingreso.getPrecioCompra(),
@@ -471,22 +483,20 @@ public class MenuIngresa extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(btn_Buscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Refrescar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Limpiar)
-                        .addGap(42, 42, 42)))
+                .addGap(60, 60, 60)
+                .addComponent(btn_Buscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_Atributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Refrescar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Limpiar)
+                .addGap(48, 48, 48))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -499,7 +509,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(244, Short.MAX_VALUE)
+                .addContainerGap(317, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Refrescar)
@@ -508,15 +518,15 @@ public class MenuIngresa extends javax.swing.JPanel {
                     .addComponent(btn_Buscar, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(283, Short.MAX_VALUE)))
+                    .addContainerGap(342, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
