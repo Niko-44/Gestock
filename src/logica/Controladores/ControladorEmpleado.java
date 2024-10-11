@@ -13,43 +13,46 @@ import logica.Clases.Empleado;
 import logica.Interfaces.IControladorEmpleado;
 import logica.servicios.EmpleadosServicios;
 
-public class ControladorEmpleado implements IControladorEmpleado{
-   
+public class ControladorEmpleado implements IControladorEmpleado {
+
     private EmpleadosServicios servicioEmpleado;
 
     private static ControladorEmpleado instancia;
+
     public static ControladorEmpleado getInstance() {
         if (instancia == null) {
             instancia = new ControladorEmpleado();
         }
         return instancia;
     }
+
     private ControladorEmpleado() {
         this.servicioEmpleado = new EmpleadosServicios();
     }
 
-    public Empleado iniciarSesion(String nombreUsuario, String contraseña){
-        
+    public Empleado iniciarSesion(String nombreUsuario, String contraseña) {
+
         return null;
-        
+
     }
-    
-    public void modificaDatosEmpleado(Empleado empleado){
+
+    public void modificaDatosEmpleado(Empleado empleado) {
         servicioEmpleado.modificaDatosEmpleado(empleado);
     }
-    public ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda){
+
+    public ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda) {
 
         return null;
 
     }
-    public ArrayList<Empleado> listarEmpleado(){
+
+    public ArrayList<Empleado> listarEmpleado() {
 
         return null;
 
     }
-    
-    public boolean agregarEmpleado(Empleado empleado)
-    {
+
+    public boolean agregarEmpleado(Empleado empleado) {
         try {
             return servicioEmpleado.agregarEmpleado(empleado);
         } catch (Exception ex) {
@@ -58,8 +61,8 @@ public class ControladorEmpleado implements IControladorEmpleado{
         }
         return false;
     }
-    
-    public ArrayList<Empleado> obtenerEmpleado(){
+
+    public ArrayList<Empleado> obtenerEmpleado() {
 
         ArrayList<Empleado> Empleados = null;
         try {
@@ -70,24 +73,33 @@ public class ControladorEmpleado implements IControladorEmpleado{
         return Empleados;
 
     }
-    public void seleccionarEmpleado(Empleado empleado){
+
+    public void seleccionarEmpleado(Empleado empleado) {
 
     }
-    public boolean eliminarEmpleado(int idEmpleado){
+
+    public boolean eliminarEmpleado(int idEmpleado) {
         return this.servicioEmpleado.eliminarEmpleado(idEmpleado);
     }
-    public void cancelarProceso(){
+
+    public void cancelarProceso() {
 
     }
-    public void confirmarModificacion(){
+
+    public void confirmarModificacion() {
 
     }
-    public void cancelarModificacion(){
+
+    public void cancelarModificacion() {
 
     }
-    public ArrayList<Empleado> buscarEmpleado(String datoBuscar, String atributo){
+
+    public ArrayList<Empleado> buscarEmpleado(String datoBuscar, String atributo) {
         return servicioEmpleado.BuscarEmpleado(datoBuscar, atributo);
     }
 
+    public boolean validateCredential(String username, String password) {
+        return servicioEmpleado.validateCredential(username, password);
+    }
 
 }

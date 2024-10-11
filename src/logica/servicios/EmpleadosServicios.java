@@ -66,7 +66,7 @@ public class EmpleadosServicios {
             status.setObject(7, empleado.getRol().toString());
             status.setObject(8, empleado.getId());
 
-             int filasAfectadas = status.executeUpdate();
+            int filasAfectadas = status.executeUpdate();
 
             if (filasAfectadas > 0) {
                 JOptionPane.showMessageDialog(null, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -74,10 +74,10 @@ public class EmpleadosServicios {
                 JOptionPane.showMessageDialog(null, "El empleado no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-        // Mostrar el error en una ventana de diálogo
-        System.err.println("Error al actualizar el empleado: " + e.getMessage());
-        JOptionPane.showMessageDialog(null, "Error al actualizar el empleado:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+            // Mostrar el error en una ventana de diálogo
+            System.err.println("Error al actualizar el empleado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el empleado:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public boolean eliminarEmpleado(int idEmpleado) {
@@ -104,7 +104,6 @@ public class EmpleadosServicios {
     public boolean agregarEmpleado(Empleado empleado) throws Exception {
         try {
 
-
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `empleado` (`id_empleado`, `nombre`, `apellido`, `cedula`, `nombre_usuario`, `email`, `contraseña`, `rol`) VALUES (?, ?, ?, ?, ?, ?, ?, ?); ");
             status.setObject(1, null);
             status.setObject(2, empleado.getNombre());
@@ -127,15 +126,13 @@ public class EmpleadosServicios {
         }
     }
 
-  
-    
-    public ArrayList<Empleado> BuscarEmpleado(String datoABuscar, String atributo){
+    public ArrayList<Empleado> BuscarEmpleado(String datoABuscar, String atributo) {
         ArrayList<Empleado> empleados = new ArrayList<>();
-        if (atributo == "Nombre Usuario"){
+        if (atributo == "Nombre Usuario") {
             atributo = "nombre_usuario";
         }
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado where LOWER("+atributo +") like LOWER('%"+ datoABuscar +"%');");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado where LOWER(" + atributo + ") like LOWER('%" + datoABuscar + "%');");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idEmpleado = rs.getInt("id_empleado");
@@ -156,4 +153,29 @@ public class EmpleadosServicios {
         }
         return empleados;
     }
+
+    public boolean validateCredential(String username, String password) {
+        boolean valid = false;
+        try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ? AND contraseña = ?");
+
+            ps.setString(1, username); 
+            ps.setString(2, password); 
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                valid = true;
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return valid;
+
+    }
+
 }
