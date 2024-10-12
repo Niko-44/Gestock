@@ -14,6 +14,8 @@ public class Empleado {
     private String email;
     private String contraseña;
     private ROLEMPLEADO rol;
+    
+    private byte[] fotoPerfil; // Campo para la imagen de perfil
 
     public enum ROLEMPLEADO {
         admin,
@@ -25,7 +27,7 @@ public class Empleado {
         
     }
     
-    public Empleado(int id, String nombre, String apellido, int cedula, String nombreUsuario, String email, String contraseña, ROLEMPLEADO rol) {
+    public Empleado(int id, String nombre, String apellido, int cedula, String nombreUsuario, String email, String contraseña, ROLEMPLEADO rol, byte[] fotoPerfil) {
         
         this.id = id;
         this.nombre = nombre;
@@ -35,7 +37,16 @@ public class Empleado {
         this.email = email;
         this.contraseña = contraseña;
         this.rol = rol;
+        this.fotoPerfil = fotoPerfil; // Asignar el campo
         
+    }
+
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     // Getters and Setters
