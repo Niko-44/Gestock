@@ -86,11 +86,11 @@ public class ArticulosServicios {
 
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n" +
-                                                            "	(SELECT F.nombre_fabricante FROM fabricante as F \n" +
-                                                            "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n" +
-                                                            "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n" +
-                                                            "	(SELECT P.nombre_proveedor FROM proveedor AS P\n" +
-                                                            "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n" +
+                                                            "(SELECT F.nombre_fabricante FROM fabricante as F \n" +
+                                                            "JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n" +
+                                                            "WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n" +
+                                                            "(SELECT P.nombre_proveedor FROM proveedor AS P\n" +
+                                                            "JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n" +
                                                             "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n" +
                                                             "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
             ResultSet rs = ps.executeQuery();
