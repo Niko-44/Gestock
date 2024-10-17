@@ -50,6 +50,10 @@ public class ControladorVenta implements IControladorVenta {
     public void agregarArticuloCarrito() {
 
     }
+    
+    public Venta getUltimaVenta(){
+        return ventasServicio.getUltimaVenta();
+    }
 
     public ArrayList<Venta> buscarVenta(String atributo, String datoBuscar, int id_venta) {
         return ventasServicio.buscarVenta(datoBuscar, atributo, id_venta);

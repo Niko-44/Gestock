@@ -69,7 +69,7 @@ public class LineasServicio {
     public ArrayList<Linea> getLineasVenta(int id_venta) {
         ArrayList<Linea> resultado = new ArrayList<Linea>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT L.id_linea, A.nombre, L.cantidad_vendida, L.precio_venta\n"
+            PreparedStatement status = conexion.prepareStatement("SELECT L.id_linea, A.nombre, A.sku as sku, A.descripcion ,L.cantidad_vendida, L.precio_venta\n"
                     + "FROM linea AS L\n"
                     + "INNER JOIN articulo AS A ON L.id_articulo_fk = A.id_articulo\n"
                     + "INNER JOIN venta AS V ON L.id_venta_fk = V.id_venta\n"
@@ -82,6 +82,8 @@ public class LineasServicio {
 
                 Articulo articulo = new Articulo();
                 articulo.setNombre(rs.getString("nombre"));
+                articulo.setSku(rs.getLong("sku"));
+                articulo.setDescripcion(rs.getString("descripcion"));
                 
                 Linea linea = new Linea();
 

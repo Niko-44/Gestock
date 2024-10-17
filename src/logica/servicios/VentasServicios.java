@@ -22,7 +22,7 @@ public class VentasServicios {
 
     private Connection conexion = new ConexionDB().getConexion();
 
-     public ArrayList<Venta> getVentas() {
+    public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
             PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc;");
@@ -87,7 +87,7 @@ public class VentasServicios {
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar la venta:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            
+
         }
         return false;
     }
@@ -117,21 +117,21 @@ public class VentasServicios {
         ArrayList<Venta> ventas = new ArrayList<>();
 
         try {
-            
+
             if (atributo.equals("Fecha")) {
                 atributo = "fecha_venta";
-              }
+            }
 
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
             }
-            
+
             String sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
-            if(atributo.equals("Empleado")){
-                
+            if (atributo.equals("Empleado")) {
+
                 sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
             }
-                
+
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
@@ -156,5 +156,39 @@ public class VentasServicios {
             ex.printStackTrace();
         }
         return ventas;
+
     }
+
+    public Venta getUltimaVenta() {
+        Venta venta = null;
+        try {
+            PreparedStatement status = conexion.prepareStatement(
+                    "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado, "
+                    + "(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta "
+                    + "FROM VENTA "
+                    + "JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado "
+                    + "ORDER BY VENTA.id_venta DESC LIMIT 1;"
+            );
+            ResultSet rs = status.executeQuery();
+            if (rs.next()) {
+                Empleado empleado = new Empleado();
+                empleado.setId(rs.getInt("id_empleado"));
+                empleado.setNombre(rs.getString("nombre_empleado"));
+                empleado.setNombreUsuario(rs.getString("nombre_usuario"));
+                empleado.setApellido(rs.getString("apellido"));
+
+                int id = rs.getInt("id_venta");
+                Date fecha_venta = rs.getDate("fecha_venta");
+                String estado = rs.getString("estado");
+
+                venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
+                venta.setTotal(rs.getString("total_venta"));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return venta;
+    }
+
 }

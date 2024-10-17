@@ -11,8 +11,6 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import logica.Clases.Articulo;
-import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
 import logica.Fabrica;
 import logica.Interfaces.IControladorArticulo;
@@ -80,8 +78,8 @@ public class MenuFabricante extends javax.swing.JFrame {
             Object[] fila = {
                 fabricante.getId(),
                 fabricante.getNombre(),
-                fabricante.getCorreo(),
                 fabricante.getTelefono(),
+                fabricante.getCorreo(),
                 fabricante.getFechaUpdateFormateada(),
                 fabricante.getFechaCreadaFormateada()
             };

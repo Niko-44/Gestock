@@ -17,6 +17,8 @@ import logica.Clases.Venta;
 public interface IControladorVenta {
     public abstract ArrayList<Articulo> obtenerArticulos();
 
+    public abstract Venta getUltimaVenta();
+    
     public abstract void confirmarCompra();
 
     public abstract void agregarArticuloCarrito();
