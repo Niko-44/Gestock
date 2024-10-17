@@ -4,6 +4,7 @@
  */
 package logica.Controladores;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +57,12 @@ public class ControladorVenta implements IControladorVenta {
     }
 
     public ArrayList<Venta> buscarVenta(String atributo, String datoBuscar, int id_venta) {
-        return ventasServicio.buscarVenta(datoBuscar, atributo, id_venta);
+        try {
+            return ventasServicio.buscarVenta(datoBuscar, atributo, id_venta);
+        } catch (ParseException ex) {
+            Logger.getLogger(ControladorVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public ArrayList<Linea> buscarLinea(String atributo, String datoBuscar, int id_venta) {
