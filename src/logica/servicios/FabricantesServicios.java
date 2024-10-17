@@ -27,7 +27,7 @@ public class FabricantesServicios {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM fabricante");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM fabricante LIMIT 6");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idFabricante = rs.getInt("id_fabricante");
@@ -122,6 +122,17 @@ public class FabricantesServicios {
 
     public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
+        
+        if (nombre == "Nombre") {
+            nombre = "nombre_fabricante";
+        }
+
+        
+        if(nombre == "Email")
+        {
+            nombre = "email";
+        }
+        
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + datoABuscar + ") like LOWER('%" + nombre + "%');");
 //            ps.setObject(1,atributo);

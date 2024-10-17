@@ -84,7 +84,7 @@ public class ArticulosServicios {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria");
+            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria LIMIT 6");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Fabricante fabricante = new Fabricante();
@@ -137,6 +137,19 @@ public class ArticulosServicios {
 
     public ArrayList<Articulo> BuscarArticulo(String datoABuscar, String atributo) {
         ArrayList<Articulo> articulos = new ArrayList<>();
+        
+        if (atributo == "Nombre") {
+            atributo = "nombre";
+        }
+
+        if (atributo == "Descripcion") {
+            atributo = "descripcion";
+        }
+        
+        if(atributo == "SKU")
+        {
+            atributo = "sku";
+        }
 
         try {
             String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";

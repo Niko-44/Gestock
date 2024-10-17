@@ -50,7 +50,7 @@ public class ProveedoresServicio {
         ArrayList<Proveedor> proveedores = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor LIMIT 6");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idProveedor = rs.getInt("id_proveedor");
@@ -127,22 +127,22 @@ public class ProveedoresServicio {
 
         ArrayList<Proveedor> proveedores = new ArrayList<>();
 
-        if (atributo == "Nombre") {
+        if (atributo.equals("Nombre")) {
             atributo = "nombre_proveedor";
         }
 
-        if (atributo == "Teléfono") {
+        if (atributo.equals("Teléfono")) {
             atributo = "telefono";
         }
         
-        if(atributo == "Correo")
+        if(atributo.equals("Correo"))
         {
             atributo = "email";
         }
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor WHERE LOWER(proveedor." + atributo + ") like ('%" + dato + "%');");
-//            ps.setObject(1,atributo);
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor WHERE LOWER(proveedor." + atributo + ") like (LOWER('%" + dato + "%'));");
+//            ps.setObject(1,atributo); //                    SELECT * FROM proveedor WHERE LOWER(proveedor.nombre_proveedor) like (LOWER('%distribuidora%'));
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

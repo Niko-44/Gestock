@@ -3,7 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/crist/OneDrive/Documentos/GitHub/Gestock/src/Persistencia/ConexionDB.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/Icon/icono.png</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/Interfaces/IControladorVenta.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/Interfaces/IControladorArticulo.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/Interfaces/IControladorEmpleado.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/servicios/IngresaServicio.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/Controladores/ControladorArticulo.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/Presentancion/Proveedor/MenuProveedor.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/servicios/ProveedoresServicio.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/Presentancion/Venta/MenuVenta.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/servicios/VentasServicios.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/servicios/ArticulosServicios.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/Presentancion/Articulo/MenuArticulo.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/servicios/FabricantesServicios.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/logica/Controladores/ControladorEmpleado.java</file>
+            <file>file:/C:/Users/Luciano/Documents/GitHub/Gestock/src/Presentancion/Venta/MenuLineaVenta.java</file>
         </group>
     </open-files>
 </project-private>
