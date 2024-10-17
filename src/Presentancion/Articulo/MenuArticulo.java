@@ -105,7 +105,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }
 
     public void cargarDatosEnTabla() {
-        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria", "Fabricante"};
+        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria", "Fabricante", "Proveedor"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -127,7 +127,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getFechaUpdateFormateada(),
                 articulos.getFechaCreadaFormateada(),
                 articulos.getCategoria().getNombre(),
-                articulos.getFabricante().getNombre()
+                articulos.getFabricante().getNombre(),
+                articulos.getProveedor().getNombre()
             };
             modeloTabla.addRow(fila);
 
@@ -575,9 +576,9 @@ public class MenuArticulo extends javax.swing.JPanel {
             if (skuText.isBlank()) {
                 throw new Exception("El SKU no puede estar vacío.");
             }
-            int sku;
+            long sku;
             try {
-                sku = Integer.parseInt(skuText);
+                sku = Long.parseLong(skuText);
                 if (sku <= 0) {
                     throw new Exception("El SKU debe ser un número positivo.");
                 }

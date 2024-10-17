@@ -37,7 +37,7 @@ public class FabricantesServicios {
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
 
-                Fabricante fabricante = new Fabricante(idFabricante, nombre, correro, telefono, updateDate, createDate);
+                Fabricante fabricante = new Fabricante(idFabricante, nombre, telefono, correro, updateDate, createDate);
                 fabricantes.add(fabricante);
             }
             rs.close();

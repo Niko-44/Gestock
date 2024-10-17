@@ -4,6 +4,7 @@
  */
 package logica.Interfaces;
 
+import java.io.InputStream;
 import logica.Clases.Empleado;
 import java.util.ArrayList;
 
@@ -11,7 +12,8 @@ public interface IControladorEmpleado {
 
     
     public abstract Empleado iniciarSesion(String nombreUsuario, String contraseña);
-    public abstract void modificaDatosEmpleado(Empleado empleado);
+    
+    public abstract void modificaDatosEmpleado(Empleado empleado, boolean mostrarDialogos);
     public abstract ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda);
     public abstract ArrayList<Empleado> listarEmpleado();
     

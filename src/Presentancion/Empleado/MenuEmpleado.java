@@ -526,8 +526,8 @@ public class MenuEmpleado extends javax.swing.JPanel {
                 throw new Exception("Debe seleccionar un rol.");
             }
 
-            Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol));
-            ICE.modificaDatosEmpleado(empleado);
+            Empleado empleado = new Empleado(id, nombre, apellido, cedula, nombre_usuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rol), null);
+            ICE.modificaDatosEmpleado(empleado, true);
 
             cargarDatosEnTabla();
 

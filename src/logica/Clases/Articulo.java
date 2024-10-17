@@ -11,7 +11,7 @@ import java.util.Date;
 public class Articulo {
 
     private int id;
-    private int sku;
+    private long sku;
     private String nombre;
     private String descripcion;
     private int stock;
@@ -21,12 +21,13 @@ public class Articulo {
     private Date updateDate;
     private Categoria categoria;
     private Fabricante fabricante;
+    private Proveedor proveedor;
     public Articulo() {
     }
 
     
     
-    public Articulo(int id, int sku, String nombre, String descripcion, int stock, float precio, float peso, Date createDate, Date updateDate,Categoria categoria) {
+    public Articulo(int id, long sku, String nombre, String descripcion, int stock, float precio, float peso, Date createDate, Date updateDate,Categoria categoria) {
         this.id = id;
         this.sku = sku;
         this.nombre = nombre;
@@ -58,7 +59,7 @@ public class Articulo {
         return precio;
     }
 
-    public int getSku() {
+    public long getSku() {
         return sku;
     }
 
@@ -94,7 +95,7 @@ public class Articulo {
         this.precio = precio;
     }
 
-    public void setSku(int sku) {
+    public void setSku(long sku) {
         this.sku = sku;
     }
 
@@ -125,6 +126,15 @@ public class Articulo {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+    
     
     
     public String getFechaUpdateFormateada() {

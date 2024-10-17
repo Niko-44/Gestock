@@ -5,7 +5,9 @@
 package logica.servicios;
 
 import Persistencia.ConexionDB;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +44,9 @@ public class EmpleadosServicios {
                 String contraseña = rs.getString("contraseña");
                 String rolEmpleado = rs.getString("rol");
 
-                Empleado empleado = new Empleado(idEmpleado, nombre, apellido, cedula, nombreUsuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rolEmpleado));
+                byte[] fotoPerfil = rs.getBytes("foto");
+
+                Empleado empleado = new Empleado(idEmpleado, nombre, apellido, cedula, nombreUsuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rolEmpleado), fotoPerfil);
                 empleados.add(empleado);
             }
             rs.close();
@@ -52,9 +56,9 @@ public class EmpleadosServicios {
         return empleados;
     }
 
-    public void modificaDatosEmpleado(Empleado empleado) {
+    public void modificaDatosEmpleado(Empleado empleado, boolean mostrarDialogos) {
         try {
-            PreparedStatement status = conexion.prepareStatement("UPDATE `empleado` SET `nombre` = ?, `apellido` = ?, `cedula` = ?, `nombre_usuario` = ?, `email` = ?, `contraseña` = ?, `rol` = ? WHERE `empleado`.`id_empleado` = ?;");
+            PreparedStatement status = conexion.prepareStatement("UPDATE `empleado` SET `nombre` = ?, `apellido` = ?, `cedula` = ?, `nombre_usuario` = ?, `email` = ?, `contraseña` = ?, `rol` = ?, `foto` = ?  WHERE `empleado`.`id_empleado` = ?;");
 
             // Nuevos valores para actualizar
             status.setObject(1, empleado.getNombre());
@@ -64,15 +68,24 @@ public class EmpleadosServicios {
             status.setObject(5, empleado.getEmail());
             status.setObject(6, empleado.getContraseña());
             status.setObject(7, empleado.getRol().toString());
-            status.setObject(8, empleado.getId());
+            status.setObject(9, empleado.getId());
+
+            if (empleado.getFotoPerfil() != null) {
+                status.setBytes(8, empleado.getFotoPerfil());
+            } else {
+                status.setNull(8, java.sql.Types.BLOB); // Si no hay foto, se establece como NULL
+            }
 
             int filasAfectadas = status.executeUpdate();
 
-            if (filasAfectadas > 0) {
-                JOptionPane.showMessageDialog(null, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "El empleado no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            if (mostrarDialogos) {
+                if (filasAfectadas > 0) {
+                    JOptionPane.showMessageDialog(null, "El empleado se ha actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "El empleado no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
+
         } catch (SQLException e) {
             // Mostrar el error en una ventana de diálogo
             System.err.println("Error al actualizar el empleado: " + e.getMessage());
@@ -144,7 +157,9 @@ public class EmpleadosServicios {
                 String contraseña = rs.getString("contraseña");
                 String rolEmpleado = rs.getString("rol");
 
-                Empleado empleado = new Empleado(idEmpleado, nombre, apellido, cedula, nombreUsuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rolEmpleado));
+                byte[] fotoPerfil = rs.getBytes("foto");
+
+                Empleado empleado = new Empleado(idEmpleado, nombre, apellido, cedula, nombreUsuario, email, contraseña, Empleado.ROLEMPLEADO.valueOf(rolEmpleado), fotoPerfil);
                 empleados.add(empleado);
             }
             rs.close();
@@ -159,8 +174,8 @@ public class EmpleadosServicios {
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ? AND contraseña = ?");
 
-            ps.setString(1, username); 
-            ps.setString(2, password); 
+            ps.setString(1, username);
+            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 

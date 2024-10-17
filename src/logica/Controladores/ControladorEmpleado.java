@@ -4,6 +4,7 @@
  */
 package logica.Controladores;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -36,8 +37,8 @@ public class ControladorEmpleado implements IControladorEmpleado {
 
     }
 
-    public void modificaDatosEmpleado(Empleado empleado) {
-        servicioEmpleado.modificaDatosEmpleado(empleado);
+    public void modificaDatosEmpleado(Empleado empleado, boolean mostrarDialogos) {
+        servicioEmpleado.modificaDatosEmpleado(empleado, mostrarDialogos);
     }
 
     public ArrayList<Empleado> listarEmpleadoPorBusqueda(String busqueda) {

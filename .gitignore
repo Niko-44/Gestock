@@ -1,2 +1,7 @@
 /dist/
 /build/
+nbproject/project.properties
+mysql-connector-j-8.0.31.jar
+nbproject/private/private.properties
+nbproject/private/private.xml
+src/Persistencia/ConexionDB.java
