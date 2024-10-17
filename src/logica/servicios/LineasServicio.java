@@ -106,6 +106,9 @@ public class LineasServicio {
     public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo, int id_venta) {
         ArrayList<Linea> lineas = new ArrayList<>();
         String sql;
+        
+      
+
 
         try {
 

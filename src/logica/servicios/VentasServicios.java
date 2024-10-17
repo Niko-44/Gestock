@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -25,7 +27,7 @@ public class VentasServicios {
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc LIMIT 6;");
+            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc;");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
                 Empleado empleado = new Empleado();
@@ -113,21 +115,53 @@ public class VentasServicios {
         }
     }
 
-    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_venta) {
+    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_venta) throws ParseException {
         ArrayList<Venta> ventas = new ArrayList<>();
 
         try {
 
-            if (atributo.equals("Fecha")) {
-                atributo = "fecha_venta";
+            // Traducir atributo a la columna de la base de datos
+        if (atributo.equals("Fecha")) {
+            atributo = "fecha_venta";
+            
+            // Convertir la fecha ingresada por el usuario de formato dd/MM/yyyy a yyyy-MM-dd
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatoBaseDatos = new SimpleDateFormat("yyyy-MM-dd");
+            
+            try {
+                // Convertir la fecha ingresada al formato de la base de datos
+                Date fechaConvertida = formatoEntrada.parse(datoABuscar);
+                datoABuscar = formatoBaseDatos.format(fechaConvertida);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Si hay un error en la conversión, detener la búsqueda
+                return ventas;
             }
-
+        }
+            
+            if (atributo.equals("Estado")) {
+                atributo = "estado";
+            }
+            
+             if (atributo.equals("Empleado")) {
+                atributo = "id_empleado_fk";
+            }
+             
+            
+          
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
             }
+            
+            
 
             String sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
             if (atributo.equals("Empleado")) {
+
+                sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
+            }
+            
+              if (atributo.equals("id_empleado_fk")) {
 
                 sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
             }

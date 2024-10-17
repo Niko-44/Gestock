@@ -123,18 +123,21 @@ public class FabricantesServicios {
     public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
         
-        if (nombre == "Nombre") {
+       if (nombre.equals("Nombre")) {
             nombre = "nombre_fabricante";
         }
 
+        if (nombre.equals("Teléfono") || nombre.equals("Telefono") ) {
+            nombre = "telefono";
+        }
         
-        if(nombre == "Email")
+        if(nombre.equals("Email"))
         {
             nombre = "email";
         }
         
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + datoABuscar + ") like LOWER('%" + nombre + "%');");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + nombre + ") like LOWER('%" + datoABuscar + "%');");
 //            ps.setObject(1,atributo);
 
             ResultSet rs = ps.executeQuery();
