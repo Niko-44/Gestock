@@ -531,7 +531,7 @@ public class MenuFabricante extends javax.swing.JFrame {
         if (datoBuscado == "") {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else
-            cargarDatosBuscados(ICA.buscarFabricante(datoBuscado, atributo));
+            cargarDatosBuscados(ICA.buscarFabricante(atributo, datoBuscado));
     }//GEN-LAST:event_btn_BuscarActionPerformed
 
     private void btn_RefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RefrescarActionPerformed

@@ -55,7 +55,7 @@ public interface IControladorArticulo {
 
     public abstract ArrayList<Articulo> buscarArticulo(String nombre, String dato);  
     
-    public abstract ArrayList<Fabricante> buscarFabricante(String nombre, String dato);  
+    public abstract ArrayList<Fabricante> buscarFabricante(String atributo, String dato);  
     
     
     public abstract ArrayList<Articulo> listarArticulos();  

@@ -67,10 +67,10 @@ public class FabricantesServicios {
                 JOptionPane.showMessageDialog(null, "El fabricante no se ha actualizado correctamente.", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (SQLException e) {
-        // Mostrar el error en una ventana de diálogo
-        System.err.println("Error al actualizar el fabricante: " + e.getMessage());
-        JOptionPane.showMessageDialog(null, "Error al actualizar el fabricante:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+            // Mostrar el error en una ventana de diálogo
+            System.err.println("Error al actualizar el fabricante: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el fabricante:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public boolean eliminarFabricante(int idFabricante) {
@@ -97,8 +97,6 @@ public class FabricantesServicios {
     public boolean agregarFabricante(Fabricante fabricante) throws Exception {
         try {
 
-           
-
             PreparedStatement status = conexion.prepareStatement("INSERT INTO `fabricante` (`id_fabricante`, `nombre_fabricante`, `telefono`, `email`, `update_date`, `create_date`) VALUES (?, ?, ?, ?, ?, ?);");
             status.setObject(1, null);
             status.setObject(2, fabricante.getNombre());
@@ -118,24 +116,19 @@ public class FabricantesServicios {
         }
     }
 
-   
-
-    public ArrayList<Fabricante> buscarFabricante(String nombre, String datoABuscar) {
+    public ArrayList<Fabricante> buscarFabricante(String atributo, String datoABuscar) {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
-        
-        if (nombre == "Nombre") {
-            nombre = "nombre_fabricante";
+
+        if (atributo.equals("Nombre")) {
+            atributo = "nombre_fabricante";
         }
 
-        
-        if(nombre == "Email")
-        {
-            nombre = "email";
+        if (atributo.equals("Email")) {
+            atributo = "email";
         }
-        
+
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + datoABuscar + ") like LOWER('%" + nombre + "%');");
-//            ps.setObject(1,atributo);
+            PreparedStatement ps = conexion.prepareStatement("SELECT * from fabricante Where LOWER(FABRICANTE." + atributo + ") like LOWER('%" + datoABuscar + "%');");
 
             ResultSet rs = ps.executeQuery();
 

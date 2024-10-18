@@ -172,8 +172,8 @@ public class ControladorArticulo implements IControladorArticulo {
         
     }  
     
-    public ArrayList<Fabricante> buscarFabricante(String nombre, String dato){
-       return servicioFabricante.buscarFabricante(nombre, dato);
+    public ArrayList<Fabricante> buscarFabricante(String atributo, String dato){
+       return servicioFabricante.buscarFabricante(atributo, dato);
        
     }
    
