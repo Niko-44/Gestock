@@ -113,8 +113,9 @@ public class VentasServicios {
         }
     }
 
-    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_venta) {
+    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_empleado) {
         ArrayList<Venta> ventas = new ArrayList<>();
+        String sql;
 
         try {
 
@@ -125,13 +126,15 @@ public class VentasServicios {
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
             }
+            if (id_empleado != 0) {
+                sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') and EMPLEADO.id_empleado = " + id_empleado + " order by fecha_venta desc";
+            } else {
+                sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
+                if (atributo.equals("Empleado")) {
 
-            String sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
-            if (atributo.equals("Empleado")) {
-
-                sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
+                    sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
+                }
             }
-
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
@@ -156,7 +159,6 @@ public class VentasServicios {
             ex.printStackTrace();
         }
         return ventas;
-
     }
 
     public Venta getUltimaVenta() {
