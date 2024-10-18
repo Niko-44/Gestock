@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import logica.Clases.Articulo;
 import logica.Clases.Empleado;
+import logica.Clases.Linea;
 import logica.Clases.Venta;
 
 public class VentasServicios {
@@ -113,51 +115,67 @@ public class VentasServicios {
         }
     }
 
-    public ArrayList<Venta> buscarVenta(String datoABuscar, String atributo, int id_venta) {
-        ArrayList<Venta> ventas = new ArrayList<>();
+   public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo, int id_venta) {
+    ArrayList<Linea> lineas = new ArrayList<>();
+    String sql;
 
-        try {
+    try {
+        switch (atributo) {
+            case "Precio":
+                atributo = "precio_venta";
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%' and linea.id_venta_fk = " + id_venta;
+                break;
 
-            if (atributo.equals("Fecha")) {
-                atributo = "fecha_venta";
-            }
+            case "Cantidad":
+                atributo = "cantidad_vendida";
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE linea." + atributo + "=" + datoABuscar + " and linea.id_venta_fk = " + id_venta;
+                break;
 
-            if (atributo.equals("ID")) {
-                atributo = "id_venta";
-            }
+            case "Articulo":
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE LOWER(articulo.nombre) LIKE LOWER('%" + datoABuscar + "%') and linea.id_venta_fk = " + id_venta;
+                break;
 
-            String sql = "SELECT VENTA.*, Empleado.nombre AS nombre_empleado, Empleado.apellido, Empleado.nombre_usuario, Empleado.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado On empleado.id_empleado = venta.id_empleado_fk WHERE LOWER(venta." + atributo + ") like LOWER('%" + datoABuscar + "%') order by fecha_venta desc";
-            if (atributo.equals("Empleado")) {
-
-                sql = "SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM `venta` INNER JOIN empleado as E On E.id_empleado = venta.id_empleado_fk WHERE LOWER(CONCAT(E.id_empleado, ' ', E.nombre, ' ', E.apellido, ' ', E.nombre_usuario)) like LOWER('%" + datoABuscar + "%')order by fecha_venta desc";
-            }
-
-            PreparedStatement ps = conexion.prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Empleado empleado = new Empleado();
-                empleado.setId(rs.getInt("id_empleado"));
-                empleado.setNombre(rs.getString("nombre_empleado"));
-                empleado.setNombreUsuario(rs.getString("nombre_usuario"));
-                empleado.setApellido(rs.getString("apellido"));
-
-                int id = rs.getInt("id_venta");
-                Date fecha_venta = rs.getDate("fecha_venta");
-                String estado = rs.getString("estado");
-
-                Venta venta = new Venta(id, fecha_venta, Venta.EstadoVenta.valueOf(estado), empleado);
-                venta.setTotal(rs.getString("total_venta"));
-                ventas.add(venta);
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            default:
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE LOWER(linea." + atributo + ") LIKE LOWER('%" + datoABuscar + "%') and linea.id_venta_fk = " + id_venta;
         }
-        return ventas;
 
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Articulo articulo = new Articulo();
+            articulo.setId(rs.getInt("id_articulo_fk"));
+            articulo.setNombre(rs.getString("nombre"));
+            articulo.setSku(rs.getLong("sku")); // Asignar el SKU
+            articulo.setDescripcion(rs.getString("descripcion")); // Asignar la descripción
+
+            int idLinea = rs.getInt("id_linea");
+            int cantidad = rs.getInt("cantidad_vendida");
+            float precio_venta = rs.getFloat("precio_venta");
+
+            Linea linea = new Linea();
+            linea.setIdLinea(idLinea);
+            linea.setCantidad(cantidad);
+            linea.setPrecioVenta(precio_venta);
+            linea.setArticulo(articulo);
+
+            lineas.add(linea);
+        }
+        rs.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return lineas;
+}
+
 
     public Venta getUltimaVenta() {
         Venta venta = null;
