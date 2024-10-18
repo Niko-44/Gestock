@@ -103,59 +103,67 @@ public class LineasServicio {
         return resultado;
     }
 
-    public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo, int id_venta) {
-        ArrayList<Linea> lineas = new ArrayList<>();
-        String sql;
+   public ArrayList<Linea> buscarLinea(String datoABuscar, String atributo, int id_venta) {
+    ArrayList<Linea> lineas = new ArrayList<>();
+    String sql;
 
-        try {
+    try {
+        switch (atributo) {
+            case "Precio":
+                atributo = "precio_venta";
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%' and linea.id_venta_fk = " + id_venta;
+                break;
 
-            switch (atributo) {
-                case "Precio":
-                    atributo = "precio_venta";
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + " LIKE '%" + datoABuscar + "%' and linea.id_venta_fk = " + id_venta;
-                    break;
+            case "Cantidad":
+                atributo = "cantidad_vendida";
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE linea." + atributo + "=" + datoABuscar + " and linea.id_venta_fk = " + id_venta;
+                break;
 
-                case "Cantidad":
-                    atributo = "cantidad_vendida";
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE linea." + atributo + "=" + datoABuscar + " and linea.id_venta_fk = " + id_venta;
-                    break;
+            case "Articulo":
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE LOWER(articulo.nombre) LIKE LOWER('%" + datoABuscar + "%') and linea.id_venta_fk = " + id_venta;
+                break;
 
-                case "Articulo":
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE LOWER(articulo.nombre) LIKE LOWER('%" + datoABuscar + "%')" + " and linea.id_venta_fk = " + id_venta;
-                    break;
-
-                default:
-                    sql = "SELECT * FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo WHERE LOWER(linea." + atributo + ") LIKE LOWER('%" + datoABuscar + "%')" + " and linea.id_venta_fk = " + id_venta;
-            }
-
-            PreparedStatement ps = conexion.prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Articulo articulo = new Articulo();
-                articulo.setId(rs.getInt("id_articulo_fk"));
-                articulo.setNombre(rs.getString("nombre"));
-
-                int idLinea = rs.getInt("id_linea");
-                int cantidad = rs.getInt("cantidad_vendida");
-                float precio_venta = rs.getFloat("precio_venta");
-
-                Linea linea = new Linea();
-                linea.setIdLinea(idLinea);
-                linea.setCantidad(cantidad);
-                linea.setPrecioVenta(precio_venta);
-                linea.setArticulo(articulo);
-
-                lineas.add(linea);
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            default:
+                sql = "SELECT linea.*, articulo.nombre, articulo.sku, articulo.descripcion " +
+                      "FROM linea JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                      "WHERE LOWER(linea." + atributo + ") LIKE LOWER('%" + datoABuscar + "%') and linea.id_venta_fk = " + id_venta;
         }
-        return lineas;
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Articulo articulo = new Articulo();
+            articulo.setId(rs.getInt("id_articulo_fk"));
+            articulo.setNombre(rs.getString("nombre"));
+            articulo.setSku(rs.getLong("sku")); // Asignar el SKU
+            articulo.setDescripcion(rs.getString("descripcion")); // Asignar la descripción
+
+            int idLinea = rs.getInt("id_linea");
+            int cantidad = rs.getInt("cantidad_vendida");
+            float precio_venta = rs.getFloat("precio_venta");
+
+            Linea linea = new Linea();
+            linea.setIdLinea(idLinea);
+            linea.setCantidad(cantidad);
+            linea.setPrecioVenta(precio_venta);
+            linea.setArticulo(articulo);
+
+            lineas.add(linea);
+        }
+        rs.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return lineas;
+}
+
     
     public boolean agregarLinea(Linea linea) {
         try {
