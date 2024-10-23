@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -119,9 +121,24 @@ public class VentasServicios {
 
         try {
 
-            if (atributo.equals("Fecha")) {
-                atributo = "fecha_venta";
+                  // Traducir atributo a la columna de la base de datos
+        if (atributo.equals("Fecha")) {
+            atributo = "fecha_venta";
+            
+            // Convertir la fecha ingresada por el usuario de formato dd/MM/yyyy a yyyy-MM-dd
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatoBaseDatos = new SimpleDateFormat("yyyy-MM-dd");
+            
+            try {
+                // Convertir la fecha ingresada al formato de la base de datos
+                Date fechaConvertida = formatoEntrada.parse(datoABuscar);
+                datoABuscar = formatoBaseDatos.format(fechaConvertida);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Si hay un error en la conversión, detener la búsqueda
+                return ventas;
             }
+        }
 
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
