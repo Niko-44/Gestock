@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import logica.Clases.Empleado;
 import logica.Clases.Fabricante;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -169,18 +170,17 @@ public class EmpleadosServicios {
         return empleados;
     }
 
-    public boolean validateCredential(String username, String password) {
-        boolean valid = false;
-        try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ? AND contraseña = ?");
+    public String hashedPassword(String username){
+            String hashedPassword = null;
+              try {
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ?");
 
             ps.setString(1, username);
-            ps.setString(2, password);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                valid = true;
+                hashedPassword = rs.getString("contraseña");
             }
 
             rs.close();
@@ -188,6 +188,15 @@ public class EmpleadosServicios {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+        return hashedPassword;
+
+    }
+        
+    
+    
+    public boolean validateCredential(String username, String password) {
+        boolean valid = BCrypt.checkpw(password, hashedPassword(username));
 
         return valid;
 
