@@ -662,7 +662,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setId(Cmb_id);
 
-            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria);
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria, null); //El null es por la imagen, que por el momento no se modifica
             ICA.modificaDatosArticulo(articulo);
 
            
