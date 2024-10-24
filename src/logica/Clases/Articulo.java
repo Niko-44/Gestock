@@ -7,7 +7,6 @@ package logica.Clases;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class Articulo {
 
     private int id;
@@ -22,12 +21,13 @@ public class Articulo {
     private Categoria categoria;
     private Fabricante fabricante;
     private Proveedor proveedor;
+
+    private byte[] fotoProducto; // Campo para la imagen de perfil
+
     public Articulo() {
     }
 
-    
-    
-    public Articulo(int id, long sku, String nombre, String descripcion, int stock, float precio, float peso, Date createDate, Date updateDate,Categoria categoria) {
+    public Articulo(int id, long sku, String nombre, String descripcion, int stock, float precio, float peso, Date createDate, Date updateDate, Categoria categoria, byte[] fotoProducto) {
         this.id = id;
         this.sku = sku;
         this.nombre = nombre;
@@ -37,8 +37,19 @@ public class Articulo {
         this.peso = peso;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.categoria=categoria;
+        this.categoria = categoria;
+        
+        this.fotoProducto = fotoProducto; // Asignar el campo
     }
+
+    public byte[] getFotoProducto() {
+        return fotoProducto;
+    }
+
+    public void setFotoProducto(byte[] fotoProducto) {
+        this.fotoProducto = fotoProducto;
+    }
+
     public int getId() {
         return id;
     }
@@ -134,16 +145,15 @@ public class Articulo {
     public void setProveedor(Proveedor proveedor) {
         this.proveedor = proveedor;
     }
-    
-    
-    
+
     public String getFechaUpdateFormateada() {
         SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
         return formateador.format(updateDate);
     }
+
     public String getFechaCreadaFormateada() {
         SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
         return formateador.format(createDate);
     }
-    
+
 }

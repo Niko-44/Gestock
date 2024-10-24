@@ -112,8 +112,10 @@ public class ArticulosServicios {
                 float peso = rs.getFloat("peso");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
+                
+                byte[] fotoProducto = rs.getBytes("foto");
 
-                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
+                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria, fotoProducto);
                 articulo.setFabricante(fabricante);
                 articulo.setProveedor(proveedor);
                 articulos.add(articulo);
@@ -198,8 +200,10 @@ public class ArticulosServicios {
                 float peso = rs.getFloat("peso");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
+                
+                byte[] fotoProducto = rs.getBytes("foto");
 
-                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria);
+                Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria, fotoProducto);
                 articulo.setFabricante(fabricante);
                 articulo.setProveedor(proveedor);
                 articulos.add(articulo);
