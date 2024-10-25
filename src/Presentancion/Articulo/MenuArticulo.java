@@ -738,7 +738,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             nuevoArticulo.setCategoria(nuevaCategoria);
             nuevoArticulo.setNombre(txt_nombre.getText());
             nuevoArticulo.setDescripcion(txt_descripcion.getText());
-            nuevoArticulo.setSku(Integer.parseInt(txt_sku.getText()));
+            nuevoArticulo.setSku(Long.parseLong(txt_sku.getText()));
             nuevoArticulo.setStock(Integer.parseInt(txt_stock.getText()));
             nuevoArticulo.setPrecio(Float.parseFloat(txt_precio.getText()));
             nuevoArticulo.setPeso(Float.parseFloat(txt_peso.getText()));
