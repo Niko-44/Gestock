@@ -5,6 +5,7 @@
 package logica.Controladores;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -49,6 +50,10 @@ public class ControladorVenta implements IControladorVenta {
 
     public void agregarArticuloCarrito() {
 
+    }
+    
+    public List<Object[]> getMasVendido(){
+        return ventasServicio.getMasVendido();
     }
     
     public Venta getUltimaVenta(){

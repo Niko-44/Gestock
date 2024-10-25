@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import logica.Clases.Empleado;
 import logica.Clases.Venta;
@@ -121,24 +122,24 @@ public class VentasServicios {
 
         try {
 
-                  // Traducir atributo a la columna de la base de datos
-        if (atributo.equals("Fecha")) {
-            atributo = "fecha_venta";
-            
-            // Convertir la fecha ingresada por el usuario de formato dd/MM/yyyy a yyyy-MM-dd
-            SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat formatoBaseDatos = new SimpleDateFormat("yyyy-MM-dd");
-            
-            try {
-                // Convertir la fecha ingresada al formato de la base de datos
-                Date fechaConvertida = formatoEntrada.parse(datoABuscar);
-                datoABuscar = formatoBaseDatos.format(fechaConvertida);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                // Si hay un error en la conversión, detener la búsqueda
-                return ventas;
+            // Traducir atributo a la columna de la base de datos
+            if (atributo.equals("Fecha")) {
+                atributo = "fecha_venta";
+
+                // Convertir la fecha ingresada por el usuario de formato dd/MM/yyyy a yyyy-MM-dd
+                SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formatoBaseDatos = new SimpleDateFormat("yyyy-MM-dd");
+
+                try {
+                    // Convertir la fecha ingresada al formato de la base de datos
+                    Date fechaConvertida = formatoEntrada.parse(datoABuscar);
+                    datoABuscar = formatoBaseDatos.format(fechaConvertida);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    // Si hay un error en la conversión, detener la búsqueda
+                    return ventas;
+                }
             }
-        }
 
             if (atributo.equals("ID")) {
                 atributo = "id_venta";
@@ -208,6 +209,32 @@ public class VentasServicios {
             ex.printStackTrace();
         }
         return venta;
+    }
+
+    public List<Object[]> getMasVendido() {
+        List<Object[]> resultados = new ArrayList<>();
+
+        try {
+            PreparedStatement status = conexion.prepareStatement(
+                "SELECT articulo.nombre, SUM(cantidad_vendida) AS cant_venta " +
+                "FROM linea " +
+                "INNER JOIN articulo ON linea.id_articulo_fk = articulo.id_articulo " +
+                "GROUP BY id_articulo_fk " +
+                "ORDER BY cant_venta DESC " +
+                "LIMIT 5;"
+            );
+
+            ResultSet rs = status.executeQuery();
+            while (rs.next()) {
+                String nombreArticulo = rs.getString("nombre");
+                int cantidadVendida = rs.getInt("cant_venta");
+                resultados.add(new Object[]{nombreArticulo, cantidadVendida});
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return resultados;
     }
 
 }

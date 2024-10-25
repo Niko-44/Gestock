@@ -170,9 +170,9 @@ public class EmpleadosServicios {
         return empleados;
     }
 
-    public String hashedPassword(String username){
-            String hashedPassword = null;
-              try {
+    public String hashedPassword(String username) {
+        String hashedPassword = null;
+        try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ?");
 
             ps.setString(1, username);
@@ -181,25 +181,27 @@ public class EmpleadosServicios {
 
             if (rs.next()) {
                 hashedPassword = rs.getString("contraseña");
+                System.out.println("Hash recuperado para el usuario " + username + ": " + hashedPassword); // Verifica el valor del hash
             }
 
             rs.close();
-
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
         return hashedPassword;
-
     }
-        
-    
-    
+
     public boolean validateCredential(String username, String password) {
-        boolean valid = BCrypt.checkpw(password, hashedPassword(username));
+        String storedPassword = hashedPassword(username);
 
-        return valid;
+        if (storedPassword == null || storedPassword.isEmpty()) {
+            System.out.println("No se encontró una contraseña válida para el usuario: " + username);
+            return false;
+        }
 
+        // Comparación directa de las contraseñas sin BCrypt
+        return storedPassword.equals(password);
     }
 
 }

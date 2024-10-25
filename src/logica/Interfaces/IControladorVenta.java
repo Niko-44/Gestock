@@ -6,6 +6,7 @@ package logica.Interfaces;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import logica.Clases.Articulo;
 import logica.Clases.Linea;
 import logica.Clases.Venta;
@@ -20,6 +21,8 @@ public interface IControladorVenta {
     public abstract Venta getUltimaVenta();
     
     public abstract void confirmarCompra();
+    
+    public abstract List<Object[]> getMasVendido();
 
     public abstract void agregarArticuloCarrito();
 
