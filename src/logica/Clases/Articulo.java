@@ -22,7 +22,7 @@ public class Articulo {
     private Fabricante fabricante;
     private Proveedor proveedor;
 
-    private byte[] fotoProducto; // Campo para la imagen de perfil
+    private byte[] fotoProducto; // Campo para la imagen del producto
 
     public Articulo() {
     }

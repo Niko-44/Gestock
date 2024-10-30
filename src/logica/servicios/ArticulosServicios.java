@@ -17,14 +17,13 @@ import logica.Clases.Categoria;
 import logica.Clases.Fabricante;
 import logica.Clases.Proveedor;
 
-
 public class ArticulosServicios {
 
     private Connection conexion = new ConexionDB().getConexion();
 
     public void modificaDatosArticulo(Articulo articulo) {
         try {
-            PreparedStatement status = conexion.prepareStatement("UPDATE `articulo` SET `sku` = ?, `nombre` = ?, `descripcion` = ?, `stock` = ?, `precio` = ?, `peso` = ?, `update_date` = ?, `create_date` = ?, `id_categoria_fk`= ? WHERE `articulo`.`id_articulo` = ?;");
+            PreparedStatement status = conexion.prepareStatement("UPDATE `articulo` SET `sku` = ?, `nombre` = ?, `descripcion` = ?, `stock` = ?, `precio` = ?, `peso` = ?, `foto` = ? , `update_date` = ?, `create_date` = ?, `id_categoria_fk`= ? WHERE `articulo`.`id_articulo` = ?;");
 
             // Nuevos valores para actualizar
             status.setObject(1, articulo.getSku());
@@ -33,10 +32,11 @@ public class ArticulosServicios {
             status.setObject(4, articulo.getStock());
             status.setObject(5, articulo.getPrecio());
             status.setObject(6, articulo.getPeso());
-            status.setObject(7, articulo.getUpdateDate());
-            status.setObject(8, articulo.getCreateDate());
-            status.setObject(9, articulo.getCategoria().getId());
-            status.setObject(10, articulo.getId());
+            status.setObject(7, articulo.getFotoProducto());
+            status.setObject(8, articulo.getUpdateDate());
+            status.setObject(9, articulo.getCreateDate());
+            status.setObject(10, articulo.getCategoria().getId());
+            status.setObject(11, articulo.getId());
 
             int filasAfectadas = status.executeUpdate();
 
@@ -54,9 +54,7 @@ public class ArticulosServicios {
     public boolean agregarArticulo(Articulo articulo) throws Exception {
         try {
 
-            
-
-            PreparedStatement status = conexion.prepareStatement("INSERT INTO `articulo` (`id_articulo`, `sku`, `nombre`, `descripcion`, `stock`, `precio`, `peso`, `update_date`, `create_date`, `id_categoria_fk`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `articulo` (`id_articulo`, `sku`, `nombre`, `descripcion`, `stock`, `precio`, `peso`, `foto`, `update_date`, `create_date`, `id_categoria_fk`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             status.setObject(1, null);
             status.setObject(2, articulo.getSku());
             status.setObject(3, articulo.getNombre());
@@ -64,9 +62,10 @@ public class ArticulosServicios {
             status.setObject(5, articulo.getStock());
             status.setObject(6, articulo.getPrecio());
             status.setObject(7, articulo.getPeso());
-            status.setObject(8, articulo.getUpdateDate());
-            status.setObject(9, articulo.getCreateDate());
-            status.setObject(10, articulo.getCategoria().getId());
+            status.setObject(8, articulo.getFotoProducto());
+            status.setObject(9, articulo.getUpdateDate());
+            status.setObject(10, articulo.getCreateDate());
+            status.setObject(11, articulo.getCategoria().getId());
 
             int rs = status.executeUpdate();
 
@@ -74,25 +73,23 @@ public class ArticulosServicios {
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al agregar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            
+
         }
         return false;
     }
-
-   
 
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n" +
-                                                            "	(SELECT F.nombre_fabricante FROM fabricante as F \n" +
-                                                            "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n" +
-                                                            "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n" +
-                                                            "	(SELECT P.nombre_proveedor FROM proveedor AS P\n" +
-                                                            "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n" +
-                                                            "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n" +
-                                                            "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
+            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n"
+                    + "	(SELECT F.nombre_fabricante FROM fabricante as F \n"
+                    + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
+                    + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
+                    + "	(SELECT P.nombre_proveedor FROM proveedor AS P\n"
+                    + "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n"
+                    + "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n"
+                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Fabricante fabricante = new Fabricante();
@@ -112,7 +109,7 @@ public class ArticulosServicios {
                 float peso = rs.getFloat("peso");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
-                
+
                 byte[] fotoProducto = rs.getBytes("foto");
 
                 Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria, fotoProducto);
@@ -150,7 +147,7 @@ public class ArticulosServicios {
 
     public ArrayList<Articulo> BuscarArticulo(String datoABuscar, String atributo) {
         ArrayList<Articulo> articulos = new ArrayList<>();
-        
+
         if (atributo == "Nombre") {
             atributo = "nombre";
         }
@@ -158,21 +155,20 @@ public class ArticulosServicios {
         if (atributo == "Descripcion") {
             atributo = "descripcion";
         }
-        
-        if(atributo == "SKU")
-        {
+
+        if (atributo == "SKU") {
             atributo = "sku";
         }
 
         try {
-            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n" +
-                                                            "	(SELECT F.nombre_fabricante FROM fabricante as F \n" +
-                                                            "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n" +
-                                                            "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n" +
-                                                            "	(SELECT P.nombre_proveedor FROM proveedor AS P\n" +
-                                                            "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n" +
-                                                            "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n" +
-                                                            "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
+            String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n"
+                    + "	(SELECT F.nombre_fabricante FROM fabricante as F \n"
+                    + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
+                    + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
+                    + "	(SELECT P.nombre_proveedor FROM proveedor AS P\n"
+                    + "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n"
+                    + "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n"
+                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
 
             if (atributo.equals("SKU")) {
                 sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
@@ -190,7 +186,7 @@ public class ArticulosServicios {
                 Categoria categoria = new Categoria();
                 categoria.setId(rs.getInt("id_categoria_fk"));
                 categoria.setNombre(rs.getString("nombre_categoria"));
-            
+
                 int idArticulo = rs.getInt("id_articulo");
                 long sku = rs.getLong("sku");
                 String nombre = rs.getString("nombre");
@@ -200,7 +196,7 @@ public class ArticulosServicios {
                 float peso = rs.getFloat("peso");
                 Date updateDate = rs.getDate("update_date");
                 Date createDate = rs.getDate("create_date");
-                
+
                 byte[] fotoProducto = rs.getBytes("foto");
 
                 Articulo articulo = new Articulo(idArticulo, sku, nombre, descripcion, stock, precio, peso, updateDate, createDate, categoria, fotoProducto);

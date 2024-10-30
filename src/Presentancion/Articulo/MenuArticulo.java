@@ -4,6 +4,9 @@
  */
 package Presentancion.Articulo;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +15,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -42,13 +47,15 @@ public class MenuArticulo extends javax.swing.JPanel {
     ArrayList<Integer> id_categoria = new ArrayList<>();
     //ArrayList<Integer> cmbCategoria_id = new ArrayList<>();
 
+    JFileChooser imageChooser = new JFileChooser();
+    private byte[] fotoProducto;
+
     public MenuArticulo() {
         initComponents();
 
         Date fechaactual = new Date();
         String fechaFormateada = formatoFecha.format(fechaactual);
 
-       
         this.ICA = fabrica.getIControladorArticulo();
 
         cargarDatosEnTabla();
@@ -80,16 +87,36 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_stock.setText(stock);
                     txt_precio.setText(precio);
                     txt_peso.setText(peso);
-                    cmb_id_categoria.setSelectedItem(categoria);
                     
+                    lblImageName.setText(obtenerFotoProducto(id));
+                    
+                    cmb_id_categoria.setSelectedItem(categoria);
+
                     btn_Agregar.setEnabled(false);
                     btn_Modificar.setEnabled(true);
                     btn_Eliminar.setEnabled(true);
-                    
+
                 }
             }
         });
 
+    }
+    
+    private String obtenerFotoProducto(String idArticulo)
+    {
+        ArrayList<Articulo> articulos = ICA.obtenerArticulos();
+        
+        for (Articulo articulo : articulos) {
+            if (String.valueOf(articulo.getId()).equals(idArticulo))
+            {
+                if (articulo.getFotoProducto() != null)
+                {
+                    return "Este articulo tiene foto asignada";
+                }
+            }
+        }
+        
+        return "Sin foto asignada";
     }
 
     public void cargarDatosCategoria() {
@@ -178,6 +205,8 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Agregar = new javax.swing.JButton();
         btn_Eliminar = new javax.swing.JButton();
         btn_Modificar = new javax.swing.JButton();
+        lblImageName = new javax.swing.JLabel();
+        btnCargarFoto = new javax.swing.JButton();
         btn_categoria = new javax.swing.JButton();
         btn_Fabricante = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
@@ -358,13 +387,13 @@ public class MenuArticulo extends javax.swing.JPanel {
         jLabel1.setText("Categoria");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(jLabel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
         jPanel4.add(cmb_id_categoria, gridBagConstraints);
@@ -423,6 +452,24 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.gridy = 20;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(jPanel1, gridBagConstraints);
+
+        lblImageName.setText("foto");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(lblImageName, gridBagConstraints);
+
+        btnCargarFoto.setText("Cargar foto");
+        btnCargarFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarFotoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        jPanel4.add(btnCargarFoto, gridBagConstraints);
 
         btn_categoria.setText("Categorías");
         btn_categoria.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -645,7 +692,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
-             Date fechaActual = new Date();
+            Date fechaActual = new Date();
             String fechaCreadaText = formato.format(fechaActual);
             Date create_date;
             try {
@@ -662,10 +709,9 @@ public class MenuArticulo extends javax.swing.JPanel {
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setId(Cmb_id);
 
-            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria, null); //El null es por la imagen, que por el momento no se modifica
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria, fotoProducto); 
             ICA.modificaDatosArticulo(articulo);
 
-           
             cargarDatosEnTabla();
 
             txt_id.setText("");
@@ -742,6 +788,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             nuevoArticulo.setStock(Integer.parseInt(txt_stock.getText()));
             nuevoArticulo.setPrecio(Float.parseFloat(txt_precio.getText()));
             nuevoArticulo.setPeso(Float.parseFloat(txt_peso.getText()));
+            nuevoArticulo.setFotoProducto(fotoProducto);
             nuevoArticulo.setUpdateDate(new Date());
             nuevoArticulo.setCreateDate(new Date());
 
@@ -817,7 +864,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_precio.setText("");
         txt_sku.setText("");
         txt_stock.setText("");
-        
+
         btn_Agregar.setEnabled(true);
         btn_Modificar.setEnabled(false);
         btn_Eliminar.setEnabled(false);
@@ -831,13 +878,45 @@ public class MenuArticulo extends javax.swing.JPanel {
         // TODO add your handling code here:
         String atributo = cmb_Atributo.getSelectedItem().toString();
         String datoBuscado = txt_Buscar.getText();
-        
+
         if (datoBuscado == "") {
             JOptionPane.showMessageDialog(this, "Debe ingresar dato a buscar.");
         } else {
             cargarDatosBuscados(ICA.buscarArticulo(datoBuscado, atributo));
         }
     }//GEN-LAST:event_txt_BuscarKeyPressed
+
+    private void btnCargarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarFotoActionPerformed
+        imageChooser.setMultiSelectionEnabled(false);
+
+        imageChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Imágenes PNG y JPEG", "png", "jpeg", "jpg"));
+
+        if (imageChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+            File fileSelected = imageChooser.getSelectedFile();
+            lblImageName.setText(fileSelected.toString());
+
+            try {
+                //Leer imagen como un BuffereadImage
+                BufferedImage bufferedImage = ImageIO.read(fileSelected);
+
+                //Convertir imagen a un arreglo de bytes
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                String extension = getFileExtension(fileSelected);
+                ImageIO.write(bufferedImage, extension, baos);
+                baos.flush();
+                fotoProducto = baos.toByteArray();
+                baos.close();
+
+                JOptionPane.showMessageDialog(this, "Imagen cargada exitosamente.");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al cargar la imagen: " + e.getMessage());
+
+            }
+
+        }
+    }//GEN-LAST:event_btnCargarFotoActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -870,8 +949,19 @@ public class MenuArticulo extends javax.swing.JPanel {
         });
     }
 
+    // Método auxiliar para obtener la extensión del archivo
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        try {
+            return name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+        } catch (Exception e) {
+            return ""; // Sin extensión
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCargarFoto;
     private javax.swing.JButton btn_Agregar;
     private javax.swing.JButton btn_Buscar;
     private javax.swing.JButton btn_Eliminar;
@@ -887,6 +977,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblImageName;
     private javax.swing.JLabel lbl_Articulo;
     private javax.swing.JLabel lbl_descripcion;
     private javax.swing.JLabel lbl_id;
