@@ -30,7 +30,7 @@ public class IngresaServicio {
     public ArrayList<Ingresa> getIngresa() {
         ArrayList<Ingresa> resultado = new ArrayList<>();
         try {
-            String query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor;";
+            String query = "SELECT I.id_ingresa,i.fecha_ingreso,i.cantidad,i.lote,i.precio_compra,p.nombre_proveedor,a.nombre AS nombre_articulo,p.id_proveedor,a.id_articulo FROM INGRESA I JOIN ARTICULO A ON I.id_articulo_fk = A.id_articulo JOIN PROVEEDOR P ON I.id_proveedor_fk = P.id_proveedor ORDER BY id_ingresa ASC;";
 
             PreparedStatement status = conexion.prepareStatement(query);
             ResultSet rs = status.executeQuery();

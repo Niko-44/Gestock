@@ -193,6 +193,12 @@ public class ControladorArticulo implements IControladorArticulo {
     public ArrayList<Categoria> listarFabricante() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
+    
+    
+    public void agregarFabrica(Articulo articulo)
+    {
+        servicioArticulo.agregarFabrica(articulo);
+    }
     
 }

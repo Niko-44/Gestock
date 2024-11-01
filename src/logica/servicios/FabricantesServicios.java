@@ -27,7 +27,7 @@ public class FabricantesServicios {
         ArrayList<Fabricante> fabricantes = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM fabricante LIMIT 6");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM fabricante");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idFabricante = rs.getInt("id_fabricante");

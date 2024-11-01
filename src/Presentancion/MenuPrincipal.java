@@ -345,6 +345,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         menuArticulo.cargarDatosCategoria();
         menuArticulo.cargarDatosEnTabla();
+        menuArticulo.cargarDatosFabricante();
 
         menuArticulo.setLocation(0, 0);
         jPanelContenido.setLayout(new BorderLayout()); // Asegúrate de tener BorderLayout.

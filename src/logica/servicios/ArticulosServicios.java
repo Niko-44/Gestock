@@ -68,7 +68,6 @@ public class ArticulosServicios {
             status.setObject(11, articulo.getCategoria().getId());
 
             int rs = status.executeUpdate();
-
             return true;
 
         } catch (SQLException ex) {
@@ -78,18 +77,59 @@ public class ArticulosServicios {
         return false;
     }
 
+    public int obtenerUltimoArticulo() {
+        try {
+
+            PreparedStatement status = conexion.prepareStatement("SELECT id_articulo FROM `articulo` ORDER BY id_articulo DESC LIMIT 1");
+            ResultSet rs = status.executeQuery();
+            int idArticulo = 0;
+            
+            while (rs.next())
+            {
+                idArticulo = rs.getInt("id_articulo");
+            }
+            
+            rs.close();
+            return idArticulo;
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return 0;
+    }
+
+    public void agregarFabrica(Articulo articulo) {
+        try {
+            int idArticulo = obtenerUltimoArticulo();
+
+            PreparedStatement status = conexion.prepareStatement("INSERT INTO `fabrica` (`id_fabrica`, `id_articulo_fk`, `id_fabricante_fk`) VALUES (?, ?, ?);");
+            status.setObject(1, null);
+            status.setObject(2, idArticulo);
+            status.setObject(3, articulo.getFabricante().getId());
+
+            int rs = status.executeUpdate();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el artículo:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
+
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n"
-                    + "	(SELECT F.nombre_fabricante FROM fabricante as F \n"
-                    + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
-                    + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
-                    + "	(SELECT P.nombre_proveedor FROM proveedor AS P\n"
-                    + "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n"
-                    + "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n"
-                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria;");
+            PreparedStatement ps = conexion.prepareStatement(
+                    "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, "
+                    + "(SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante AS F "
+                    + " JOIN FABRICA AS FA ON F.id_fabricante = FA.id_fabricante_fk "
+                    + " WHERE FA.id_articulo_fk = ARTICULO.id_articulo) AS nombre_fabricante, "
+                    + "(SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P "
+                    + " JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk "
+                    + " WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor "
+                    + "FROM ARTICULO "
+                    + "JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria LIMIT 10;");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Fabricante fabricante = new Fabricante();
@@ -162,10 +202,10 @@ public class ArticulosServicios {
 
         try {
             String sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n"
-                    + "	(SELECT F.nombre_fabricante FROM fabricante as F \n"
+                    + "	(SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante as F \n"
                     + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
                     + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
-                    + "	(SELECT P.nombre_proveedor FROM proveedor AS P\n"
+                    + "	(SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P\n"
                     + "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n"
                     + "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n"
                     + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";

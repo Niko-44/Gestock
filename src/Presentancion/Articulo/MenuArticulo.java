@@ -26,6 +26,7 @@ import logica.Interfaces.IControladorArticulo;
 
 import logica.Clases.Articulo;
 import logica.Clases.Categoria;
+import logica.Clases.Fabricante;
 
 import logica.Fabrica;
 
@@ -45,7 +46,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     MenuCategoria categoria = new MenuCategoria();
 
     ArrayList<Integer> id_categoria = new ArrayList<>();
-    //ArrayList<Integer> cmbCategoria_id = new ArrayList<>();
+    ArrayList<Integer> id_fabricante = new ArrayList<>();
 
     JFileChooser imageChooser = new JFileChooser();
     private byte[] fotoProducto;
@@ -60,6 +61,7 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         cargarDatosEnTabla();
         cargarDatosCategoria();
+        cargarDatosFabricante();
 
         UIManager.put("OptionPane.yesButtonText", "Sí");//poner el botón yes de la confirmaión en español
         UIManager.put("OptionPane.noButtonText", "No");//poner el botón no de la confirmaión en español
@@ -77,6 +79,7 @@ public class MenuArticulo extends javax.swing.JPanel {
                     String precio = tbl_Articulo.getValueAt(selectedRow, 5).toString();
                     String peso = tbl_Articulo.getValueAt(selectedRow, 6).toString();
                     String categoria = tbl_Articulo.getValueAt(selectedRow, 9).toString();
+                    String fabricante = tbl_Articulo.getValueAt(selectedRow, 10).toString();
 
                     // Asignar los valores a los JTextField
                     // Asignar los valores a los JTextField
@@ -87,10 +90,11 @@ public class MenuArticulo extends javax.swing.JPanel {
                     txt_stock.setText(stock);
                     txt_precio.setText(precio);
                     txt_peso.setText(peso);
-                    
+
                     lblImageName.setText(obtenerFotoProducto(id));
-                    
+
                     cmb_id_categoria.setSelectedItem(categoria);
+                    cmbFabricante.setSelectedItem(fabricante);
 
                     btn_Agregar.setEnabled(false);
                     btn_Modificar.setEnabled(true);
@@ -101,21 +105,18 @@ public class MenuArticulo extends javax.swing.JPanel {
         });
 
     }
-    
-    private String obtenerFotoProducto(String idArticulo)
-    {
+
+    private String obtenerFotoProducto(String idArticulo) {
         ArrayList<Articulo> articulos = ICA.obtenerArticulos();
-        
+
         for (Articulo articulo : articulos) {
-            if (String.valueOf(articulo.getId()).equals(idArticulo))
-            {
-                if (articulo.getFotoProducto() != null)
-                {
+            if (String.valueOf(articulo.getId()).equals(idArticulo)) {
+                if (articulo.getFotoProducto() != null) {
                     return "Este articulo tiene foto asignada";
                 }
             }
         }
-        
+
         return "Sin foto asignada";
     }
 
@@ -128,6 +129,18 @@ public class MenuArticulo extends javax.swing.JPanel {
 
             cmb_id_categoria.addItem(String.valueOf(item.getNombre()));
             id_categoria.add(item.getId());
+        }
+    }
+
+    public void cargarDatosFabricante() {
+        cmbFabricante.removeAllItems();
+
+        ArrayList<Fabricante> datosFabricante = ICA.obtenerFabricantes();
+
+        for (Fabricante item : datosFabricante) {
+
+            cmbFabricante.addItem(String.valueOf(item.getNombre()));
+            id_fabricante.add(item.getId());
         }
     }
 
@@ -180,13 +193,13 @@ public class MenuArticulo extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        txt_id = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Articulo = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         lbl_Articulo = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        lbl_id = new javax.swing.JLabel();
-        txt_id = new javax.swing.JTextField();
+        lbl_fabricante = new javax.swing.JLabel();
         lbl_sku = new javax.swing.JLabel();
         lbl_nombre = new javax.swing.JLabel();
         lbl_descripcion = new javax.swing.JLabel();
@@ -207,6 +220,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Modificar = new javax.swing.JButton();
         lblImageName = new javax.swing.JLabel();
         btnCargarFoto = new javax.swing.JButton();
+        cmbFabricante = new javax.swing.JComboBox<>();
         btn_categoria = new javax.swing.JButton();
         btn_Fabricante = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
@@ -214,6 +228,11 @@ public class MenuArticulo extends javax.swing.JPanel {
         btn_Refrescar = new javax.swing.JButton();
         btn_Limpiar = new javax.swing.JButton();
         txt_Buscar = new javax.swing.JTextField();
+
+        txt_id.setEditable(false);
+        txt_id.setForeground(new java.awt.Color(242, 242, 242));
+        txt_id.setActionCommand("txtArticuloID");
+        txt_id.setEnabled(false);
 
         setMaximumSize(getPreferredSize());
 
@@ -256,30 +275,19 @@ public class MenuArticulo extends javax.swing.JPanel {
         jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
-        lbl_id.setText("ID");
-        lbl_id.setToolTipText("");
+        lbl_fabricante.setText("Fabricante");
+        lbl_fabricante.setToolTipText("");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        jPanel4.add(lbl_id, gridBagConstraints);
-
-        txt_id.setEditable(false);
-        txt_id.setActionCommand("txtArticuloID");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
-        jPanel4.add(txt_id, gridBagConstraints);
+        jPanel4.add(lbl_fabricante, gridBagConstraints);
 
         lbl_sku.setText("Sku");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_sku, gridBagConstraints);
@@ -287,7 +295,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_nombre.setText("Nombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_nombre, gridBagConstraints);
@@ -295,7 +303,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_descripcion.setText("Descripcion");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_descripcion, gridBagConstraints);
@@ -303,7 +311,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_stock.setText("Stock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_stock, gridBagConstraints);
@@ -311,7 +319,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_precio.setText("Precio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_precio, gridBagConstraints);
@@ -319,7 +327,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         lbl_peso.setText("Peso");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(lbl_peso, gridBagConstraints);
@@ -327,7 +335,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_sku.setActionCommand("txtArticuloNombre");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -337,7 +345,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_nombre.setActionCommand("txtArticuloDesc");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -347,17 +355,19 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_descripcion.setActionCommand("txtArticuloStock");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
         jPanel4.add(txt_descripcion, gridBagConstraints);
 
+        txt_stock.setEditable(false);
+        txt_stock.setText("0");
         txt_stock.setActionCommand("txtArticuloPrecio");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -367,7 +377,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_precio.setActionCommand("txtArticuloPeso");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -377,7 +387,7 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_peso.setActionCommand("txtArticuloSku");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
@@ -387,13 +397,13 @@ public class MenuArticulo extends javax.swing.JPanel {
         jLabel1.setText("Categoria");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel4.add(jLabel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
         jPanel4.add(cmb_id_categoria, gridBagConstraints);
@@ -470,6 +480,12 @@ public class MenuArticulo extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 16;
         jPanel4.add(btnCargarFoto, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(cmbFabricante, gridBagConstraints);
 
         btn_categoria.setText("Categorías");
         btn_categoria.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -709,7 +725,7 @@ public class MenuArticulo extends javax.swing.JPanel {
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setId(Cmb_id);
 
-            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria, fotoProducto); 
+            Articulo articulo = new Articulo(id, sku, nombre, descripcion, stock, precio, peso, new Date(), create_date, nuevaCategoria, fotoProducto);
             ICA.modificaDatosArticulo(articulo);
 
             cargarDatosEnTabla();
@@ -774,10 +790,15 @@ public class MenuArticulo extends javax.swing.JPanel {
             String categoria = (String) cmb_id_categoria.getSelectedItem();
 
             int categoriaID = id_categoria.get(cmb_id_categoria.getSelectedIndex());
+            int fabricanteID = id_fabricante.get(cmbFabricante.getSelectedIndex());
 
             Categoria nuevaCategoria = new Categoria();
             nuevaCategoria.setId(categoriaID);
             nuevaCategoria.setNombre(cmb_id_categoria.getSelectedItem().toString());
+
+            Fabricante nuevoFabricante = new Fabricante();
+            nuevoFabricante.setId(fabricanteID);
+            nuevoFabricante.setNombre(cmbFabricante.getSelectedItem().toString());
 
             Articulo nuevoArticulo = new Articulo();
 
@@ -789,13 +810,15 @@ public class MenuArticulo extends javax.swing.JPanel {
             nuevoArticulo.setPrecio(Float.parseFloat(txt_precio.getText()));
             nuevoArticulo.setPeso(Float.parseFloat(txt_peso.getText()));
             nuevoArticulo.setFotoProducto(fotoProducto);
+            nuevoArticulo.setFabricante(nuevoFabricante);
             nuevoArticulo.setUpdateDate(new Date());
             nuevoArticulo.setCreateDate(new Date());
 
             if (ICA.agregarArticulo(nuevoArticulo) == true) {
                 JOptionPane.showMessageDialog(this, "El articulo se agrego correctamente");
-
+                ICA.agregarFabrica(nuevoArticulo);
                 cargarDatosEnTabla();
+                limpiarDatosIngresados();
             }
 
         } catch (Exception e) {
@@ -856,6 +879,10 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_RefrescarActionPerformed
 
     private void btn_LimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_LimpiarActionPerformed
+        limpiarDatosIngresados();
+    }//GEN-LAST:event_btn_LimpiarActionPerformed
+
+    private void limpiarDatosIngresados() {
         txt_descripcion.setText("");
         txt_id.setText("");
         txt_nombre.setText("");
@@ -863,12 +890,13 @@ public class MenuArticulo extends javax.swing.JPanel {
         txt_peso.setText("");
         txt_precio.setText("");
         txt_sku.setText("");
-        txt_stock.setText("");
+        txt_stock.setText("0");
 
         btn_Agregar.setEnabled(true);
         btn_Modificar.setEnabled(false);
         btn_Eliminar.setEnabled(false);
-    }//GEN-LAST:event_btn_LimpiarActionPerformed
+    }
+
 
     private void btn_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EliminarActionPerformed
         // TODO add your handling code here:
@@ -970,6 +998,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JButton btn_Modificar;
     private javax.swing.JButton btn_Refrescar;
     private javax.swing.JButton btn_categoria;
+    private javax.swing.JComboBox<String> cmbFabricante;
     private javax.swing.JComboBox<String> cmb_Atributo;
     private javax.swing.JComboBox<String> cmb_id_categoria;
     private javax.swing.JLabel jLabel1;
@@ -980,7 +1009,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     private javax.swing.JLabel lblImageName;
     private javax.swing.JLabel lbl_Articulo;
     private javax.swing.JLabel lbl_descripcion;
-    private javax.swing.JLabel lbl_id;
+    private javax.swing.JLabel lbl_fabricante;
     private javax.swing.JLabel lbl_nombre;
     private javax.swing.JLabel lbl_peso;
     private javax.swing.JLabel lbl_precio;

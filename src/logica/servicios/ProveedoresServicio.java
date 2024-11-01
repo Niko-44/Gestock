@@ -50,7 +50,7 @@ public class ProveedoresServicio {
         ArrayList<Proveedor> proveedores = new ArrayList<>();
 
         try {
-            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor LIMIT 6");
+            PreparedStatement ps = conexion.prepareStatement("SELECT * FROM proveedor");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int idProveedor = rs.getInt("id_proveedor");

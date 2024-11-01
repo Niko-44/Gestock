@@ -63,5 +63,8 @@ public interface IControladorArticulo {
     public abstract ArrayList<Categoria> listarCategorias(); 
 
     public abstract ArrayList<Categoria> listarFabricante(); 
+    
+    
+    public abstract void agregarFabrica(Articulo articulo);
 
 }
