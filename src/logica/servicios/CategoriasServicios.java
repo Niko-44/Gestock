@@ -113,6 +113,11 @@ public class CategoriasServicios {
 
     public ArrayList<Categoria> buscarCategoria(String nombre, String datoABuscar) {
           ArrayList<Categoria> categorias = new ArrayList<>();
+          
+          if (datoABuscar.equals("Nombre")) {
+            datoABuscar = "nombre_categoria";
+        }
+
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT id_categoria,nombre_categoria,descripcion from categoria Where LOWER(CATEGORIA." + datoABuscar + ") like LOWER('%" + nombre + "%');");
 //            ps.setObject(1,atributo);
