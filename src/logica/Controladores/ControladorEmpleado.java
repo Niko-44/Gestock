@@ -102,5 +102,9 @@ public class ControladorEmpleado implements IControladorEmpleado {
     public boolean validateCredential(String username, String password) {
         return servicioEmpleado.validateCredential(username, password);
     }
+    
+    public void modificarPerfil(Empleado empleado){
+        servicioEmpleado.modificarPerfil(empleado);
+    }
 
 }

@@ -27,4 +27,5 @@ public interface IControladorEmpleado {
     public abstract void cancelarModificacion();
     public abstract ArrayList<Empleado> buscarEmpleado(String datoBuscar, String atributo);
     public abstract boolean validateCredential(String username, String password);
+    public abstract void modificarPerfil(Empleado empleado);
 }

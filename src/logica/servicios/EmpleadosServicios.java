@@ -170,7 +170,7 @@ public class EmpleadosServicios {
         return empleados;
     }
 
-   public String hashedPassword(String username) {
+    public String hashedPassword(String username) {
         String hashedPassword = null;
         try {
             PreparedStatement ps = conexion.prepareStatement("SELECT * FROM empleado WHERE nombre_usuario = ?");
@@ -206,6 +206,37 @@ public class EmpleadosServicios {
         } catch (IllegalArgumentException e) {
             System.err.println("Error de BCrypt: " + e.getMessage());
             return false;
+        }
+    }
+
+    public void modificarPerfil(Empleado empleado) {
+        String fotoCondicion = ", `foto` = ?";
+        if (empleado.getFotoPerfil() == null) {
+            fotoCondicion = "";
+        }
+        try {
+            PreparedStatement status = conexion.prepareStatement("UPDATE `empleado` SET `nombre` = ?, `apellido` = ?, `email` = ?" + fotoCondicion + "WHERE `empleado`.`nombre_usuario` = ?;");
+
+            // Nuevos valores para actualizar
+            status.setObject(1, empleado.getNombre());
+            status.setObject(2, empleado.getApellido());
+
+            status.setObject(3, empleado.getEmail());
+
+            if (empleado.getFotoPerfil() != null) {
+                status.setBytes(4, empleado.getFotoPerfil());
+            }
+            if (empleado.getFotoPerfil() == null) {
+                status.setObject(4, empleado.getNombreUsuario());
+            } else {
+                status.setObject(5, empleado.getNombreUsuario());
+            }
+            int filasAfectadas = status.executeUpdate();
+
+        } catch (SQLException e) {
+            // Mostrar el error en una ventana de diálogo
+            System.err.println("Error al actualizar el empleado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al actualizar el empleado:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
