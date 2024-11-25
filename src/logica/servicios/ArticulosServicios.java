@@ -191,6 +191,10 @@ public class ArticulosServicios {
         if (atributo == "Nombre") {
             atributo = "nombre";
         }
+        
+        if (atributo.equals("Categoria")) {
+            atributo = "nombre_categoria";
+        }
 
         if (atributo == "Descripcion") {
             atributo = "descripcion";
@@ -212,6 +216,10 @@ public class ArticulosServicios {
 
             if (atributo.equals("SKU")) {
                 sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
+            }
+            
+            if (atributo.equals("nombre_categoria")) {
+                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante AS F JOIN FABRICA AS FA ON F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = ARTICULO.id_articulo) AS nombre_fabricante, (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria WHERE LOWER(CATEGORIA.nombre_categoria) LIKE LOWER('%" + datoABuscar + "%');";
             }
 
             PreparedStatement ps = conexion.prepareStatement(sql);
