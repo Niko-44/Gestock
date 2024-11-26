@@ -69,8 +69,12 @@ public class ControladorArticulo implements IControladorArticulo {
 
     @Override
     public ArrayList<Articulo> obtenerArticulos() {
+        return obtenerArticulos(10);
+    }
+    
+    public ArrayList<Articulo> obtenerArticulos(int limite) {
         try {
-            return servicioArticulo.getArticulos();
+            return servicioArticulo.getArticulos(limite);
         } catch (Exception e) {
             throw e;
         }

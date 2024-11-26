@@ -83,12 +83,11 @@ public class ArticulosServicios {
             PreparedStatement status = conexion.prepareStatement("SELECT id_articulo FROM `articulo` ORDER BY id_articulo DESC LIMIT 1");
             ResultSet rs = status.executeQuery();
             int idArticulo = 0;
-            
-            while (rs.next())
-            {
+
+            while (rs.next()) {
                 idArticulo = rs.getInt("id_articulo");
             }
-            
+
             rs.close();
             return idArticulo;
 
@@ -116,7 +115,7 @@ public class ArticulosServicios {
         }
     }
 
-    public ArrayList<Articulo> getArticulos() {
+    public ArrayList<Articulo> getArticulos(int limite) {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         try {
@@ -129,7 +128,7 @@ public class ArticulosServicios {
                     + " JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk "
                     + " WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor "
                     + "FROM ARTICULO "
-                    + "JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria LIMIT 10;");
+                    + "JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria LIMIT " + limite + ";");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Fabricante fabricante = new Fabricante();
@@ -191,7 +190,7 @@ public class ArticulosServicios {
         if (atributo == "Nombre") {
             atributo = "nombre";
         }
-        
+
         if (atributo.equals("Categoria")) {
             atributo = "nombre_categoria";
         }
@@ -217,7 +216,7 @@ public class ArticulosServicios {
             if (atributo.equals("SKU")) {
                 sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
             }
-            
+
             if (atributo.equals("nombre_categoria")) {
                 sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante AS F JOIN FABRICA AS FA ON F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = ARTICULO.id_articulo) AS nombre_fabricante, (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria WHERE LOWER(CATEGORIA.nombre_categoria) LIKE LOWER('%" + datoABuscar + "%');";
             }

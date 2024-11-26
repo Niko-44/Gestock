@@ -19,7 +19,8 @@ public interface IControladorArticulo {
     public abstract boolean agregarFabricante(Fabricante fabricante);
 
     public abstract boolean agregarCategoria(Categoria categoria);
-
+    
+    public abstract ArrayList<Articulo> obtenerArticulos(int limite);  
     public abstract ArrayList<Articulo> obtenerArticulos();  
 
     public abstract void seleccionarArticulo(int id);

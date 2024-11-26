@@ -109,7 +109,7 @@ public class MenuIngresa extends javax.swing.JPanel {
         cmb_articulo.removeAllItems();
         cmb_proveedor.removeAllItems();
 
-        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos();
+        ArrayList<Articulo> dataArticulo = ICA.obtenerArticulos(100000);
 
         for (Articulo item : dataArticulo) {
 
