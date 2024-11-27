@@ -518,7 +518,12 @@ public class MenuArticulo extends javax.swing.JPanel {
             }
         });
 
-        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion", "SKU" }));
+        cmb_Atributo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion", "Categoria", "SKU" }));
+        cmb_Atributo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_AtributoActionPerformed(evt);
+            }
+        });
 
         btn_Refrescar.setText("Refrescar");
         btn_Refrescar.addActionListener(new java.awt.event.ActionListener() {
@@ -832,7 +837,7 @@ public class MenuArticulo extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_ModificarActionPerformed
 
     private void cargarDatosBuscados(ArrayList<Articulo> DatosBuscados) {
-        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria", "Fabricante"};
+        String[] columnas = {"ID", "SKU", "Nombre", "Descripción", "Stock", "Precio", "Peso", "Fecha actualización", "Fecha creación", "Categoria", "Fabricante", "Proveedor"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -853,7 +858,8 @@ public class MenuArticulo extends javax.swing.JPanel {
                 articulos.getFechaUpdateFormateada(),
                 articulos.getFechaCreadaFormateada(),
                 articulos.getCategoria().getNombre(),
-                articulos.getFabricante().getNombre()
+                articulos.getFabricante().getNombre(),
+                articulos.getProveedor().getNombre()
             };
             modeloTabla.addRow(fila);
 
@@ -945,6 +951,10 @@ public class MenuArticulo extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_btnCargarFotoActionPerformed
+
+    private void cmb_AtributoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_AtributoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_AtributoActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

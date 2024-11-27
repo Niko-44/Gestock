@@ -28,7 +28,7 @@ public class VentasServicios {
     public ArrayList<Venta> getVentas() {
         ArrayList<Venta> resultado = new ArrayList<Venta>();
         try {
-            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc LIMIT 6;");
+            PreparedStatement status = conexion.prepareStatement("SELECT VENTA.*, E.nombre AS nombre_empleado, E.apellido, E.nombre_usuario, E.id_empleado,(SELECT FORMAT(SUM(L.cantidad_vendida * L.precio_venta), 2) FROM LINEA AS L WHERE L.id_venta_fk = VENTA.id_venta ) AS total_venta FROM VENTA JOIN EMPLEADO AS E ON VENTA.id_empleado_fk = E.id_empleado Order by fecha_venta desc;");
             ResultSet rs = status.executeQuery();
             while (rs.next()) {
                 Empleado empleado = new Empleado();

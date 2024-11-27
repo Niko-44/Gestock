@@ -124,9 +124,13 @@ public class ArticulosServicios {
                     + "(SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante AS F "
                     + " JOIN FABRICA AS FA ON F.id_fabricante = FA.id_fabricante_fk "
                     + " WHERE FA.id_articulo_fk = ARTICULO.id_articulo) AS nombre_fabricante, "
-                    + "(SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P "
-                    + " JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk "
-                    + " WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor "
+                    + "IFNULL(\n"
+                    + "        (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') \n"
+                    + "         FROM proveedor AS P \n"
+                    + "         JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk \n"
+                    + "         WHERE i.id_articulo_fk = ARTICULO.id_articulo), \n"
+                    + "        'no asignado'\n"
+                    + "    ) AS nombre_proveedor  "
                     + "FROM ARTICULO "
                     + "JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria LIMIT " + limite + ";");
             ResultSet rs = ps.executeQuery();
@@ -208,24 +212,48 @@ public class ArticulosServicios {
                     + "	(SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante as F \n"
                     + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
                     + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
-                    + "	(SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P\n"
-                    + "		JOIN ingresa as i on P.id_proveedor = i.id_proveedor_fk\n"
-                    + "        WHERE i.id_articulo_fk = articulo.id_articulo) as nombre_proveedor\n"
-                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO." + atributo + ") like LOWER('%" + datoABuscar + "%')";
+                    + "IFNULL(\n"
+                    + "        (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') \n"
+                    + "         FROM proveedor AS P \n"
+                    + "         JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk \n"
+                    + "         WHERE i.id_articulo_fk = ARTICULO.id_articulo), \n"
+                    + "        'no asignado'\n"
+                    + "    ) AS nombre_proveedor  "
+                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(ARTICULO."+ atributo + ") like LOWER('%" + datoABuscar + "%')";
 
-            if (atributo.equals("SKU")) {
-                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO." + atributo + " = " + datoABuscar + "";
+            if (atributo.equals("sku")) {
+                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT F.nombre_fabricante FROM fabricante as F JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante,"
+                        + "IFNULL("
+                        + "        (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') "
+                        + "         FROM proveedor AS P "
+                        + "         JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk "
+                        + "         WHERE i.id_articulo_fk = ARTICULO.id_articulo), "
+                        + "        'no asignado'"
+                        + "    ) AS nombre_proveedor "
+                        + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where ARTICULO.sku = " + datoABuscar + "";
             }
-
             if (atributo.equals("nombre_categoria")) {
-                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, (SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante AS F JOIN FABRICA AS FA ON F.id_fabricante = FA.id_fabricante_fk WHERE FA.id_articulo_fk = ARTICULO.id_articulo) AS nombre_fabricante, (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') FROM proveedor AS P JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk WHERE i.id_articulo_fk = ARTICULO.id_articulo) AS nombre_proveedor FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria WHERE LOWER(CATEGORIA.nombre_categoria) LIKE LOWER('%" + datoABuscar + "%');";
+                sql = "SELECT ARTICULO.*, CATEGORIA.nombre_categoria, \n"
+                    + "	(SELECT GROUP_CONCAT(F.nombre_fabricante SEPARATOR ', ') FROM fabricante as F \n"
+                    + "		JOIN FABRICA AS FA on F.id_fabricante = FA.id_fabricante_fk \n"
+                    + "		WHERE FA.id_articulo_fk = articulo.id_articulo) as nombre_fabricante ,\n"
+                    + "IFNULL(\n"
+                    + "        (SELECT GROUP_CONCAT(P.nombre_proveedor SEPARATOR ', ') \n"
+                    + "         FROM proveedor AS P \n"
+                    + "         JOIN ingresa AS i ON P.id_proveedor = i.id_proveedor_fk \n"
+                    + "         WHERE i.id_articulo_fk = ARTICULO.id_articulo), \n"
+                    + "        'no asignado'\n"
+                    + "    ) AS nombre_proveedor  "
+                    + "FROM ARTICULO JOIN CATEGORIA ON ARTICULO.id_categoria_fk = CATEGORIA.id_categoria Where LOWER(CATEGORIA."+ atributo + ") like LOWER('%" + datoABuscar + "%')";
             }
+            
+            
 
             PreparedStatement ps = conexion.prepareStatement(sql);
 
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
+             while (rs.next()) {
                 Fabricante fabricante = new Fabricante();
                 fabricante.setNombre(rs.getString("nombre_fabricante"));
                 Proveedor proveedor = new Proveedor();
